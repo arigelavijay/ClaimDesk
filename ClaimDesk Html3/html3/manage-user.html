@@ -1,0 +1,336 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to RMS</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/common_func.js"></script>
+<script type="text/javascript"  src="datatables/media/js/jquery.dataTables.js"></script>
+<link href="css/apprise.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+<!--[if lt IE 9]>
+<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+ <![endif]-->
+ 
+<link href="datatables/media/css/demo_page.css" rel="stylesheet" type="text/css">
+<link href="datatables/media/css/demo_table.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+<script type="text/javascript" >
+ $.validator.addMethod("new_passq", function(value, element) {
+    return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+}, "Invalid Password");
+
+$.validator.addMethod("con_new_passq", function(value, element) {
+	var pass = $("#new_pass").val();	
+	if(pass == value) return true;
+	else return false;	
+}, "Please enter the same password as above");
+</script>
+<style>
+#con_new_pass-error{margin-top: -12px !important;}
+
+</style>
+<style>
+
+
+.manageIcon li {
+width: 20% !important;
+}
+.checkBox {
+    border-bottom: 1px solid #c4ccdc;
+    margin-bottom: 3px;
+    padding: 9px 0 33px 39px;
+}
+.checkLi {
+    float: left;
+    line-height: 34px;
+    margin-left: 18px;
+    margin-right: 100px;
+}
+
+</style>
+
+</head>
+
+<body onLoad="authentication();userload()">
+<div id="wrapper">
+<header>
+	<div class="contain">
+	<div class="logo"><img src="images/bigLogo.jpg" width="378" height="41" alt="logo"></div>
+    <div class="logoRight">
+    <ul class="help">
+        <li>
+        	<div class="dropdown">
+  <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    Welcome <span id="logname"></span>
+    <span class="caret"></span>
+  </button>
+   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+      <li role="presentation"  data-toggle='modal' data-target='#myModal' style="cursor:pointer;"><a>Change Password</a></li>	
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>   
+	 <li role="presentation"  data-toggle='modal' data-target='#aboutModal' style="cursor:pointer;" onClick="about();"><a>About</a></li>
+  </ul>
+</div>
+        </li>
+       
+    </ul>
+    <span class="poloRight" style="z-index:500;"></span>
+    <span class="poloText" style="z-index:500;"></span>
+    </div>
+    <div class="clear"></div>
+</div>
+</header>
+<div id="body"> 
+<nav>
+       <div class="tabLeft">
+       
+    <nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav mainNavBig">
+                                    <a class="mainTab" href="main-dashboard.html"><i class="fa fa-home"></i><br>Home</a>
+                                </li>                                
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-th-list"></i><br>Incidents List</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="incidents-list.html"><i class="fa fa-indent"></i>View Incidents</a></li>
+                                        <li class="subTab"><a href="claims-list.html"><i class="fa fa-briefcase"></i>View Claims</a></li>                                        
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle select" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i><br>Actions</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee"><i class="fa fa-users"></i>Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location"><i class="fa fa-map-marker"></i>Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-policies.html"><i class="fa fa-sitemap"></i>Manage Policies</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="employee"><i class="fa fa-user"></i>Manage Users</a></li>
+                                        <li class="subTab"><a href="manage-contacts.html" class="employee"><i class="fa fa-globe"></i>Manage Contacts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bar-chart"></i><br>Reports</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html"><i class="fa fa-ambulance"></i>Employee Injuries</a></li>
+                                        <li class="subTab"><a href="executive-summary.html"><i class="fa fa-th-list"></i>Executive Summary EI</a></li>
+                                        <li class="subTab"><a href="loss-run-report.html"><i class="fa fa-th-list"></i>Loss Run Report</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i><br>Settings</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-location-types.html"><i class="fa fa-cubes"></i>&nbsp;Manage Location Types</a></li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+</nav>
+       
+ </div>
+        <div class="tabRight">
+        <div class="navRtghtBt">
+        <input name="" type="button" value="Create User" class="buttonCreat" onClick="location.href='create-user.html';">
+        </div>
+        <div class="navRtghtBt">
+        <input name="" type="button" value="Create Incident" class="buttonCreat" onClick="location.href='incident.html';">
+        </div>
+<div class="navRtghtBt">
+ <input name="" type="hidden" value="Create Claim" class="buttonCreat" onClick="location.href='claim.html';">
+        </div>
+        <div class="navRtghtBt">
+        	<div class="searchFild" style="display:none">
+        	<input name="input" type="text" class="search" placeholder="Search">
+       	    <span><a href="#"><img src="images/search.png" width="20" height="20" alt="img"></a></span>
+            </div>
+        </div>
+        </div>
+        <div class="clear"></div>
+    </nav>
+<div class="contain">
+	<div class="dataTab">
+    <h2 class="dataHead leftFl">Manage User</h2>
+     
+     <div class="clear"></div>
+    <div class="myDataTable">
+<table class="fullwidth tcellspacing noborder"  id='example1' >
+  <thead class="myTabHead">
+   <tr>
+    <th style="width:15%;"  class="talign">First Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+     <th style="width:16%;"  class="talign">Last Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th style="width:27%;"  class="talign">E-mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>    
+    <th style="width:17%;"  class="talign">ClaimDesk-UserId</th>
+	<th style="width:12%;"  class="talign">Location</th>
+  <th style="width:13%;"  class="talign">Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+          <div class="clear"></div>
+        </div>
+    </div>
+</div>
+ 
+<div class="clear"></div>
+</div>
+</div>
+
+<!-- Large modal -->
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <div class="popHead"><h2 class="dataHeadPop">User Details</h2>
+<input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+
+<div class="clear"></div>
+     </div>
+     <div class="popBody">
+       <ul>
+     	<li class="popInn">
+            <h2 class="popSubHead">User Details</h2>
+        	<div class="formInci1">
+                <p><span class="headspan">ID:</span><span id="eid"></span></p>
+                
+               
+            </div>
+  <div class="formInci">
+<p><span class="headspan">First Name:</span><span id="fname" class="valspan"> </span></p>
+<p><span class="headspan">Middle Name: </span><span id="mname" class="valspan"></span></p>
+<p><span class="headspan">Last Name:</span><span id="lname" class="valspan">  </span></p>
+   </div>
+    <div class="formInci">
+       <p><span class="headspan">Email:</span><span id="email" class="valspan"> </span></p>
+            
+      </div>
+    <div class="clear"></div>
+        </li>
+       
+       </ul>
+     </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1"  id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width:60% !important;">
+    <div class="modal-content">
+     <div class="popHead"><h2 class="dataHeadPop">User Permissions <span id="unamex"></span> <span id="bid"></span> </h2>
+<input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+
+<div class="clear"></div>
+     </div>
+    
+     <form id="permission" name="permission">
+     <input type="hidden" name="user_idx"  id="user_idx">
+       <div class="checkBox">
+         <ul>
+          <li class="popInn" id="userparam">
+              
+       
+          
+          <div class="clear"></div>
+          
+          </li>       
+         </ul>
+       </div>
+        <div class="popBody"   style="padding: 5px 5px 5px 5px; float:right">
+         
+           
+          <input name="" type="button" value="Save Permission" class="buttonCreat" onClick="save_param()">
+          <div class="clear"></div>
+           
+           
+       </div>
+     </form>
+     
+        
+    </div>
+  </div>
+</div>
+
+<!-- Large modal End here-->
+
+<!--Change Password Start-->
+<!--Change Password Start-->
+<div class="modal fade" tabindex="-1"  id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-lg" style="width:30% !important;">
+    <div class="modal-content" >
+     <div class="popHead"><h2 class="dataHeadPop">Change Password <span id="unamex"></span> <span id="bid"></span> </h2>
+     <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">   
+     <form id="change_pass" name="change_pass">
+	 <div class="popBody">    
+	  <ul>    
+     	<li class="popInn" id="inc_div" >
+       <div class="formInci1" style="width:99%;"><span class="custom_error" id="msg_show"></span>
+		<p><span style="width: 100% !important;">Old Password:</span><span  style="width: 100% !important;"> <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required=""></span></p>
+		<p><span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required="">
+		<span class="copy" style="font-size:11px; color:#1D70EB; font-weight:bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span></p>
+		<p><span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;"> <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required=""></span></p>			
+		<p><span ></span><span style="width: 100% !important;"> <input name="" type="button" value="Save" class="buttonCreat" onClick="changePass()"   style="float:right;"></span></p>           
+         </div> 
+         <div class="clear"></div>
+        </li>
+      </ul>
+     </div>      
+     </form>     
+      </div>  
+    </div>
+  </div>
+</div>
+
+<!--About-->
+<div class="modal fade" tabindex="-1"  id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-lg" style="width:50% !important;">
+    <div class="modal-content">
+     <div class="popHead"> <h2 class="dataHeadPop" style="margin-left:5px !important;">About<span id="unamex"></span> <span id="bid"></span> </h2>
+     <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right:5px;">   
+    
+	 <div class="popBody">  
+	  <ul>    
+     	<li class="popInn" id="inc_div" >
+       <div id="about_info" class="formInci1" style="width:99%;">
+	   
+	 <!--  About information -->
+         </div> 
+	    <div class="clear"></div>
+      
+		 
+         <div class="clear"></div>
+        </li>
+      </ul>
+	  </div>
+         </div>
+     </div>      
+         
+      </div>  
+    </div>
+
+
+<footer>
+<div class="contain">License Agreements | Privacy Statement<br>
+  © 2014 Insight Risk Management. All rights reserved.</div>
+</footer>
+<script src="js/user.js"></script>
+</body>
+</html>

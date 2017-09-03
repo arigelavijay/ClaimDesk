@@ -1,0 +1,541 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to RMS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/timepicker.css">
+    <link href="datatables/media/css/demo_page.css" rel="stylesheet" type="text/css">
+    <link href="datatables/media/css/demo_table.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/common_func.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/claim_session.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-ui-timepicker-addon.js"></script>
+    <script src="js/mask.js" type="text/javascript"></script>
+    <script type="text/javascript" src="datatables/media/js/jquery.dataTables.js"></script>
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <!--[if lt IE 9]>
+<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+
+    <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+ <![endif]-->
+    <style>
+        .whitebg {
+            font-size: 18px;
+            color: #626262;
+        }
+    </style>
+    <style>
+        #con_new_pass-error {
+            margin-top: -12px !important;
+        }
+		.diary_notes {
+    margin-top: 10px;
+}
+.add {
+background-image:url(images/plus_minus.png);
+background-position: center center;
+   background-repeat: no-repeat;
+    background-size: 60% auto;
+    margin-top:7px;
+    float:none;
+}
+.remove {
+background-image:url(images/minus.png);
+background-position: center center;
+   background-repeat: no-repeat;
+    background-size: 60% auto;
+    margin-top:7px;
+    float:none;
+}
+ .optional span.ex {
+    bottom: 9px;
+    font-size: 12px;
+    line-height: normal;
+    position: absolute;
+    right: 0;
+}
+ label.error {
+            color: red;
+            float: right;
+            font-size: 13px;
+            font-weight: lighter;
+            margin-top: 0px;
+            padding: 2px 8px;
+        }
+
+        #ui-datepicker-div{ z-index:99991000 !important;}
+    </style>
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+
+        $(document).ready(function () {
+            NullifySsn();
+            $.mask.definitions['H'] = "[0-1]";
+            $.mask.definitions['h'] = "[0-9]";
+            $.mask.definitions['M'] = "[0-5]";
+            $.mask.definitions['m'] = "[0-9]";
+            $.mask.definitions['P'] = "[AaPp]";
+            $.mask.definitions['p'] = "[Mm]";
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                maxDate: new Date(),
+                addSliderAccess: true
+            });
+
+            $(".new-date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                minDate: 0,
+                addSliderAccess: true
+            });
+            $(".time-picker").timepicker({
+                addSliderAccess: false,
+                timeFormat: "hh:mm tt",
+                sliderAccessArgs: { touchonly: false }
+            });
+            LoadDiaryNoteComponents();
+
+            $('#frm_diary_notes').validate({
+                rules: {
+                    txt_DiaryNotes: {
+                        required: true
+                    },
+                    txt_FollowUp_Date: {
+                        my_required_val: true
+                    },
+                    txt_FollowUp_Desc: {
+                        my_required_val: true
+                    },
+                    ddl_Category: {
+                        required: true
+                    }
+                },
+                messages: {
+                    txt_DiaryNotes: {
+                        required: 'This is required.'
+                    },
+                    ddl_Category: {
+                        required: 'This is required.'
+                    }
+                }
+            });
+        });
+    </script>
+    <style>
+        #con_new_pass-error {
+            margin-top: -12px !important;
+        }
+    </style>
+    <script src="js/download.js"></script>
+    <script src="js/claim.js"></script>
+    <script src="js/diarynote.js"></script>
+</head>
+
+<body onload="authentication();set_header();">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a> </li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="body">
+            <nav>
+                <div class="tabLeft">
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav mainNavBig">
+                                    <a class="mainTab" href="main-dashboard.html"><i class="fa fa-home"></i><br>Home</a>
+                                </li>                                
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle select" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-th-list"></i><br>Incidents List</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="incidents-list.html"><i class="fa fa-indent"></i>View Incidents</a></li>
+                                        <li class="subTab"><a href="claims-list.html"><i class="fa fa-briefcase"></i>View Claims</a></li>                                        
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i><br>Actions</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee"><i class="fa fa-users"></i>Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location"><i class="fa fa-map-marker"></i>Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-policies.html"><i class="fa fa-sitemap"></i>Manage Policies</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="employee"><i class="fa fa-user"></i>Manage Users</a></li>
+                                        <li class="subTab"><a href="manage-contacts.html" class="employee"><i class="fa fa-globe"></i>Manage Contacts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bar-chart"></i><br>Reports</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html"><i class="fa fa-ambulance"></i>Employee Injuries</a></li>
+                                        <li class="subTab"><a href="executive-summary.html"><i class="fa fa-th-list"></i>Executive Summary EI</a></li>
+                                        <li class="subTab"><a href="loss-run-report.html"><i class="fa fa-th-list"></i>Loss Run Report</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i><br>Settings</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-location-types.html"><i class="fa fa-cubes"></i>&nbsp;Manage Location Types</a></li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                </div>
+                <div class="tabRight">
+                    <div class="navRtghtBt">
+                        <input name="" type="button" value="Create Incident" class="buttonCreat" onclick="location.href = 'incident.html';">
+                    </div>
+                    <div class="navRtghtBt">
+                        <div class="searchFild" style="display: none">
+                            <input name="input" type="text" class="search" placeholder="Search">
+                            <span><a href="#">
+                                <img src="images/search.png" width="20" height="20" alt="img"></a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div class="contain spaceTab">
+                <div id="myBradeCM">
+                    <h1>Create Claim</h1>
+                    <div class="rightAlign">
+                        <ul class="breadcrumbMy">
+                            <li class="newActive"><a href="#" class="activeMy" style="color: #fff !important;">1. Guest Details</a></li>
+                            <li class="newActive"><a href="#" class="activeMy" style="color: #fff !important;">2. Incident Type Details</a></li>
+                            <li class="newActive"><a href="#" class="activeMy" style="color: #fff !important;">3. Attachments</a></li>
+                            <li class="newActive"><a href="#" class="activeMy" style="color: #fff !important;">4. Diary Notes</a></li>
+                            <li><a href="#">5. Complete</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div id="div_tbl">
+                    <div class="col-lg-5"></div>                    
+                    <div class="col-lg-2"><b>No Diary Notes Exist</b></div>
+                    <div class="col-lg-5"></div>
+                </div>                
+                <div id="bottGrey">
+                    <input name="" type="button" value="Back" class="buttonNext" onclick="location.href = 'claim4.html';">
+                    <div class="rightAlign">
+                        <input name="btn_Create" id="btn_Create" class="buttonNext" type="button" onclick="btn_Create_OnClick(-1);" value="Create Note">
+                        <input name="next" id="next" type="button" value="Cancel" class="buttonNext " onclick="remove_session_variable(); remove_session_variable_onsave(); gotolist()">
+                        <input name="next" id="Button1" type="button" value="Save" class="buttonNext " onclick="claim_step_six();">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" id="edit_diary" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="popHead">
+                            <h2 class="dataHeadPop">Claim Details <span id="claim_id" class="valspan" style="display:none;"></span></h2>
+                            <input id="Button2" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                            <div class="clear"></div>
+                        </div>
+                        <div class="popBody spaceTab">
+                            <form class="diary_notes" id="frm_diary_notes">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-2">
+                                                <label class="myLable" for="ddl_Category">Category</label>
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <select id="ddl_Category" name="ddl_Category" class="form-control myselectBig">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>                                        
+                                        <div class="row">
+                                            <div class="col-xs-2">
+                                                <label class="myLable">Confidential </label>
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <div class="col-xs-4 radio_btn">
+                                                    <input type="radio" value="true" name="rdo_Confidential" id="rdo_Confidential_Yes">
+                                                    <span><label for="rdo_Confidential_Yes">Yes</label></span>
+                                                </div>
+                                                <div class="radio_btn">
+                                                    <input type="radio" value="false" name="rdo_Confidential" id="rdo_Confidential_No" checked>
+                                                    <span><label for="rdo_Confidential_No">No </label></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-2">
+                                                <label class="myLable" for="txt_DiaryNotes">Note </label>
+                                            </div>
+                                            <div class="col-xs-10">
+                                                <textarea name="txt_DiaryNotes" id="txt_DiaryNotes" cols="" rows="4" class="planeTextFild txt_validations" style="height: 200px;"></textarea>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div id="To_Emails"></div>
+                                        </div>
+                                        <div class="row" style="display: none;">
+                                            <div class="col-xs-2">
+                                                <label class="myLable">Task Completed</label>
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <div class="col-xs-4 radio_btn">
+                                                    <input type="radio" value="true" name="rdo_TaskComplete" id="rdo_TaskComplete_Yes">
+                                                    <span>
+                                                        <label for="rdo_TaskComplete_Yes">Yes</label></span>
+                                                </div>
+                                                <div class="col-xs-4 radio_btn">
+                                                    <input type="radio" value="false" name="rdo_TaskComplete" id="rdo_TaskComplete_No" checked>
+                                                    <span>
+                                                        <label for="rdo_TaskComplete_No">No </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 ">                                        
+                                        <div class="row optional_radio_btn">
+                                            <div class="col-xs-2">
+                                                <label class="myLable">Follow Up </label>
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <div class="col-xs-4 radio_btn">
+                                                    <input type="radio" value="true" name="rdo_FollowUp" id="rdo_FollowUp_Yes" />
+                                                    <span>
+                                                        <label for="rdo_FollowUp_Yes">Yes</label></span>
+                                                </div>
+                                                <div class=" col-xs-4 radio_btn">
+                                                    <input type="radio" value="false" name="rdo_FollowUp" id="rdo_FollowUp_No" checked>
+                                                    <span>
+                                                        <label for="rdo_FollowUp_No">No </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="optional" style="display: none;">
+                                            <div class="row" style="margin-bottom: 8px;display:none;">
+                                                <div class="col-xs-2">
+                                                    <label class="myLable" for="ddl_assignedUser">Assigned User</label>
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <select id="ddl_assignedUser" name="ddl_assignedUser" class="form-control myselectBig">
+                                                        <option value=""></option>                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 8px;">
+                                                <div class="col-xs-2">
+                                                    <label class="myLable" for="txt_FollowUp_Date">Follow Up Date <span class="ex">(mm/dd/yy)</span></label></div>
+                                                <div class="col-xs-4">
+                                                    <input name="txt_FollowUp_Date" id="txt_FollowUp_Date" type="text" class="new-date-picker form-control" /></div>
+                                                <div class="col-xs-2">
+                                                    <label class="myLable" for="txt_FollowUp_Time">Follow Up Time</label></div>
+                                                <div class="col-xs-4">
+                                                    <input name="txt_FollowUp_Time" id="txt_FollowUp_Time" type="text" class="time-picker form-control" /></div>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div>
+                                                <div id="Emails"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-2"><label class="myLable" for="txt_FollowUp_Desc">Follow Up Description</label></div>
+                                                <div class="col-xs-10"><textarea name="txt_FollowUp_Desc" id="txt_FollowUp_Desc" cols="" rows="4" class="planeTextFild txt_validations" style="height: 200px;"></textarea></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-2">
+                                                    <label class="myLable">Follow Cancelled</label>
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <div class="col-xs-4 radio_btn">
+                                                        <input type="radio" value="true" name="rdo_FollowUpCancelled" id="rdo_FollowUpCancelled_Yes" />
+                                                        <span><label for="rdo_FollowUpCancelled_Yes">Yes</label></span>
+                                                    </div>
+                                                    <div class=" col-xs-4 radio_btn">
+                                                        <input type="radio" value="false" name="rdo_FollowUpCancelled" id="rdo_FollowUpCancelled_No" checked>
+                                                        <span><label for="rdo_FollowUpCancelled_No">No </label></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane spaceTab" id="Div1">
+                                    <div style="margin-bottom: 20px;">
+                                        <input type="button" onclick="btn_Update_OnClick();" class="buttonNext newSave" value="Add" id="btn_Update" name="btn_Update">
+                                    </div>
+                                </div>
+                                <input type="hidden" id="hdn_Diary_Note" name="hdn_Diary_Note" />
+                                <input type="hidden" id="hdn_Claim_Id" name="hdn_Claim_Id" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!--Change Password Start-->
+    <div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 30% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Change Password <span id="unamex"></span><span id="bid"></span></h2>
+                    <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                    <form id="change_pass" name="change_pass">
+                        <div class="popBody">
+                            <ul>
+                                <li class="popInn" id="inc_div">
+                                    <div class="formInci1" style="width: 99%;">
+                                        <span class="custom_error" id="msg_show"></span>
+                                        <p>
+                                            <span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                                <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required=""></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required="">
+                                                <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                                <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required=""></span>
+                                        </p>
+                                        <p>
+                                            <span></span><span style="width: 100% !important;">
+                                                <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;"></span>
+                                        </p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            </div>
+        </div>
+            <div class="modal" id="view_diary_note_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="popHead">
+                            <h2 class="dataHeadPop">Diary Note [ ID : <span id="view_diary_id" class="valspan" style="color: #0000FF"></span>]</h2>
+                            <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+
+                            <div class="clear"></div>
+                        </div>
+                        <div class="popBody">                    
+                            <div id="view_diary_note"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--About-->
+            <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="width: 50% !important;">
+                    <div class="modal-content">
+                        <div class="popHead">
+                            <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="Span1"></span> <span id="Span2"></span></h2>
+                            <input id="Button3" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;">
+
+                            <div class="popBody">
+                                <ul>
+                                    <li class="popInn" id="Li1">
+                                        <div id="about_info" class="formInci1" style="width: 99%;">
+
+                                            <!--  About information -->
+                                        </div>
+                                        <div class="clear"></div>
+
+
+                                        <div class="clear"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            
+
+
+            <footer>
+                <div class="contain">
+                    License Agreements | Privacy Statement
+                <br>
+                    © 2014 Insight Risk Management. All rights reserved.
+                </div>
+            </footer>
+        
+
+    
+        
+</body>
+
+</html>

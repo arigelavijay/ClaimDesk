@@ -1,0 +1,35 @@
+﻿<script type="text/javascript">
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+    else {
+        createBtns('#btnCreateEmp');
+        loadEmployeeData();
+        $('#manage-employee-modal').load('modals/manage-employee-modal.html');
+    }
+</script>
+<div class="contain" id="body">
+    <div class="dataTab">
+        <h2 class="dataHead leftFl">Manage Employees</h2>
+        <div class="clear"></div>
+        <div class="myDataTable">
+            <table class="fullwidth tcellspacing noborder" id="empTbl">
+                <thead class="myTabHead">
+                    <tr>
+                        <th class="talign">First Name</th>
+                        <th class="talign">Last Name </th>
+                        <th class="talign">Employee ID</th>
+                        <th class="talign">Title</th>
+                        <th class="talign">Location</th>
+                        <th class="talign">Email Address</th>
+                        <th class="talign">Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="clear"></div>
+        </div>
+    </div>    
+</div>
+<div id="manage-employee-modal"></div>

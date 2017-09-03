@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>    
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <script src="js/jquery.min.js"></script>    
+    <script src="js/bootstrap.js"></script>    
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script type="text/javascript">
+        var app = angular.module('myApp', []);
+
+        app.controller('homeCntrl', function () {
+
+        });
+
+        app.directive('myDatePicker', function () {
+            return {
+                restrict: 'E',
+                replace: true,
+                scope: {
+                    id: '='
+                },
+                template: '<div class="input-group date"><input type="text" class="form-control" /><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>',
+                link: function ($scope, element, attrs) {
+                    debugger;
+                    //debugger;
+                    //element.attr('id', attrs.id)
+                    $('#dt').datetimepicker()
+                }
+            }
+        });
+    </script>
+</head>
+<body ng-app="myApp">
+    <div class="container" ng-controller="homeCntrl">
+        <div class="row">
+            <div class='col-sm-6'>
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <my-date-picker id="dtFrm"></my-date-picker>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker();
+                });
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>

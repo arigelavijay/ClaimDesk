@@ -1,0 +1,500 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to RMS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/timepicker.css">
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/common_func.js"></script>
+    <script src="js/incident_session.js"></script>
+    <script src="js/jquery-ui-timepicker-addon.js"></script>
+    <script src="js/jquery-ui-slidder-access.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/mask.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+    </script>
+    <style>
+        #con_new_pass-error {
+            margin-top: -12px !important;
+        }
+    </style>
+
+    <style>
+        #inc_unusual_desc-error {
+            margin-top: -160px;
+        }
+
+        #incident_loc-error {
+            margin-top: -10px;
+        }
+
+        #inc_date_error {
+            color: red;
+            float: right;
+            font-size: 13px;
+            font-weight: lighter;
+            margin-top: -28px;
+            padding: 2px 8px;
+        }
+
+        #report_date_error {
+            color: red;
+            float: right;
+            font-size: 13px;
+            font-weight: lighter;
+            margin-top: -28px;
+            padding: 2px 8px;
+        }
+
+        #inc_time_error {
+            color: red;
+            float: right;
+            font-size: 13px;
+            font-weight: lighter;
+            margin-top: -28px;
+            padding: 2px 8px;
+        }
+
+        #time_reported_error {
+            color: red;
+            float: right;
+            font-size: 13px;
+            font-weight: lighter;
+            margin-top: -28px;
+            padding: 2px 8px;
+        }
+
+        #inc_descunusual_desc-error {
+            margin-top: -168px;
+        }
+
+        #inc_unusual_desc-error {
+            margin-top: -168px;
+        }
+
+        #incident_loc-error {
+            margin-top: -168px;
+        }
+    </style>
+
+
+    <!--[if lt IE 9]>
+<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+
+    <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+ <![endif]-->
+    <script type="text/javascript">
+        $.validator.addMethod("checkblankA", function (value, element) {
+            if ($("#police_inv").val() == 'Yes') {                
+                if (value == null || value == '')
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return true;
+        }, 'This field is required.');
+
+        
+        $.validator.addMethod("chkdate", function (value, element) {
+            var startDate = $('#inc_date').val();
+            return Date.parse(startDate) <= Date.parse(value) || value == "";
+        }, "Invalid Reported date.");
+        
+        /*
+        jQuery.validator.addMethod("greaterThanOrEqual", function (value, element, params) {            
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) >= new Date($(params).val());
+            }
+
+            return isNaN(value) && isNaN($(params).val())
+                || (Number(value) > Number($(params).val()));
+            }, 'Must be greater than {0}.');*/
+
+        $(function () {
+
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                maxDate: new Date(),
+                dateFormat: "mm/dd/yy"                
+            });
+
+            $(".date-picker").keyup(function (e) {
+                var keycode = e.keyCode ? e.keyCode : e.which;
+                if (keycode != 8 && keycode != 46) {
+                    var currentValue = $(e.target).val();
+                    var newValue = autocompleteMMDDYYYYDateFormat(currentValue);
+                    if (newValue != currentValue) {
+                        $(e.target).val(newValue);
+                    }
+                }
+            });
+
+            $.mask.definitions['H'] = "[0-1]";
+            $.mask.definitions['h'] = "[0-9]";
+            $.mask.definitions['M'] = "[0-5]";
+            $.mask.definitions['m'] = "[0-9]";
+            $.mask.definitions['P'] = "[AaPp]";
+            $.mask.definitions['p'] = "[Mm]";
+
+            $(".timepicker").mask("Hh:Mm Pp");
+
+            $(".time-picker").timepicker({
+                addSliderAccess: false,
+                timeFormat: "hh:mm tt",
+                sliderAccessArgs: { touchonly: false }
+            });
+
+
+            $("#date_reported").mask("99/99/9999", { placeholder: "_" });
+            $("#inc_date").mask("99/99/9999", { placeholder: "_" });
+            $("#inc_time").mask("Hh:Mm Pp");
+            $("#time_reported").mask("Hh:Mm Pp");
+
+            var selectedVal = sessionStorage.getItem('inc_incident_loc') != null ? sessionStorage.getItem('inc_incident_loc') : '';
+            getIncidentLocation(sessionStorage.getItem('location_id'), selectedVal, true);
+
+
+            var ssnConfig = JSON.parse(sessionStorage.getItem('ssnConfig'));
+
+            if (ssnConfig != null && ssnConfig.SHOW_INCIDENT_LOCATION != 'true') {
+                $('#incident_loc').hide().prev().hide();
+            }
+
+            $('#incident_two_frm').validate({
+                rules: {
+                    inc_date: {
+                        required: true
+                    },
+                    date_reported: {
+                        required: true
+                    },
+                    alcohol: {
+                        required: true
+                    },
+                    police_inv: {
+                        required: true
+                    },
+                    police_agency: {
+                        required: true
+                    },
+                    police_case_id: {
+                        required: true
+                    }
+                }
+            });
+            $('#incident_two_frm').validate().form();
+            $('label[class^="error"]:not(.valid)').remove();
+        });
+
+        function btnBack() {
+            sessionStorage.setItem('SsnisFromStepTwo', true);
+            location.href = 'incident.html';
+        }
+
+        function validationCall(value) {            
+            if (value == 'Yes') {
+                $('#incident_two_frm').validate().element('#police_agency');
+                $('#incident_two_frm').validate().element('#police_case_id');
+                $('label[class^="error"]:not(.valid)').remove();
+            }
+        }
+    </script>
+
+
+    <script src="js/incident.js"></script>
+</head>
+
+<body onload="authentication();load_from_session_2();load_data_two();set_header()">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo"></div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="body">
+            <nav>
+                <div class="tabLeft">
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav">
+                                    <a class="mainTab" href="main-dashboard.html">
+                                        <img src="images/home.png" width="34" height="31" alt="home" /><br>
+                                        Home</a>
+                                </li>
+
+                                <li class="mainNavBig"><a class="mainTab" href="incidents-list.html">
+                                    <img src="images/incidence.png" width="34" height="31" alt="home" /><br>
+                                    Incidents List</a>
+                                </li>
+
+                                <li class="mainNav"><a class="mainTab" href="claims-list.html">
+                                    <img src="images/claims.png" width="34" height="31" alt="home" /><br>
+                                    Claims List</a>
+                                </li>
+
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <img src="images/options.png" width="34" height="31" alt="home" /><br>
+                                        Options</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee">Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location">Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="userIcon">Manage Users</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <img src="images/claims.png" width="34" height="31" alt="home">
+                                        <br>
+                                        Reports</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html" class="employee">Division Injury Report</a></li>
+                                        <li class="subTab"><a href="executive-summary.html" class="location">Executive Summary EI</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                </div>
+                <div class="tabRight">
+                    <div class="navRtghtBt">
+                        <input name="" type="hidden" value="Create Claim" class="buttonCreat" onclick="location.href = 'claim.html';">
+                    </div>
+                    <div class="navRtghtBt">
+                        <div class="searchFild" style="display: none">
+                            <input name="input" type="text" class="search" placeholder="Search">
+                            <span><a href="#">
+                                <img src="images/search.png" width="20" height="20" alt="img"></a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div class="contain">
+                <div id="myBradeCM">
+                    <h1>Create Incident</h1>
+                    <div class="rightAlign">
+                        <ul class="breadcrumbMy">
+                            <li class="newActive"><a href="#" class="activeMy" style="color: #fff !important;">1. Store Details</a></li>
+                            <li class="newActive"><a href="#" class="activeMy" style="color: #fff !important;">2. Incident Details</a></li>
+                            <li><a href="#">3. Witness(es) Details</a></li>
+                            <li><a href="#">4. Attachments</a></li>
+                            <li><a href="#">5. Complete</a></li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <section>
+                    <p class="bodyText">
+                        This guest incident report form must be completed for all guest complaints to include incidents reported through the 800 # Complaint Line (Tuau).
+The reporting manager must follow the instructions.
+                    </p>
+                    <form id="incident_two_frm" name="incident_two_frm">
+
+                        <div class="claimForm">
+                            <div class="formInci1">
+                                <label class="myLable">Incident Date&nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">MM/DD/YYYY</span><span style="color:red;">&nbsp;*</span></label><label class="error" id="report_date_error"></label>
+                                <div class="form-horizontal">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <input name="inc_date" id="inc_date" type="text" class="date-picker form-control" tabindex="1" onchange="store_session2()" />
+                                                <label for="inc_date" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="myLable">Date Reported&nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">MM/DD/YYYY</span><span style="color:red;">&nbsp;*</span></label><label class="error" id="report_date_error"></label>
+                                <div class="form-horizontal">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <input name="date_reported" id="date_reported" type="text" class="date-picker form-control chkdate" tabindex="4" onchange="store_session2()" />
+                                                <label for="date_reported" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="myLable">Description</label>
+                                <textarea name="desc" id="inc_descunusual_desc" tabindex="7" cols="" rows="4" class="planeTextFild checkblankB" style="height: 100px;" onchange="store_session2()"></textarea>
+                            </div>
+                            <div class="formInci">
+                                <label class="myLable">Incident Time&nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;"> HH:MM</span></label><label class="error" id="inc_time_error"></label>
+                                <input name="inc_time" id="inc_time" type="text" class="planeTextFild time-picker" placeholder="" tabindex="2" onchange="store_session2()">
+                                <label class="myLable">Time Reported &nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;"> HH:MM</span></label><label class="error" id="time_reported_error"></label>
+                                <input name="time_reported" id="time_reported" type="text" tabindex="4" class="planeTextFild time-picker" placeholder="" onchange="store_session2()">
+                                <label class="myLable">Specific Location of Incident (Be Exact)</label>
+                                <select id="incident_loc" name="incident_loc" tabindex="8" class="form-control myselect"></select>
+                            </div>
+                            <div class="formInci">
+                                <label class="myLable">Alcohol/Drugs<span style="color:red;">&nbsp;*</span></label>
+                                <select name="alcohol" id="alcohol" class="form-control myselect" tabindex="3" onchange="store_session2()">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                                <label class="myLable">Police Involved?<span style="color:red;">&nbsp;*</span></label>
+                                <select name="police_inv" id="police_inv" tabindex="6" class="form-control myselect" onchange="toggle_visibility(this.value,'agency_name_div');toggle_visibility(this.value,'report_no_div');validationCall(this.value);store_session2();" required="required">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                                <div id="agency_name_div" style="display: none;">
+                                    <label class="myLable">Provide the Name of Agency<span style="color:red;">&nbsp;*</span></label>
+                                    <input name="police_agency" id="police_agency" type="text" tabindex="12" class="planeTextFild checkblankA" required="required" onchange="store_session2()">
+                                </div>
+                                <div id="report_no_div" style="display: none;">
+                                    <label class="myLable">Report Number<span style="color:red;">&nbsp;*</span></label>
+                                    <input name="police_case_id" id="police_case_id" type="text" tabindex="13" class="planeTextFild checkblankA" required="required" onchange="store_session2()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                    </form>
+
+
+                    <div id="bottGrey">
+                        <input name="" type="button" value="Back" class="buttonNext" onclick="btnBack();">
+                        <div class="rightAlign">
+                            <input name="next" type="button" value="Cancel" class="buttonNext " onclick="removeSessionvar(); removeSessionvar_onsave(); gotolist()">
+                            <input name="next" type="button" value="Save" class="buttonNext " id="btnSave" onclick="incident_step_two();">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!--Change Password Start-->
+    <div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 30% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Change Password <span id="unamex"></span><span id="bid"></span></h2>
+                    <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                    <form id="change_pass" name="change_pass">
+                        <div class="popBody">
+                            <ul>
+                                <li class="popInn" id="inc_div">
+                                    <div class="formInci1" style="width: 99%;">
+                                        <span class="custom_error" id="msg_show"></span>
+                                        <p><span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                            <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required=""></span></p>
+                                        <p>
+                                            <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required="">
+                                                <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                        </p>
+                                        <p><span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                            <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required=""></span></p>
+                                        <p><span></span><span style="width: 100% !important;">
+                                            <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;"></span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--About-->
+    <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 50% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="unamex"></span> <span id="bid"></span></h2>
+                    <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;">
+
+                    <div class="popBody">
+                        <ul>
+                            <li class="popInn" id="inc_div">
+                                <div id="about_info" class="formInci1" style="width: 99%;">
+
+                                    <!--  About information -->
+                                </div>
+                                <div class="clear"></div>
+
+
+                                <div class="clear"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="contain">
+            License Agreements | Privacy Statement<br>
+            © 2014 Insight Risk Management. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

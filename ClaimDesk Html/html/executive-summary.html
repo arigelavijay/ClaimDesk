@@ -1,0 +1,500 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <!--[if lt IE 9]>
+        <script src="/js/trirand/jquery-1.11.1.min.js" type="text/javascript"></script> 
+    <![endif]-->
+
+    <!--[if gt IE 8]>
+        <script src="/js/trirand/jquery-2.1.1.min.js" type="text/javascript"></script> 
+    <![endif]-->
+    <meta charset="utf-8">
+    <title>Welcome to RMS</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+
+    <script src="js/jquery.highchartTable.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/common_func.js"></script>
+    <script src="js/apprise-1.5.full.js"></script>
+    <script src="js/bootstrap-multiselect.js"></script>
+    <!-- Reports Js Files -->
+    <script src="js/highchart.js"></script>
+    <script src="js/exporting.js"></script>
+    <script src="js/jspdf.js"></script>
+    <script src="js/rgbcolor.js"></script>
+    <script src="js/canvg.js"></script>
+    <script src="js/reports.js"></script>
+    <!-- Reports Js Files -->
+    <script type="text/javascript">
+        var logoImgData;
+        var claimDeskLogo;
+        var flag = false;
+        $(document).ready(function () {
+            //Highcharts.setOptions({
+            //	colors: ['#4F81BD', '#FEA73F', '#C0504D', '#088A4B']
+            //});
+            $('#btnExport').attr('disabled', 'disabled');
+            initCanvas();
+            divisionSummary();
+
+            set_header();
+
+            var promise1 = Convert('clientLogo');
+            var promise2 = Convert('claimDeskLogo');
+            $.when(promise1, promise2).done(function (data1, data2) {
+                logoImgData = data1;
+                claimDeskLogo = data2;
+            });
+
+            $('#ddlDivision').on('change', function () {
+                var divisions = this.value;
+                var period = $('#ddlPeriod').val();
+
+                if (divisions == null || divisions == '' || period == null || period == '') {
+                    $('#btnExport').attr('disabled', 'disabled');
+                    flag = false;
+                }
+                else {
+                    //$('#btnExport').removeAttr('disabled');                    
+                }
+            });
+
+            $('#ddlPeriod').on('change', function () {
+                var divisions = $('#ddlDivision').val();
+                var period = this.value;
+
+                if (divisions == null || divisions == '' || period == null || period == '') {
+                    $('#btnExport').attr('disabled', 'disabled');
+                    flag = false;
+                }
+                else {
+                    //$('#btnExport').removeAttr('disabled');                    
+                }
+            });
+
+        });
+
+        function initCanvas() {
+            (function (H) {
+                H.Chart.prototype.createCanvas = function (divId) {
+                    var svg = this.getSVG(),
+                        width = parseInt(svg.match(/width="([0-9]+)"/)[1]),
+                        height = parseInt(svg.match(/height="([0-9]+)"/)[1]),
+                        canvas = document.createElement('canvas');
+
+                    canvas.setAttribute('width', width);
+                    canvas.setAttribute('height', height);
+
+                    if (canvas.getContext && canvas.getContext('2d')) {
+
+                        canvg(canvas, svg);
+
+                        return canvas.toDataURL("image/jpeg");
+
+                    }
+                    else {
+                        alert("Your browser doesn't support this feature, please use a modern browser");
+                        return false;
+                    }
+
+                }
+            }(Highcharts));
+        }
+
+
+        function btnExport_OnClick() {
+            var divisions = $('#ddlDivision').val();
+            var period = $('#ddlPeriod').val();
+            var dt = new Date();
+            if (divisions == null || divisions == '') {
+                alert('please select atleast one division..');
+                return;
+            }
+
+            if (period == null || period == '') {
+                alert('please select period');
+                return;
+            }
+
+            var doc = new jsPDF('p', 'pt', 'letter');           
+            
+            doc.setFontSize(10);
+            doc.text(230, 43, "Executive Summary - Risk");
+            doc.text(250, 55, "(Period P" + period + "," + dt.getFullYear() + ")");
+
+            doc.text(240, 75, "Employee Injuries");
+            doc.text(245, 85, "Division - Area");
+
+            doc.addImage(logoImgData, 'JPEG', 15, 25, 30, 30);
+            doc.addImage(claimDeskLogo, 'JPEG', 480, 25, 110, 15);
+
+            var count = 0;
+            var curPageHt = 95;
+            var chartHeight = 175;
+            $('.myChart').each(function (index) {
+                var imageData = $(this).highcharts().createCanvas();
+                if (index == 0) {
+                    curPageHt = curPageHt + 20;
+                }
+                else {
+                    curPageHt += chartHeight;
+                }
+
+                if (index == 0) {
+                    doc.addImage(imageData, 'JPEG', 20, 105, 280, chartHeight);
+                }
+                else if (index == 1) {
+                    doc.addImage(imageData, 'JPEG', 310, 105, 280, chartHeight);
+                }
+                else if (index == 2) {
+                    doc.addImage(imageData, 'JPEG', 20, 300, 280, chartHeight);
+                }
+                else if (index == 3) {
+                    doc.addImage(imageData, 'JPEG', 310, 300, 280, chartHeight);
+                }
+                else if (index == 4) {
+                    doc.addImage(imageData, 'JPEG', 20, 495, 280, chartHeight);
+                }
+                else if (index == 5) {
+                    doc.addImage(imageData, 'JPEG', 310, 495, 280, chartHeight);
+                }
+            });
+
+
+
+            doc.save('claimdesk-report.pdf');
+        }
+    </script>
+    <script type="text/javascript">
+        function convertImgToBase64(url, callback, outputFormat) {
+            var img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function () {
+                var canvas = document.createElement('CANVAS');
+                var ctx = canvas.getContext('2d');
+                canvas.height = this.height;
+                canvas.width = this.width;
+                ctx.drawImage(this, 0, 0);
+                var dataURL = canvas.toDataURL("image/jpeg");
+                callback(dataURL);
+                canvas = null;
+            };
+            img.src = url;
+        }
+
+        function Convert(name) {
+            var def = $.Deferred();
+            var imageUrl = $('input[name=' + name + ']').val();
+            console.log('imageUrl', imageUrl);
+            convertImgToBase64(imageUrl, function (base64Img) {
+                def.resolve(base64Img);
+            });
+
+            return def.promise();
+        }
+    </script>
+    <style>
+        .ddldivisions .btn-group {
+            width: 100%;
+        }
+
+        .ddldivisions .multiselect-container.dropdown-menu {
+            height: 200px;
+            overflow-y: scroll;
+            width: 100%;
+        }
+
+        .ddldivisions .multiselect-container > li > a > label > input[type="checkbox"] {
+            margin-left: -27px;
+            left: inherit !important;
+        }
+
+        .ddldivisions .multiselect.btn-default {
+            min-width: 160px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .ddldivisions .multiselect-container.dropdown-menu li {
+            min-height: 25px;
+        }
+
+            .ddldivisions .multiselect-container.dropdown-menu li a {
+                white-space: normal;
+            }
+
+        .ddldivisions .multiselect.btn-default .caret {
+            margin-left: 0;
+            position: absolute;
+            right: 6%;
+            text-align: right;
+            top: 48%;
+        }
+
+        .executive {
+            background: #fff;
+            min-height: 400px;
+            padding: 0 20px;
+        }
+
+            .executive h2 {
+                margin: 0 auto !important;
+                padding: 28px 0 !important;
+                text-align: center;
+            }
+
+            .executive .buttonNext {
+                margin-top: 4px;
+            }
+
+            .executive .myLable {
+                margin-top: 4px;
+                text-align: center;
+            }
+    </style>
+
+</head>
+<body onload="authentication();">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="bodyGrey" style="float: left; margin-top: 0px;">
+            <nav>
+                <div class="tabLeft">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav"><a class="mainTab" href="main-dashboard.html">
+                                    <img src="images/home.png" width="34" height="31" alt="home"><br>
+                                    Home
+                                </a></li>
+                                <li class="mainNav"><a class="mainTab" href="incidents-list.html">
+                                    <img src="images/incidence.png" width="34" height="31" alt="home"><br>
+                                    Incidents List
+                                </a></li>
+                                <li class="mainNav"><a class="mainTab" href="claims-list.html">
+                                    <img src="images/claims.png" width="34" height="31" alt="home"><br>
+                                    Claims List
+                                </a></li>
+                                <li class="mainNavBig dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    <img src="images/options.png" width="34" height="31" alt="home"><br>
+                                    Options
+                                </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee">Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location">Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="userIcon">Manage Users</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <img src="images/claims.png" width="34" height="31" alt="home">
+                                        <br>
+                                        Reports</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html" class="employee">Division Injury Report</a></li>
+                                        <li class="subTab"><a href="executive-summary.html" class="location">Executive Summary EI</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="tabRight"></div>
+                <div class="clear"></div>
+            </nav>
+            <div class="clear"></div>
+            <div class="contain executive">
+
+                <h2>Executive Summary</h2>
+
+                <div class="row">
+                    <div class="col-md-1">
+                        <label class="myLable" for="ddlDivision">Division</label>
+                    </div>
+                    <div class="col-sm-4 ddldivisions">
+                        <select id="ddlDivision" name="ddlDivision" multiple="multiple" class="form-control myselect2 planeTextFild">
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="myLable" for="ddlPeriod">Period</label>
+                    </div>
+                    <div class="col-md-2">
+                        <select id="ddlPeriod" name="ddlPeriod" class="form-control myselect planeTextFild">
+                            <option></option>
+                            <option value="1">P1</option>
+                            <option value="2">P2</option>
+                            <option value="3">P3</option>
+                            <option value="4">P4</option>
+                            <option value="5">P5</option>
+                            <option value="6">P6</option>
+                            <option value="7">P7</option>
+                            <option value="8">P8</option>
+                            <option value="9">P9</option>
+                            <option value="10">P10</option>
+                            <option value="11">P11</option>
+                            <option value="12">P12</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3" style="margin-top: 2px;">
+                        <button id="btnGenerate" class="buttonNext" name="bntGenerate" onclick="btnGen_OnClick();">Generate</button>&nbsp;
+                        <button id="btnExport" style="padding: 4px 27px;" name="btnExport" class="btn btn-default buttonNext disabled" onclick="btnExport_OnClick();">Export</button>
+                    </div>                   
+                </div>
+                <div class="row">                    
+                    <div style="display: none;">
+                        <input type="url" name="clientLogo" class="form-control" placeholder="Insert an IMAGE-URL" value="images/pollo.png" required />
+                        <input type="url" name="claimDeskLogo" class="form-control" placeholder="Insert an IMAGE-URL" value="images/bigLogo.jpg" required />
+                    </div>
+                </div>
+                <!-- Employee Injuries By Period fun:employeeInjuryByCompare -->
+                <!--<div class="row">
+                    <div id="tblDiv5" class="col-md-6" style="margin-top: 10px;"></div>
+                    <div id="tblDiv5_1" class="col-md-6" style="margin-top: 10px;min-height:400px;"></div>
+                </div>-->
+                <!-- Employee Injury Trend fun:InjuryByDivisionReportMultiple -->
+                <!--<div class="row">
+                    <div id="tblDiv6" class="col-md-6" style="margin-top: 10px;"></div>
+                    <div id="tblDiv6_1" class="col-md-6" style="margin-top: 10px;"></div>
+                </div>-->
+                <!-- Injury Count By Year fun:CompareInjuryType -->
+                <!--<div class="row">
+                    <div id="tblDiv8" class="col-md-6" style="margin-top: 10px;"></div>
+                    <div id="tblDiv8_1" class="col-md-6" style="margin-top: 10px;"></div>
+                </div>-->
+                <!-- Company Injury frequency fun:CompanyInjuryfrequency -->
+                <!--<div class="row">
+                    <div id="tblDiv11" class="col-md-6" style="margin-top: 10px;"></div>
+                    <div id="tblDiv11_1" class="col-md-6" style="margin-top: 10px;"></div>
+                </div>-->
+                <div class="row">
+                    <div id="tblDiv5" class="col-md-6" style="margin-top: 10px;"></div>
+                    <div id="tblDiv6" class="col-md-6" style="margin-top: 10px;"></div>
+                    <div id="tblDiv8" class="col-md-6" style="margin-top: 10px;"></div>
+                    <div id="tblDiv11" class="col-md-6" style="margin-top: 10px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img id="pr_new_img" src="images/loading9.gif" style="margin-left: 35%; display: none; top: 20%; position: absolute; z-index: 3000;" />
+    <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 50% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="unamex"></span> <span id="bid"></span></h2>
+                    <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;">
+
+                    <div class="popBody">
+                        <ul>
+                            <li class="popInn" id="inc_div">
+                                <div id="about_info" class="formInci1" style="width: 99%;">
+
+                                    <!--  About information -->
+                                </div>
+                                <div class="clear"></div>                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <img id="pr_new" src="images/loading9.gif" style="margin-left: 35%; display: none; top: 20%; position: absolute; z-index: 3000;" />
+    <!--Change Password Start-->
+    <div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 30% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Change Password <span id="Span1"></span><span id="Span2"></span></h2>
+                    <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                    <form id="change_pass" name="change_pass">
+                        <div class="popBody">
+                            <ul>
+                                <li class="popInn" id="Li1">
+                                    <div class="formInci1" style="width: 99%;">
+                                        <span class="custom_error" id="msg_show"></span>
+                                        <p>
+                                            <span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                                <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required=""></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required="">
+                                                <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                                <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required=""></span>
+                                        </p>
+                                        <p>
+                                            <span></span><span style="width: 100% !important;">
+                                                <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;"></span>
+                                        </p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="contain">
+            License Agreements | Privacy Statement<br>
+            © 2015 Insight Risk Management. All rights reserved.
+           
+           
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function btnExportClick() {
+            $('#frmPDF').submit();
+        }
+    </script>
+</body>
+</html>

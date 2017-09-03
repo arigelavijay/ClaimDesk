@@ -1,0 +1,912 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to RMS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+
+
+    <!--[if lt IE 9]>
+<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+
+    <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+ <![endif]-->
+
+    <link href="datatables/media/css/demo_page.css" rel="stylesheet" type="text/css">
+    <link href="datatables/media/css/demo_table.css" rel="stylesheet" type="text/css">
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script src="js/common_func.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/mask.js"></script>
+    <script type="text/javascript" src="js/search.js"></script>
+
+    <script type="text/javascript" src="datatables/media/js/jquery.dataTables.js"></script>
+    <style>
+        .manageIcon1 li {
+            width: 20%;
+        }
+
+        .customformInci1 {
+            float: left;
+            margin-top: 15px;
+            width: 100%;
+        }
+		.myselect::-ms-expand, .popBody .myselect2::-ms-expand, select.form-control::-ms-expand  {
+		            width: 12px;
+		            border: none;
+		            background: #fff;
+        }
+
+        .myselect, .popBody .myselect2, select.form-control {
+            text-indent: 6px;
+            line-height: 40px;
+            height: 43px !important;
+        }
+		.popBody .row > .col-sm-4 {
+			max-height:80px;
+		}
+		#other_div .formInci.martop.reporting-m {
+		
+			margin:0px;
+		} 
+              
+    </style>
+
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+
+        $(document).ready(function () {
+            var claimId = sessionStorage.getItem('TempClaimId');
+            console.log(claimId);
+            if (claimId != null) {
+                Update_Diary_Note_Info();
+            }
+
+            setlist_locname('#srch_store', null);            
+
+            $('.dtPicker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                maxDate: new Date()
+            });
+
+
+            $(".dtPicker").keyup(function (e) {
+                var keycode = e.keyCode ? e.keyCode : e.which;
+                if (keycode != 8 && keycode != 46) {
+                    var currentValue = $(e.target).val();
+                    var newValue = autocompleteMMDDYYYYDateFormat(currentValue);
+                    if (newValue != currentValue) {
+                        $(e.target).val(newValue);
+                    }
+                }
+            });
+
+            $('.dtPicker').mask("99/99/9999", { placeholder: "_" });
+            $('.ssnCss').mask("999-99-9999", { placeholder: '_' });
+            $('.PhoneCss').mask('(999)-999-9999', { placeholder: '_' });
+        });
+
+
+
+
+
+    </script>
+    <script src="js/download.js"></script>
+    <script src="js/claim.js"></script>
+    <script src="js/diarynote.js"></script>
+    <style>
+        #con_new_pass-error {
+            margin-top: -12px !important;
+        }
+    </style>
+</head>
+
+<body onload="authentication();load_list_data();set_header();">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="body">
+            <nav>
+                <div class="tabLeft">
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav">
+                                    <a class="mainTab" href="main-dashboard.html">
+                                        <img src="images/home.png" width="34" height="31" alt="home" /><br>
+                                        Home</a>
+                                </li>
+
+                                <li class="mainNavBig"><a class="mainTab" href="incidents-list.html">
+                                    <img src="images/incidence.png" width="34" height="31" alt="home" /><br>
+                                    Incidents List</a>
+                                </li>
+
+                                <li class="mainNav select"><a class="mainTab" href="claims-list.html">
+                                    <img src="images/claims.png" width="34" height="31" alt="home" /><br>
+                                    Claims List</a>
+                                </li>
+
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <img src="images/options.png" width="34" height="31" alt="home" /><br>
+                                        Options</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee">Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location">Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="userIcon">Manage Users</a></li>
+
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <img src="images/claims.png" width="34" height="31" alt="home">
+                                        <br>
+                                        Reports</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html" class="employee">Division Injury Report</a></li>
+                                        <li class="subTab"><a href="executive-summary.html" class="location">Executive Summary EI</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                </div>
+                <div class="tabRight">
+                    <div class="navRtghtBt">
+                        <div class="searchFild" style="">
+                            <input name="txtSearch" id="txtSearch" type="text" class="search">
+                            <span class="search-icon"><a href="#">
+                                <img src="images/search.png" width="20" height="20" alt="img" onclick="btnBasicSearch_OnClick();" /></a></span>
+                        </div>
+                    </div>
+                    <div class="navRtghtBt">
+                        <input name="" type="button" value="Advanced Search" data-toggle="modal" data-target=".advanced-search-modal" class="buttonCreat">
+                    </div>
+                    <div class="navRtghtBt">
+                        <input name="" type="button" value="Create Incident" class="buttonCreat" onclick="location.href = 'incident.html';">
+                    </div>
+                    <div class="navRtghtBt">
+                        <input name="" type="hidden" value="Create Claim" class="buttonCreat" onclick="location.href = 'claim.html';">
+                    </div>
+
+
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div class="contain">
+                <div class="dataTab">
+                    <h2 class="dataHead">Claims List</h2>
+
+                    <div class="myDataTable" id="divEx1">
+                        <table class="fullwidth tcellspacing noborder" id='example1'>
+                            <thead class="myTabHead">
+                                <tr>
+                                    <th class="talign">Claim ID</th>
+                                    <th class="talign">Incident Date</th>
+                                    <th class="talign">Guest Name</th>
+                                    <th class="talign">Claim Create Date</th>
+                                    <th class="talign">Incident</th>                                    
+                                    <th class="talign">Claim Type</th>
+                                    <th class="talign">Store/Location</th>
+                                    <th class="talign">Action </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="myDataTable">
+                        <div id="tbl2" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <footer>
+        <div class="contain">
+            License Agreements | Privacy Statement<br>
+            © 2014 Insight Risk Management. All rights reserved.
+        </div>
+    </footer>
+
+
+    <!-- Large modal -->
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Claim Details [ ID : <span id="claim_id" class="valspan" style="color: #0000FF"></span>]</h2>
+                    <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+
+                    <div class="clear"></div>
+                </div>
+                <div class="popBody">
+
+                    <ul>
+                        <li class="popInn" id="inc_div" style="display: none;">
+                            <h2 class="popSubHead">Incident Details [ID :<span id="incident_id" class="valspan" style="color: #0000FF"></span>]</h2>
+                            <div class="formInci1">
+                                <p><span class="headspan">Incident Date:</span><span id="inc_date" class="valspan"></span></p>
+                                <p><span class="headspan">Store ID:</span><span id="store_no" class="valspan"></span></p>
+                                <p><span class="headspan">Store Adddress:</span><span id="address1" class="valspan"></span></p>
+                                <p><span class="headspan">City:</span> <span id="city" class="valspan"></span></p>
+                                <p><span class="headspan">State: </span><span id="state" class="valspan"></span></p>
+
+
+                            </div>
+                            <div class="formInci">
+
+                                <p><span class="headspan">Country:</span><span id="country" class="valspan"></span></p>
+                                <p><span class="headspan">Zip Code:</span><span id="zip" class="valspan"></span></p>
+                                <p><span class="headspan">Store Phone:</span> <span id="store_phone" class="valspan"></span></p>
+                                <p><span class="headspan">Store Fax: </span><span id="fax" class="valspan"></span></p>
+                                <p><span class="headspan">Store Report Date: </span><span id="date_report" class="valspan"></span></p>
+
+                            </div>
+                            <div class="formInci">
+
+                                <p><span class="headspan">Exact Location:</span><span id="incident_loc" class="valspan"></span></p>
+                                <p><span class="headspan">Alcohol/Drugs: </span><span id='alcohol' class="valspan"></span></p>
+                                <p><span class="headspan">Police Involved:</span> <span id="police_inv" class="valspan"></span></p>
+                                <p><span class="headspan">Agency Name: </span><span id="police_agency" class="valspan"></span></p>
+                                <p><span class="headspan">Report Number: </span><span id="police_case_id" class='valspan'></span></p>
+
+                                <!--<p><span class="headspan">Description:</span> <span id="desc" class="valspan"></span></p>-->
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                        <!--  Description  -->
+                        <li>
+                            <div style="border-bottom: 1px solid #d4d7de;">
+                                <h2 class="popSubHead">Incident Description</h2>
+                                <br>
+                                <p><span id="desc" class="valspan"></span></p>
+                                <br>
+                            </div>
+                            <div style="border-bottom: 1px solid #d4d7de; display: none;">
+                                <h2 class="popSubHead">Incident Notes</h2>
+                                <br>
+                                <p><span id="notes" class="valspan"></span></p>
+                                <br>
+                            </div>
+                        </li>
+                        <li>
+                            <!-- list of fle uploaded in claim  -->
+                            <div id="incidentfile_container">
+                            </div>
+                        </li>
+                        <!--  number of Guest  -->
+                        <li>
+                            <div id="guest_container" style="border-bottom: 1px solid #d4d7de;">
+                            </div>
+                        </li>
+
+                        <li>
+                            <div style="border-bottom: 1px solid #d4d7de;">
+                                <h2 class="popSubHead">Claim Description</h2>
+                                <br>
+                                <p><span id="claim_desc" class="valspan"></span></p>
+                                <br>
+                            </div>
+                        </li>
+
+
+                        <li class="popInn" id='illness_div' style="display: none;">
+                            <!-- header for Illness  -->
+                            <h2 class="popSubHead">Illness or Foreign Object Complaint</h2>
+                            <div class="formInci1">
+                                <p><span class="headspan">Date Purchased:</span><span id="Date_Product_Purchased" class="valspan"></span></p>
+                                <p><span class="headspan">Purchased Time:</span><span class="Time valspan" id="Purchased_Time"></span></p>
+                                <p><span class="headspan">What ordered?:</span><span id="What_guest_order" class="valspan"></span></p>
+                                <p><span class="headspan">Did eat?</span><span id="What_guest_eat" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+                                <p><span class="headspan">Where ?</span><span id="Where_guest_eat" class="valspan"></span></p>
+                                <p><span class="headspan">Receipt ?</span><span id="Receipt" class="valspan"></span></p>
+                                <p><span class="headspan">Receipt Number</span><span id="Receipt_Number" class="valspan"></span></p>
+                                <p><span class="headspan">Receipt Date</span><span id="Receipt_Date" class="valspan"></span></p>
+                                <p><span class="headspan">Receipt Time</span><span id="Receipt_Time" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+                                <p><span class="headspan">Illness Symptoms</span><span id="Illness_Symptoms" class="valspan"></span></p>
+                                <p><span class="headspan">Illness Date</span><span id="Illness_Date" class="valspan"></span></p>
+                                <p><span class="headspan">Illness Time</span><span id="Illness_Time" class="valspan"></span></p>
+
+                                <p><span class="headspan">Location of Illness</span><span id="Location_Illness" class="valspan"></span></p>
+                                <p><span class="headspan">Medical Facility</span><span id="Medical_Facility_ill" class="valspan"></span></p>
+
+                            </div>
+
+                            <div class="clear"></div>
+                        </li>
+                        <li class="popInn" id='thirdParty' style="display: none;">
+                            <h2 class="popSubHead">Third Party Involvement</h2>
+                            <div class="formInci1">
+                                <p><span class="headspan">Name:</span><span id="tpname" class="valspan"></span></p>
+                                <p><span class="headspan">City:</span><span class="valspan" id="tpcity"></span></p>
+                                <p><span class="headspan">County:</span><span id="tpcounty" class="valspan"></span></p>
+                                <p><span class="headspan">Fax?</span><span id="tpfax" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+                                <p><span class="headspan">Address:</span><span id="tpaddress1" class="valspan"></span></p>
+                                <p><span class="headspan">State:</span><span id="tpstate" class="valspan"></span></p>
+                                <p><span class="headspan">Country:</span><span id="tpcountry" class="valspan"></span></p>
+                                <p><span class="headspan">Contact Name:</span><span id="tpcontactname" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+                                <p><span class="headspan">Address1:</span><span id="tpaddress2" class="valspan"></span></p>
+                                <p><span class="headspan">ZipCode:</span><span id="tpzip" class="valspan"></span></p>
+                                <p><span class="headspan">Phone Number:</span><span id="tpphone" class="valspan"></span></p>
+                                <p><span class="headspan">Email:</span><span id="tpemail" class="valspan"></span></p>
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+
+                        <li class="popInn" id='insurer' style="display: none;">
+                            <h2 class="popSubHead">Insurer</h2>
+                            <div class="formInci1">
+                                <p><span class="headspan">Name:</span><span id="inname" class="valspan"></span></p>
+                                <p><span class="headspan">City:</span><span class="valspan" id="incity"></span></p>
+                                <p><span class="headspan">County:</span><span id="incounty" class="valspan"></span></p>
+                                <p><span class="headspan">Fax?</span><span id="infax" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+                                <p><span class="headspan">Address:</span><span id="inaddress1" class="valspan"></span></p>
+                                <p><span class="headspan">State:</span><span id="instate" class="valspan"></span></p>
+                                <p><span class="headspan">Country:</span><span id="incountry" class="valspan"></span></p>
+                                <p><span class="headspan">Contact Name:</span><span id="incontactname" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+                                <p><span class="headspan">Address1:</span><span id="inaddress2" class="valspan"></span></p>
+                                <p><span class="headspan">ZipCode:</span><span id="inzip" class="valspan"></span></p>
+                                <p><span class="headspan">Phone Number:</span><span id="inphone" class="valspan"></span></p>
+                                <p><span class="headspan">Email:</span><span id="inemail" class="valspan"></span></p>
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+
+                        <li class="popInn" id='injury_div' style="display: none;">
+                            <!-- header for injury  -->
+                            <h2 class="popSubHead">Injury</h2>
+
+                            <div class="formInci1">
+                                <p><span class="headspan">Injury Date </span><span id="Injury_Date" class="valspan"></span></p>
+                                <p><span class="headspan">Injury Symptoms</span><span id="Injury_Symptoms" class="valspan"></span></p>
+                                <p><span class="headspan">Location of Injury</span> <span id="Location_Injury" class="valspan"></span></p>
+                                <p><span class="headspan">Medical facility</span><span id="Medical_Facility_Inj" class="valspan"></span></p>
+                                <p><span class="headspan">Description</span><span id="Describe_accident" class="valspan"></span></p>
+                                <p><span class="headspan">Injury observed</span><span id="injury_observe" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+                                <p><span class="headspan">Floor Condition</span><span id="Floor_Condition" class="valspan"></span></p>
+                                <p><span class="headspan">Mats</span><span id="Mats" class="valspan"></span></p>
+                                <p><span class="headspan">Mats_where</span><span id="Mats_Yes_whr" class="valspan"></span></p>
+                                <p><span class="headspan">Source of Water</span><span id="Source_of_Water" class="valspan"></span></p>
+                                <p><span class="headspan">Weather </span><span id="Weather" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+
+                                <p><span class="headspan">Guest shoe type</span> <span id="shoe_type" class="valspan"></span></p>
+                                <p><span class="headspan">Cones</span><span id="Cones" class="valspan"></span></p>
+                                <p><span class="headspan">Cones Location </span><span id="Cones_location" class="valspan"></span></p>
+                                <p><span class="headspan">Video</span><span id="Video" class="valspan"></span></p>
+                                <p><span class="headspan">Incident video</span><span id="Incident_video" class="valspan"></span></p>
+                                <p><span class="headspan">How guest leave</span><span id="guest_leave_store" class="valspan"></span></p>
+                                <p><span class="headspan">Ambulance</span><span id="Ambulance" class="valspan"></span></p>
+                            </div>
+
+                            <div class="clear"></div>
+                        </li>
+
+                        <li class="popInn" id='other_div' style="display: none;">
+                            <h2 class="popSubHead">Other</h2>
+                            <!-- header for Other  -->
+
+                            <div class="formInci1">
+                                <p><span class="headspan">Car damage</span><span id="Car_damage" class="valspan"></span></p>
+                                <p><span class="headspan">How damage occur</span><span id="car_damage_occur" class="valspan"></span></p>
+                                <p><span class="headspan">Damage location</span><span id="Damage_location" class="valspan"></span></p>
+                                <p><span class="headspan">Landlord fault</span><span id="Landlord_fault_party" class="valspan"></span></p>
+                                <p><span class="headspan">Estimated cost</span><span id="Estimated_cost" class="valspan"></span></p>
+                            </div>
+
+                            <div class="formInci">
+                                <p><span class="headspan">Damage new/old</span><span id="Damage_new_old" class="valspan"></span></p>
+                                <p><span class="headspan">Manager comments</span><span id="manager_comments" class="valspan"></span></p>
+                                <p><span class="headspan">Manager's sign</span><span id="manager_signature" class="valspan"></span></p>
+                                <p><span class="headspan">Date</span><span id="other_date" class="valspan"></span></p>
+                            </div>
+
+                            <div class="clear"></div>
+                        </li>
+                        <li>
+                            <!-- list of fle uploaded in claim  -->
+                            <div id="file_container">
+                            </div>
+                        </li>
+                        <li>
+                            <div style="border-bottom: 1px solid #d4d7de;">
+                                <span id="claim_button" class="valspan"></span>
+                                <p><span id="claim_notes" class="valspan"></span></p>
+                                <br>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Large modal End here-->
+
+
+    <!--Change Password Start-->
+    <div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 30% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Change Password <span id="unamex"></span><span id="bid"></span></h2>
+                    <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                    <form id="change_pass" name="change_pass">
+                        <div class="popBody">
+                            <ul>
+                                <li class="popInn" id="inc_div">
+                                    <div class="formInci1" style="width: 99%;">
+                                        <span class="custom_error" id="msg_show"></span>
+                                        <p>
+                                            <span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                                <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required=""></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required="">
+                                                <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                                <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required=""></span>
+                                        </p>
+                                        <p>
+                                            <span></span><span style="width: 100% !important;">
+                                                <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;"></span>
+                                        </p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--About-->
+    <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 50% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="unamex"></span> <span id="bid"></span></h2>
+                    <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;">
+
+                    <div class="popBody">
+                        <ul>
+                            <li class="popInn" id="inc_div">
+                                <div id="about_info" class="formInci1" style="width: 99%;">
+
+                                    <!--  About information -->
+                                </div>
+                                <div class="clear"></div>
+
+
+                                <div class="clear"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade view_diaries_modal_css" id="view_diaries_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Claim Details [ ID : <span id="view_diary_claim_id" class="valspan" style="color: #0000FF"></span>]</h2>
+                    <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+
+                    <div class="clear"></div>
+                </div>
+                <div class="popBody" id="view_diaries_list">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade view_claim_modal_wc" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Claim Details [ ID : <span id="WC_claim_id" style="color: #0000FF"></span>]</h2>
+                    <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                    <div class="clear"></div>
+                </div>
+                <div class="popBody">
+                    <ul>
+                        <li class="popInn" id="wc_inc_div">
+                            <h2 class="popSubHead">Incident Details [ID :<span id="wc_incident_id" class="valspan" style="color: #0000FF"></span>]</h2>
+                            <div class="formInci1">
+                                <p><span class="headspan">Incident Date:</span><span id="wc_inc_date" class="valspan"></span></p>
+                                <p><span class="headspan">Store ID:</span><span id="wc_store_no" class="valspan"></span></p>
+                                <p><span class="headspan">Store Adddress:</span><span id="wc_address1" class="valspan"></span></p>
+                                <p><span class="headspan">City:</span> <span id="wc_city" class="valspan"></span></p>
+                                <p><span class="headspan">State: </span><span id="wc_state" class="valspan"></span></p>
+
+
+                            </div>
+                            <div class="formInci">
+
+                                <p><span class="headspan">Country:</span><span id="wc_country" class="valspan"></span></p>
+                                <p><span class="headspan">Zip Code:</span><span id="wc_zip" class="valspan"></span></p>
+                                <p><span class="headspan">Store Phone:</span> <span id="wc_store_phone" class="valspan"></span></p>
+                                <p><span class="headspan">Store Fax: </span><span id="wc_fax" class="valspan"></span></p>
+                                <p><span class="headspan">Store Report Date: </span><span id="wc_date_report" class="valspan"></span></p>
+
+                            </div>
+                            <div class="formInci">
+
+                                <p><span class="headspan">Exact Location:</span><span id="wc_incident_loc" class="valspan"></span></p>
+                                <p><span class="headspan">Alcohol/Drugs: </span><span id='wc_alcohol' class="valspan"></span></p>
+                                <p><span class="headspan">Police Involved:</span> <span id="wc_police_inv" class="valspan"></span></p>
+                                <p><span class="headspan">Agency Name: </span><span id="wc_police_agency" class="valspan"></span></p>
+                                <p><span class="headspan">Report Number: </span><span id="wc_police_case_id" class='valspan'></span></p>
+
+                                <!--<p><span class="headspan">Description:</span> <span id="desc" class="valspan"></span></p>-->
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                        <!--  Description  -->
+                        <li>
+                            <div style="border-bottom: 1px solid #d4d7de;">
+                                <h2 class="popSubHead">Incident Description</h2>
+                                <br>
+                                <p><span id="wc_desc" class="valspan"></span></p>
+                                <br>
+                            </div>
+                            <div style="border-bottom: 1px solid #d4d7de; display: none;">
+                                <h2 class="popSubHead">Incident Notes</h2>
+                                <br>
+                                <p><span id="wc_notes" class="valspan"></span></p>
+                                <br>
+                            </div>
+                        </li>
+                        <li>
+                            <!-- list of fle uploaded in claim  -->
+                            <div id="wc_incidentfile_container" style="border-bottom: 1px solid #d4d7de;">
+                            </div>
+                        </li>
+                        <li id="viewWcInfo">                         
+
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade advanced-search-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Advanced Search</h2>
+                    <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                    <div class="clear"></div>
+                </div>
+                <div class="popBody">
+                    <div class="" style="margin: 20px 0px;">
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="myLable">Claim Type</label>
+                                <select name="ddlClaimType" id="ddlClaimType" class="form-control myselect2 planeTextFild">
+                                    <option></option>
+                                    <option value="Illness">Illness</option>
+                                    <option value="Injury">Injury</option>
+                                    <option value="Other">Other</option>                      
+                                    <option value="Medical_Only">Medical Only</option>                                    
+                                    <option value="Indemnity">Indemnity</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="First_Aid">First Aid</option>
+                                    <option value="Report_Only">Report Only</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLable" for="txtFirstName">First Name</label>
+                                <input type="text" id="txtFirstName" name="txtFirstName" class="planeTextFild" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLable" for="txtLastName">Last Name</label>
+                                <input type="text" id="txtLastName" name="txtLastName" class="planeTextFild" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLable" for="txtCity">City</label>
+                                <input type="text" id="txtCity" name="txtCity" class="planeTextFild" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLable" for="ddlState">State</label>
+                                <select class="form-control myselect2 planeTextFild" name="ddlState" id="ddlState">
+                                    <option></option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="DC">District of Columbia</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label class="myLable" for="txtOccupation">Occupation</label>
+                                <!--<input type="text" id="txtOccupation" name="txtOccupation" class="planeTextFild" />-->
+                                <select id="occupation" name="occupation" data-url="ClaimDeskWeb/services/v1/code/all/E_OCCUPATION" class="form-control myselect2 planeTextFild"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLable" for="txtEmployeeId">Employee ID</label>
+                                <input type="text" id="txtEmployeeId" name="txtEmployeeId" class="planeTextFild" />
+                            </div>
+                            <!-- new -->
+                            <div class="col-sm-4">
+                                <label class="myLable" for="txtSsn">SSN</label>
+                                <input type="text" id="txtSsn" name="txtSsn" class="planeTextFild ssnCss" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLable" for="txtPhone">Phone</label>
+                                <input type="text" id="txtPhone" name="txtPhone" class="planeTextFild PhoneCss" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLable" for="ddlJudState">Jurisdiction State</label>                                
+                                <select id="ddlJudState" name="ddlJudState" class="form-control myselect2 planeTextFild">
+                                    <option></option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="DC">District of Columbia</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                            </div>
+                            <!-- new -->
+                            <div class="col-sm-4">
+                                <label class="myLable" for="frmDate">Date Of Incident</label>
+                                <input type="text" id="frmDate" name="frmDate" class="planeTextFild dtPicker" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="toDate">To</label>
+                                <input type="text" id="toDate" name="toDate" class="planeTextFild dtPicker" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="txtClaimNumber">Claim Number</label>
+                                <input type="text" id="txtClaimNumber" name="txtClaimNumber" class="planeTextFild" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="srch_store">Store Number</label>
+                                <select id="srch_store" name="srch_store" class="form-control myselect2 planeTextFild"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="bodyPart">Body Part</label>
+                                <select id="bodyPart" name="bodyPart" class="form-control myselect2 planeTextFild" data-url="ClaimDeskWeb/services/v1/code/all/C_BODYPART"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="injury">Corvel Nature Of Injury</label>
+                                <select id="injury" name="injury" data-url="ClaimDeskWeb/services/v1/code/all/C_INJURYNATURE" class="form-control myselect2 planeTextFild"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="claimCause">Injury Cause</label>
+                                <select id="claimCause" name="claimCause" data-url="ClaimDeskWeb/services/v1/code/all/C_INJURYCODE" class="form-control myselect2 planeTextFild"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="injuryType">Corvel Injury Type</label>
+                                <select id="injuryType" name="injuryType" data-url="ClaimDeskWeb/services/v1/code/all/C_INJURYTYPE" class="form-control myselect2 planeTextFild"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="denied ">Denied</label>
+                                <select id="denied" name="denied" class="form-control myselect2 planeTextFild">
+                                    <option value=""></option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="litigated">Litigated </label>
+                                <select id="litigated" name="litigated" class="form-control myselect2 planeTextFild">
+                                    <option value=""></option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="myLabel" for="settled">Settled</label>
+                                <select id="settled" name="settled" class="form-control myselect2 planeTextFild">
+                                    <option value=""></option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <label id="errStatusMsg" class="myLable" style="display: none; color: red; font-size: 15px;">Please enter atleast one field.</label>
+                            </div>
+
+                            <div class="col-sm-1">
+                                <input type="submit" id="btnSearch" name="btnSearch" value="Search" class="pull-right popBtt buttonNex" onclick="btnSearch_OnClick();" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

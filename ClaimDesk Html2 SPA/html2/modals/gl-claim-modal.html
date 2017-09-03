@@ -1,0 +1,225 @@
+﻿<script type="text/javascript">
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+</script>
+<div class="modal fade gl-claim-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="popHead">
+                <h2 class="dataHeadPop">Claim Details [ ID : <span id="claim_id" class="valspan" style="color: #0000FF"></span>]</h2>
+                <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+
+                <div class="clear"></div>
+            </div>
+            <div class="popBody">
+
+                <ul>
+                    <li class="popInn" id="inc_div" style="display: none;">
+                        <h2 class="popSubHead">Incident Details [ID :<span id="incident_id" class="valspan" style="color: #0000FF"></span>]</h2>
+                        <div class="formInci1">
+                            <p><span class="headspan">Incident Date:</span><span id="inc_date" class="valspan"></span></p>
+                            <p><span class="headspan">Store ID:</span><span id="store_no" class="valspan"></span></p>
+                            <p><span class="headspan">Store Adddress:</span><span id="address1" class="valspan"></span></p>
+                            <p><span class="headspan">City:</span> <span id="city" class="valspan"></span></p>
+                            <p><span class="headspan">State: </span><span id="state" class="valspan"></span></p>
+
+
+                        </div>
+                        <div class="formInci">
+
+                            <p><span class="headspan">Country:</span><span id="country" class="valspan"></span></p>
+                            <p><span class="headspan">Zip Code:</span><span id="zip" class="valspan"></span></p>
+                            <p><span class="headspan">Store Phone:</span> <span id="store_phone" class="valspan"></span></p>
+                            <p><span class="headspan">Store Fax: </span><span id="fax" class="valspan"></span></p>
+                            <p><span class="headspan">Store Report Date: </span><span id="date_report" class="valspan"></span></p>
+
+                        </div>
+                        <div class="formInci">
+
+                            <p><span class="headspan">Exact Location:</span><span id="incident_loc" class="valspan"></span></p>
+                            <p><span class="headspan">Alcohol/Drugs: </span><span id='alcohol' class="valspan"></span></p>
+                            <p><span class="headspan">Police Involved:</span> <span id="police_inv" class="valspan"></span></p>
+                            <p><span class="headspan">Agency Name: </span><span id="police_agency" class="valspan"></span></p>
+                            <p><span class="headspan">Report Number: </span><span id="police_case_id" class='valspan'></span></p>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <div style="border-bottom: 1px solid #d4d7de;">
+                            <h2 class="popSubHead">Incident Description</h2>
+                            <br>
+                            <p><span id="desc" class="valspan"></span></p>
+                            <br>
+                        </div>
+                        <div style="border-bottom: 1px solid #d4d7de; display:none;">
+                            <h2 class="popSubHead">Incident Notes</h2>
+                            <br>
+                            <p><span id="notes" class="valspan"></span></p>
+                            <br>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="incidentfile_container">
+                        </div>
+                    </li>
+                    <li>
+                        <div id="guest_container" style="border-bottom: 1px solid #d4d7de;">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="border-bottom: 1px solid #d4d7de;">
+                            <h2 class="popSubHead">Claim Description</h2>
+                            <br>
+                            <p><span id="claim_desc" class="valspan"></span></p>
+                            <br>
+                        </div>
+                    </li>
+                    <li class="popInn" id='illness_div' style="display: none;">
+                        <h2 class="popSubHead">Illness or Foreign Object Complaint</h2>
+                        <div class="formInci1">
+                            <p><span class="headspan">Date Purchased:</span><span id="Date_Product_Purchased" class="valspan"></span></p>
+                            <p><span class="headspan">Purchased Time:</span><span class="Time valspan" id="Purchased_Time"></span></p>
+                            <p><span class="headspan">What ordered?:</span><span id="What_guest_order" class="valspan"></span></p>
+                            <p><span class="headspan">Did eat?</span><span id="What_guest_eat" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+                            <p><span class="headspan">Where ?</span><span id="Where_guest_eat" class="valspan"></span></p>
+                            <p><span class="headspan">Receipt ?</span><span id="Receipt" class="valspan"></span></p>
+                            <p><span class="headspan">Receipt Number</span><span id="Receipt_Number" class="valspan"></span></p>
+                            <p><span class="headspan">Receipt Date</span><span id="Receipt_Date" class="valspan"></span></p>
+                            <p><span class="headspan">Receipt Time</span><span id="Receipt_Time" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+                            <p><span class="headspan">Illness Symptoms</span><span id="Illness_Symptoms" class="valspan"></span></p>
+                            <p><span class="headspan">Illness Date</span><span id="Illness_Date" class="valspan"></span></p>
+                            <p><span class="headspan">Illness Time</span><span id="Illness_Time" class="valspan"></span></p>
+
+                            <p><span class="headspan">Location of Illness</span><span id="Location_Illness" class="valspan"></span></p>
+                            <p><span class="headspan">Medical Facility</span><span id="Medical_Facility_ill" class="valspan"></span></p>
+
+                        </div>
+
+                        <div class="clear"></div>
+                    </li>
+                    <li class="popInn" id='thirdParty' style="display: none;">
+                        <h2 class="popSubHead">Third Party Involvement</h2>
+                        <div class="formInci1">
+                            <p><span class="headspan">Name:</span><span id="tpname" class="valspan"></span></p>
+                            <p><span class="headspan">City:</span><span class="valspan" id="tpcity"></span></p>
+                            <p><span class="headspan">County:</span><span id="tpcounty" class="valspan"></span></p>
+                            <p><span class="headspan">Fax?</span><span id="tpfax" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+                            <p><span class="headspan">Address:</span><span id="tpaddress1" class="valspan"></span></p>
+                            <p><span class="headspan">State:</span><span id="tpstate" class="valspan"></span></p>
+                            <p><span class="headspan">Country:</span><span id="tpcountry" class="valspan"></span></p>
+                            <p><span class="headspan">Contact Name:</span><span id="tpcontactname" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+                            <p><span class="headspan">Address1:</span><span id="tpaddress2" class="valspan"></span></p>
+                            <p><span class="headspan">ZipCode:</span><span id="tpzip" class="valspan"></span></p>
+                            <p><span class="headspan">Phone Number:</span><span id="tpphone" class="valspan"></span></p>
+                            <p><span class="headspan">Email:</span><span id="tpemail" class="valspan"></span></p>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+
+                    <li class="popInn" id='insurer' style="display: none;">
+                        <h2 class="popSubHead">Insurer</h2>
+                        <div class="formInci1">
+                            <p><span class="headspan">Name:</span><span id="inname" class="valspan"></span></p>
+                            <p><span class="headspan">City:</span><span class="valspan" id="incity"></span></p>
+                            <p><span class="headspan">County:</span><span id="incounty" class="valspan"></span></p>
+                            <p><span class="headspan">Fax?</span><span id="infax" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+                            <p><span class="headspan">Address:</span><span id="inaddress1" class="valspan"></span></p>
+                            <p><span class="headspan">State:</span><span id="instate" class="valspan"></span></p>
+                            <p><span class="headspan">Country:</span><span id="incountry" class="valspan"></span></p>
+                            <p><span class="headspan">Contact Name:</span><span id="incontactname" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+                            <p><span class="headspan">Address1:</span><span id="inaddress2" class="valspan"></span></p>
+                            <p><span class="headspan">ZipCode:</span><span id="inzip" class="valspan"></span></p>
+                            <p><span class="headspan">Phone Number:</span><span id="inphone" class="valspan"></span></p>
+                            <p><span class="headspan">Email:</span><span id="inemail" class="valspan"></span></p>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+
+                    <li class="popInn" id='injury_div' style="display: none;">
+                        <h2 class="popSubHead">Injury</h2>
+
+                        <div class="formInci1">
+                            <p><span class="headspan">Injury Date </span><span id="Injury_Date" class="valspan"></span></p>
+                            <p><span class="headspan">Injury Symptoms</span><span id="Injury_Symptoms" class="valspan"></span></p>
+                            <p><span class="headspan">Location of Injury</span> <span id="Location_Injury" class="valspan"></span></p>
+                            <p><span class="headspan">Medical facility</span><span id="Medical_Facility_Inj" class="valspan"></span></p>
+                            <p><span class="headspan">Description</span><span id="Describe_accident" class="valspan"></span></p>
+                            <p><span class="headspan">Injury observed</span><span id="injury_observe" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+                            <p><span class="headspan">Floor Condition</span><span id="Floor_Condition" class="valspan"></span></p>
+                            <p><span class="headspan">Mats</span><span id="Mats" class="valspan"></span></p>
+                            <p><span class="headspan">Mats_where</span><span id="Mats_Yes_whr" class="valspan"></span></p>
+                            <p><span class="headspan">Source of Water</span><span id="Source_of_Water" class="valspan"></span></p>
+                            <p><span class="headspan">Weather </span><span id="Weather" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+
+                            <p><span class="headspan">Guest shoe type</span> <span id="shoe_type" class="valspan"></span></p>
+                            <p><span class="headspan">Cones</span><span id="Cones" class="valspan"></span></p>
+                            <p><span class="headspan">Cones Location </span><span id="Cones_location" class="valspan"></span></p>
+                            <p><span class="headspan">Video</span><span id="Video" class="valspan"></span></p>
+                            <p><span class="headspan">Incident video</span><span id="Incident_video" class="valspan"></span></p>
+                            <p><span class="headspan">How guest leave</span><span id="guest_leave_store" class="valspan"></span></p>
+                            <p><span class="headspan">Ambulance</span><span id="Ambulance" class="valspan"></span></p>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+
+                    <li class="popInn" id='other_div' style="display: none;">
+                        <h2 class="popSubHead">Other</h2>
+                        <div class="formInci1">
+                            <p><span class="headspan">Car damage</span><span id="Car_damage" class="valspan"></span></p>
+                            <p><span class="headspan">How damage occur</span><span id="car_damage_occur" class="valspan"></span></p>
+                            <p><span class="headspan">Damage location</span><span id="Damage_location" class="valspan"></span></p>
+                            <p><span class="headspan">Landlord fault</span><span id="Landlord_fault_party" class="valspan"></span></p>
+                            <p><span class="headspan">Estimated cost</span><span id="Estimated_cost" class="valspan"></span></p>
+                        </div>
+
+                        <div class="formInci">
+                            <p><span class="headspan">Damage new/old</span><span id="Damage_new_old" class="valspan"></span></p>
+                            <p><span class="headspan">Manager comments</span><span id="manager_comments" class="valspan"></span></p>
+                            <p><span class="headspan">Manager's sign</span><span id="manager_signature" class="valspan"></span></p>
+                            <p><span class="headspan">Date</span><span id="other_date" class="valspan"></span></p>
+                        </div>
+
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <div id="file_container">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="border-bottom: 1px solid #d4d7de;">
+                            <span id="claim_button" class="valspan"></span>
+                            <p><span id="claim_notes" class="valspan"></span></p>
+                            <br>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>

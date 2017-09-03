@@ -1,0 +1,1079 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to RMS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/timepicker.css">
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-ui-timepicker-addon.js"></script>
+    <script src="js/jquery-ui-slidder-access.js"></script>
+    <script src="js/common_func.js"></script>
+    <script src="js/claim_session.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <script src="js/mask.js" type="text/javascript"></script>
+    <script src="js/acounting.js"></script>
+    <script type="text/javascript" src="js/icheck.min.js"></script>
+    <script src="js/accounting.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <link href="css/square/blue.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .style1 {
+            color: #D0D0D0;
+        }
+
+        label.error {
+            padding: 2px 0 !important;
+        }
+
+        .whitebg {
+            font-size: 18px;
+            color: #626262;
+        }
+        /*#guest_order-error{margin-top: -168px;}
+		#guest_eat-error{margin-top: -168px;}
+		#place_eat-error{margin-top: -168px;}
+		#ill_symptoms-error{margin-top: -168px;}
+		#ill_location-error{margin-top: -168px;}
+		#ill_medical-error{margin-top: -168px;}		
+		#inj_symptoms-error{margin-top: -168px;}
+		#location_inj-error{margin-top: -168px;}
+		#medical_guest-error{margin-top: -168px;}
+		#des_accident-error{margin-top: -168px;}
+		#inj_observe-error{margin-top: -168px;}
+		#fl_condition-error{margin-top: -168px;}
+		#source-error{margin-top: -168px;}
+		#gst_leave-error{margin-top: -168px;}
+		#damage_occur-error{margin-top: -168px;}
+		#d_location-error{margin-top: -168px;}
+		#fault_pro-error{margin-top: -168px;}		
+		#land_pro-error{margin-top: -168px;}
+		#claim_desc-error{margin-top: -168px;}
+		#title-error{width:33%;}*/
+        #data label.error {
+            position: absolute;
+            right: 0;
+            top: 2px;
+            margin: 0px !important;
+        }
+
+        #data .formInci1, #data .formInci, #data .formInci_i {
+            position: relative;
+        }
+
+        label#date_picker_product-error.error, label#date_picker_injury-error.error, label#date_picker_receipt-error.error {
+            margin-top: -24px !important;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                maxDate: new Date(),
+                addSliderAccess: true
+            });
+
+            $(".time-picker").timepicker({
+                addSliderAccess: false,
+                timeFormat: "hh:mm tt",
+                sliderAccessArgs: {
+                    touchonly: true
+                }
+            });
+
+
+
+            $.mask.definitions['H'] = "[0-1]";
+            $.mask.definitions['h'] = "[0-9]";
+            $.mask.definitions['M'] = "[0-5]";
+            $.mask.definitions['m'] = "[0-9]";
+            $.mask.definitions['P'] = "[AaPp]";
+            $.mask.definitions['p'] = "[Mm]";
+            $(".timepicker").mask("Hh:Mm Pp");
+            $("#purchased_time").mask("Hh:Mm Pp");
+            $("#ill_time_value").mask("Hh:Mm Pp");
+            $("#receipt_time").mask("Hh:Mm Pp");
+            $(".date-picker").keyup(function (e) {
+                var keycode = e.keyCode ? e.keyCode : e.which;
+                if (keycode != 8 && keycode != 46) {
+                    var currentValue = $(e.target).val();
+                    var newValue = autocompleteMMDDYYYYDateFormat(currentValue);
+                    if (newValue != currentValue) {
+                        $(e.target).val(newValue);
+                    }
+                }
+            });
+
+            $("input[type='text']").change(function () {
+                save_to_session_claim1();
+            });
+            $("select").change(function () {
+                save_to_session_claim1();
+            });
+            $("textarea").change(function () {
+                save_to_session_claim1();
+            });
+
+
+            $(".date-picker").mask("99/99/9999", { placeholder: "_" });
+            // $(".time-picker").mask("99:99",{placeholder:"_"});
+            $("#receipt_no").mask("9?9999999", { placeholder: "_" });
+            $("#tpzip").mask("99999?-9999", { placeholder: "_" });
+            $("#inzip").mask("99999?-9999", { placeholder: "_" });
+            $("#tpfax").mask("(999)-999-9999", { placeholder: "_" });
+            $("#infax").mask("(999)-999-9999", { placeholder: "_" });
+            $("#tpphone").mask("(999)-999-9999", { placeholder: "_" });
+            $("#inphone").mask("(999)-999-9999", { placeholder: "_" });
+
+
+        });
+    </script>
+
+
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+
+        $.validator.addMethod("checkblankB", function (value, element) {
+            if ($("#check_injury").is(":checked") == true && value == '')
+                return false;
+            else
+                return true;
+        }, "This field is required.");
+    </script>
+    <style>
+        #con_new_pass-error {
+            margin-top: -12px !important;
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        // Library ready to use:
+        //toggle_visibility('No','car_damage_div');$('#car_damage').val('No');
+        accounting.formatMoney(5318008);
+    </script>
+</head>
+
+<body onload="loadClaim1();$('.stateCss').val('');">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a> </li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="body">
+            <nav>
+                <div class="tabLeft">
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav mainNavBig">
+                                    <a class="mainTab" href="main-dashboard.html"><i class="fa fa-home"></i><br>Home</a>
+                                </li>                                
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle select" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-th-list"></i><br>Incidents List</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="incidents-list.html"><i class="fa fa-indent"></i>View Incidents</a></li>
+                                        <li class="subTab"><a href="claims-list.html"><i class="fa fa-briefcase"></i>View Claims</a></li>                                        
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i><br>Actions</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee"><i class="fa fa-users"></i>Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location"><i class="fa fa-map-marker"></i>Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-policies.html"><i class="fa fa-sitemap"></i>Manage Policies</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="employee"><i class="fa fa-user"></i>Manage Users</a></li>
+                                        <li class="subTab"><a href="manage-contacts.html" class="employee"><i class="fa fa-globe"></i>Manage Contacts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bar-chart"></i><br>Reports</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html"><i class="fa fa-ambulance"></i>Employee Injuries</a></li>
+                                        <li class="subTab"><a href="executive-summary.html"><i class="fa fa-th-list"></i>Executive Summary EI</a></li>
+                                        <li class="subTab"><a href="loss-run-report.html"><i class="fa fa-th-list"></i>Loss Run Report</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i><br>Settings</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-location-types.html"><i class="fa fa-cubes"></i>&nbsp;Manage Location Types</a></li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                </div>
+                <div class="tabRight">
+                    <div class="navRtghtBt">
+                        <input name="" type="button" value="Create Incident" class="buttonCreat" onclick="location.href = 'incident.html';">
+                    </div>
+                    <div class="navRtghtBt">
+                        <div class="searchFild" style="display: none">
+                            <input name="input" type="text" class="search" placeholder="Search">
+                            <span><a href="#">
+                                <img src="images/search.png" width="20" height="20" alt="img"></a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div class="contain">
+                <div id="myBradeCM">
+                    <h1>Create Claim</h1>
+                    <div class="rightAlign">
+                        <ul class="breadcrumbMy">
+                            <li class="newActive"><a href="#" class="activeMy" style="color: #fff !important;">1. Guest Details</a></li>
+                            <li class="newActive"><a href="#" class="activeMy" style="color: #fff !important;">2. Incident Type Details</a></li>
+                            <li><a href="#">3. Attachments</a></li>
+                            <li><a href="#">4. Diary Notes</a></li>
+                            <li><a href="#">5. Complete</a></li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <form name='data' id="data">
+                    <section>
+                        <div class="green greenborder" style="margin-left: 23px;">Incident Type</div>
+                        <div class="radio" style="margin-left: 23px;">
+                            <ul>
+
+                                <li class="checkLi">
+                                    <input type="radio" name="c" id="check_illness" onclick="toggle_visibility_checkbox()" value="1" style="margin-top: 5px;" tabindex="1" />
+                                    <label for="check_illness">Illness or Foreign Object</label>
+                                </li>
+                                <li class="checkLi">
+                                    <input type="radio" name="c" id="check_injury" onclick="toggle_visibility_checkbox()" value="1" style="margin-top: 5px;" tabindex="2" />
+                                    <label for="check_injury">Injury</label>
+                                </li>
+                                <li class="checkLi">
+                                    <input type="radio" name='c' id="check_other" onclick="toggle_visibility_checkbox()" value="1" style="margin-top: 5px;" tabindex="3" />
+                                    <label for="check_other">Other</label>
+                                </li>
+
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+
+                        <div class="formIllness noMar" style="margin-left: 23px;">
+                            <div class="formInci1 martop" style="width: 100%;">
+                                <label class="myLable">Description </label>
+                                <textarea name="claim_desc" id="claim_desc" cols="" rows="4" class="planeTextFild" required style="padding: 3px !important;" tabindex="4" /></textarea>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+
+                        <div class="formIllness noMar" id="illness_div" style="display: none; margin-left: 23px;">
+
+                            <div class="claimForm">
+                                <div class="green greenborder">Illness or Foreign Object</div>
+
+                                <div class="formInci1">
+                                    <label class="myLable">Date Meal Purchased </label>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <input id="date_picker_product" type="text" class="date-picker form-control" required tabindex="4" maxlength="10" />
+                                                <label for="date_picker_product" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formInci">
+                                    <label class="myLable">Time</label>
+                                    <div class="timePic">
+                                        <input type='text' class="form-control time-picker" name="purchased_time" id="purchased_time" tabindex="5">
+                                    </div>
+                                    <div class="timePicRight">
+                                        <input type="hidden" name='time' id='time' />
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="formInci1 martop">
+                                    <label class="myLable">What did the guest order? </label>
+                                    <textarea name="guest_order" id="guest_order" cols="" rows="4" class="planeTextFild" required tabindex="6"></textarea>
+                                </div>
+                                <div class="formInci martop">
+                                    <label class="myLable">What did the guest eat? </label>
+                                    <textarea name="guest_eat" id="guest_eat" cols="" rows="4" class="planeTextFild" required tabindex="7"></textarea>
+                                </div>
+                                <div class="formInci martop">
+                                    <label class="myLable">Where did the guest eat the meal? </label>
+                                    <textarea name="place_eat" id="place_eat" cols="" rows="4" class="planeTextFild" required tabindex="8"></textarea>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="formInci1 martop">
+                                    <label class="myLable">Receipt</label>
+                                    <select class="form-control myselect" name="receipt" id="receipt" tabindex="9" onchange="toggle_visibility(this.value, 'file_upload_div')">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+
+
+                            <div id='file_upload_div' style="display: none;">
+                                <p class="uploadHead1">Upload Receipt(s)</p>
+                                <p class="bodyTextBig">Click"Browse" to select and upload file(s).</p>
+
+                                <div class="claimForm">
+
+                                    <div class="formInci1 noMar">
+                                        <input name="upfile" id="upfile" type="file" class="planeTextFild" placeholder="" tabindex="10;">
+                                    </div>
+                                    <div class="formInciBigBt">
+
+                                        <input name="upload1" id="upload1" type="button" value="Upload File" class="buttonNext" onclick="upload_file('receipt_create')" tabindex="11">
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+
+                                <div id="file_error" class="custom_error" style="float: left;"></div>
+                                <div class="uploadBox">
+                                    <p class="uploadHead">Files</p>
+                                    <table class="fullwidth" id='imglist'>
+                                        <tr class="green">
+                                            <td style="width: 8%;"></td>
+                                            <td style="width: 92%;" class="tlalign whitebg">You haven't uploaded any attachments!</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="claimForm">
+                                    <div class="formInci1">
+                                        <label class="myLable">
+                                            Receipt Number 
+                                        </label>
+                                        <input type="text" placeholder="" class="planeTextFild" name="receipt_no" id="receipt_no" required maxlength="8" tabindex="12" />
+                                    </div>
+
+                                    <div class="formInci">
+                                        <label class="myLable">
+                                            Receipt Date 
+                                        </label>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <div class="input-group">
+                                                    <input name="text" type="text" class="date-picker form-control" id="date_picker_receipt" tabindex="13" required maxlength="10" />
+                                                    <label for="date_picker_receipt" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="controls"></div>
+                                        </div>
+                                    </div>
+                                    <div class="formInci">
+                                        <label class="myLable">Time</label>
+                                        <div class="timePic">
+
+
+                                            <input type='text' class="form-control time-picker" name="receipt_time" id="receipt_time" tabindex="14">
+                                        </div>
+
+
+                                        <div class="timePicRight">
+
+                                            <input type='hidden' id="time" value='--' />
+
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+
+
+                            <div class="claimForm">
+                                <div class="formInci1">
+                                    <label class="myLable">
+                                        Illness Symptoms 
+                                    </label>
+                                    <textarea name="ill_symptoms" id="ill_symptoms" cols="" rows="4" class="planeTextFild" tabindex="15"></textarea>
+
+                                </div>
+                                <div class="formInci">
+                                    <div class="control-group">
+                                        <div class="controls"></div>
+                                    </div>
+                                    <label class="myLable">
+                                        Illness Date 
+                                    </label>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <input name="date_picker_illness" id="date_picker_illness" type="text" class="date-picker form-control" tabindex="16" maxlength="10" />
+                                                <label for="date_picker_illness" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="formInci">
+                                    <label class="myLable" style="margin-top: 11px !important;">Time</label>
+                                    <div class="timePic">
+                                        <input type='text' class="form-control time-picker" name="ill_time_value" id="ill_time_value" tabindex="17">
+                                    </div>
+                                    <div class="timePicRight">
+
+
+                                        <input type="hidden" name='ill_time' id='ill_time' />
+
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="formInci1 martop">
+                                    <label class="myLable">
+                                        Location Illness took place 
+                                    </label>
+                                    <textarea name="ill_location" id="ill_location" cols="" rows="4" class="planeTextFild" tabindex="18"></textarea><strong></strong>
+                                </div>
+                                <div class="formInci martop">
+                                    <label class="myLable">
+                                        Medical Facility Treating guest 
+                                    </label>
+                                    <textarea name="ill_medical" id="ill_medical" cols="" rows="4" class="planeTextFild" tabindex="19"></textarea>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+
+
+                            <div class="green greenborder">Third Party Enrollment</div>
+
+
+                            <div class="formInci1">
+                                <label class="myLable">Third Party Enrollment?</label>
+                                <select class="form-control myselect" name="thirdPartyInvolved" id="thirdPartyInvolved" tabindex="20" onchange="hideThirdPartyEntrollment(this.value);">
+                                    <option value="No" selected="selected">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="formInci1" id="tpdiv1" style="display: none;">
+                                <label class="myLable">Third Party Name</label>
+                                <input name="tpname" id="tpname" type="text" class="planeTextFild" tabindex="21" placeholder="">
+                                <label class="myLable">City</label>
+                                <input name="tpcity" id="tpcity" type="text" class="planeTextFild" tabindex="24" placeholder="">
+                                <label class="myLable">County</label>
+                                <input name="tpcounty" id="tpcounty" type="text" class="planeTextFild" tabindex="27" placeholder="">
+                                <label class="myLable">Fax Number</label>
+                                <input name="tpfax" id="tpfax" type="text" class="planeTextFild" tabindex="30" placeholder="">
+                            </div>
+                            <div id="tpdivs1" class="form1" style="display: none;"></div>
+                            <div class="formInci1" id="tpdiv2" style="display: none;">
+                                <label class="myLable">Address 1 </label>
+                                <input name="tpaddress1" id="tpaddress1" type="text" class="planeTextFild" tabindex="22" placeholder="">
+                                <label class="myLable">State</label>
+                                <select class="form-control myselect stateCss" name="tpstate" id="tpstate" tabindex="25" placeholder="">
+                                    <option value="" selected="selected"></option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="DC">District of Columbia</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                                <label class="myLable">Country</label>
+                                <input name="tpcountry" id="tpcountry" type="text" class="planeTextFild" tabindex="28" placeholder="United States" value="United States" readonly>
+                                <label class="myLable">Contact Name</label>
+                                <input name="tpcontactname" id="tpcontactname" type="text" class="planeTextFild" tabindex="31" placeholder="">
+                            </div>
+                            <div id="tpdivs2" class="form1" style="display: none;"></div>
+                            <div class="formInci1" id="tpdiv3" style="display: none;">
+                                <label class="myLable">Address 2</label>
+                                <input name="tpaddress2" id="tpaddress2" type="text" class="planeTextFild" tabindex="23" placeholder="">
+                                <label class="myLable">Zip</label>
+                                <input name="tpzip" id="tpzip" type="text" class="planeTextFild" tabindex="26" placeholder="">
+                                <label class="myLable">Phone Number</label>
+                                <input name="tpphone" id="tpphone" type="text" class="planeTextFild" tabindex="29" placeholder="">
+                                <label class="myLable">Email Address</label>
+                                <input name="tpemail" id="tpemail" type="text" class="planeTextFild" tabindex="32" placeholder="">
+                            </div>
+
+
+                            <div class="clear"></div>
+                            <div class="green greenborder" id="tpInsurer" style="display: none;">Insurer</div>
+                            <div class="clear"></div>
+
+                            <div class="formInci1" id="indiv1" style="display: none;">
+                                <label class="myLable">Insurer Name</label>
+                                <input name="inname" id="inname" type="text" class="planeTextFild" tabindex="33" placeholder="">
+                                <label class="myLable">City</label>
+                                <input name="incity" id="incity" type="text" class="planeTextFild" tabindex="36" placeholder="">
+                                <label class="myLable">County</label>
+                                <input name="incounty" id="incounty" type="text" class="planeTextFild" tabindex="39" placeholder="">
+                                <label class="myLable">Fax Number</label>
+                                <input name="infax" id="infax" type="text" class="planeTextFild" tabindex="42" placeholder="">
+                            </div>
+                            <div id="indivs1" class="form1" style="display: none;"></div>
+                            <div class="formInci1" id="indiv2" style="display: none;">
+                                <label class="myLable">Address 1 </label>
+                                <input name="inaddress1" id="inaddress1" type="text" class="planeTextFild" tabindex="34" placeholder="">
+                                <label class="myLable">State</label>
+                                <select class="form-control myselect stateCss" name="tpstate" id="tpstate" tabindex="37" placeholder="">
+                                    <option value="" selected="selected"></option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="DC">District of Columbia</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                                <label class="myLable">Country</label>
+                                <input name="incountry" id="incountry" type="text" class="planeTextFild" tabindex="40" placeholder="United States" value="United States" readonly>
+                                <label class="myLable">Contact Name</label>
+                                <input name="incontactname" id="incontactname" type="text" class="planeTextFild" tabindex="43" placeholder="">
+                            </div>
+                            <div id="indivs2" class="form1" style="display: none;"></div>
+                            <div class="formInci1" id="indiv3" style="display: none;">
+                                <label class="myLable">Address 2</label>
+                                <input name="inaddress2" id="inaddress2" type="text" class="planeTextFild" tabindex="35" placeholder="">
+                                <label class="myLable">Zip</label>
+                                <input name="inzip" id="inzip" type="text" class="planeTextFild" tabindex="38" placeholder="">
+                                <label class="myLable">Phone Number</label>
+                                <input name="inphone" id="inphone" type="text" class="planeTextFild" tabindex="41" placeholder="">
+                                <label class="myLable">Email Address</label>
+                                <input name="inemail" id="inemail" type="text" class="planeTextFild" tabindex="44" placeholder="">
+                            </div>
+
+                            <div class="clear"></div>
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!-- ***************  div for Injury checkbox ********************  -->
+
+                        <div class="formIllness noMar" id="injury_div" style="display: none; margin-left: 23px;">
+                            <div class="claimForm">
+                                <div class="green greenborder">Injury Complaint</div>
+
+                                <div class="formInci1">
+                                    <label class="myLable">
+                                        Injury Date
+                                    </label>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <input id="date_picker_injury" name="date_picker_injury" type="text" class="date-picker form-control checkblankB" tabindex="4" maxlength="10" />
+                                                <label for="date_picker_injury" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="clear"></div>
+                                <div class="formInci1 martop">
+                                    <label class="myLable">
+                                        Injury Symptoms
+                                    </label>
+                                    <textarea name="inj_symptoms" id="inj_symptoms" cols="" rows="4" class="planeTextFild" tabindex="5"></textarea>
+
+                                </div>
+                                <div class="formInci martop">
+                                    <label class="myLable">
+                                        Location Injury took place
+                                    </label>
+                                    <textarea name="location_inj" id="location_inj" cols="" rows="4" class="planeTextFild" tabindex="6"></textarea>
+                                </div>
+                                <div class="formInci martop">
+                                    <label class="myLable">
+                                        Medical facility treating guest
+                                    </label>
+                                    <textarea name="medical_guest" id="medical_guest" cols="" rows="4" class="planeTextFild" tabindex="7"></textarea>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="formInci1 martop">
+                                    <label class="myLable">
+                                        Describe accident briefly
+                                    </label>
+                                    <textarea name="des_accident" id="des_accident" cols="" rows="4" class="planeTextFild" tabindex="8"></textarea>
+                                </div>
+                                <div class="formInci martop">
+                                    <label class="myLable">
+                                        What injury did you observe?
+                                    </label>
+                                    <textarea name="inj_observe" id="inj_observe" cols="" rows="4" class="planeTextFild" tabindex="9"></textarea>
+                                </div>
+                                <div class="formInci martop">
+                                    <label class="myLable">
+                                        Floor Condition
+                                    </label>
+                                    <textarea name="fl_condition" id="fl_condition" cols="" rows="4" class="planeTextFild" tabindex="10"></textarea>
+                                </div>
+                                <div class="clear"></div>
+
+                            </div>
+                            <div class="claimForm">
+                                <div class="formInci1 martop">
+
+                                    <label class="myLable">Mats</label>
+                                    <div class="">
+                                        <select name="mats" id="mats" class="form-control myselect" tabindex="11" onchange="toggle_visibility(this.value,'mat_yes_div')">
+                                            <option value="Yes">Yes</option>
+                                            <option value="No" selected="selected">No</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="formInci martop" id="mat_yes_div" style="display: none;">
+                                    <label class="myLable">If yes, Where?</label>
+                                    <input class="planeTextFild " type="text" placeholder="" name="y_where" id="y_where" tabindex="12">
+                                </div>
+                                <div class="clear"></div>
+
+
+                                <div class="formInci1 martop">
+                                    <label class="myLableSmall">
+                                        Source of Water/Grease/Etc.<span> (if any)</span>
+                                    </label>
+                                    <textarea name="source" id="source" cols="" rows="4" class="planeTextFild" tabindex="13"></textarea>
+                                </div>
+                                <div class="formInci martop">
+                                    <label class="myLable">
+                                        Weather 
+                                    </label>
+                                    <select name="weather" id="weather" class="planeTextFild" tabindex="14">
+                                    </select>
+                                    <label class="myLable">
+                                        Guest shoe type 
+                                    </label>
+                                    <select name="shoe_type" id="shoe_type" class="planeTextFild" tabindex="15">
+                                    </select>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="formInci1 martop">
+
+                                    <label class="myLable">Cones</label>
+                                    <div class="">
+                                        <select name="cones" id="cones" class="form-control myselect" tabindex="16" onchange="toggle_visibility(this.value,'cones_yes_div')">
+                                            <option value="Yes">Yes</option>
+                                            <option value="No" selected="selected">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="formInci martop" id="cones_yes_div" style="display: none;">
+                                    <label class="myLable">
+                                        Exact location of cones 
+                                    </label>
+                                    <input class="planeTextFild" type="text" name="loc_cones" id="loc_cones" placeholder="" tabindex="17">
+                                </div>
+                                <div class="clear"></div>
+
+                                <label class="myLable">Video</label>
+                                <select name="video" id="video" class="planeTextFild" tabindex="18" style="width: 32%;">
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+
+
+                                <label class="myLable">
+                                    Incident seen on video? 
+                                </label>
+                                <select name="i_video" id="i_video" class="planeTextFild" tabindex="19" style="width: 32%;">
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+
+
+                                <label class="myLableSmall">
+                                    How did the guest leave store.<span> (if any)</span>
+                                </label>
+                                <textarea name="gst_leave" id="gst_leave" cols="" rows="4" class="planeTextFild" tabindex="20"></textarea>
+
+
+
+                                <label class="myLable">Ambulance</label>
+                                <select name="ambulance" id="ambulance" class="form-control" tabindex="21" style="width: 32%;">
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
+
+                        </div>
+
+                        <!-- ************************* Other Complaint div ****************************** -->
+
+                        <div class="formIllness noMar" id="other_div" style="display: none; margin-left: 23px;">
+
+                            <div class="claimForm">
+                                <div class="green greenborder">Other</div>
+                            </div>
+                            <div class="claimForm">
+                                <div class="formInci1">
+                                    <label class="myLable">
+                                        Car damage? 
+                                    </label>
+                                    <select name="car_damage" id="car_damage" class="planeTextFild" onchange="toggle_visibility(this.value,'car_damage_div')">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No" selected="selected">No</option>
+                                    </select>
+
+                                </div>
+                                <div class="clear"></div>
+
+                                <div class=" martop" id="car_damage_div" style="display: none; width: 100%; padding: 0 !important">
+
+                                    <div class="formInci1 martop">
+                                        <label class="myLable">
+                                            How did car damage occur?
+                                        </label>
+                                        <textarea name="damage_occur" id="damage_occur" cols="" rows="4" class="planeTextFild" tabindex="5"></textarea>
+                                        <div class="formInci_i">
+                                            <label class="myLable">
+                                                Estimated cost 
+                                            </label>
+                                            <input type="text" name="est_cost" tabindex="8" id="est_cost" class="planeTextFild" placeholder="" onkeyup="isNumberKeyX(this)" onblur="this.value=accounting.formatMoney(this.value,' ', 2, ',', '.');" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="formInci martop">
+                                        <label class="myLable">
+                                            Damage location
+                                        </label>
+                                        <textarea name="d_location" id="d_location" cols="" rows="4" class="planeTextFild" required tabindex="6"></textarea>
+                                        <div class="formInci_i">
+                                            <label class="myLable">
+                                                Damage new/old? 
+                                            </label>
+                                            <select name="damage" id="damage" class="planeTextFild" required tabindex="9">
+                                                <option>Old</option>
+                                                <option>New</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="formInci martop">
+                                        <label class="myLable">
+                                            Landlord or other at fault party
+                                        </label>
+                                        <textarea name="fault_pro" id="fault_pro" cols="" rows="4" class="planeTextFild" required tabindex="7"></textarea>
+                                    </div>
+
+
+                                </div>
+                                <!-- end of car_damage_div  -->
+
+                                <div class="formInci martop">
+                                    <label class="myLable">
+                                        Reporting manager comments
+                                    </label>
+                                    <textarea name="land_pro" id="land_pro" cols="" rows="4" class="planeTextFild" tabindex="10"></textarea>
+                                </div>
+
+                                <div class="clear"></div>
+                                <div class="formInci1 martop">
+                                    <label class="myLable">
+                                        Reporting manager's signature
+                                    </label>
+                                    <input class="planeTextFild" type="text" placeholder="" name="mang_sign" id="mang_sign" tabindex="11" />
+                                </div>
+
+                                <div class="formInci martop">
+
+                                    <label class="myLable">
+                                        Date 
+                                    </label>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-group">
+                                                <input name="date_picker_inj" id="date_picker_inj" type="text" class="date-picker form-control" tabindex="12" />
+                                                <label for="date_picker_inj" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div id="bottGrey">
+                            <input name="" type="button" value="Back" class="buttonNext" onclick="location.href = 'claim.html';">
+                            <div class="rightAlign">
+                                <input name="next" id="next" type="button" value="Cancel" class="buttonNext " onclick="remove_session_variable(); remove_session_variable_onsave(); gotolist()">
+                                <input name="next" id="next" type="button" value="Save" class="buttonNext " onclick="claim_step_two();">
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+
+
+
+                    </section>
+                    <img class="pr_img" id="pr_img" src="images/loading9.gif" style="margin-left: 35%; display: none; top: 20%; position: absolute; z-index: 3000;" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Change Password Start-->
+    <div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 30% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Change Password <span id="unamex"></span><span id="bid"></span></h2>
+                    <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                    <form id="change_pass" name="change_pass">
+                        <div class="popBody">
+                            <ul>
+                                <li class="popInn" id="inc_div">
+                                    <div class="formInci1" style="width: 99%;">
+                                        <span class="custom_error" id="msg_show"></span>
+                                        <p><span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                            <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required=""></span></p>
+                                        <p>
+                                            <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required="">
+                                                <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                        </p>
+                                        <p><span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                            <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required=""></span></p>
+                                        <p><span></span><span style="width: 100% !important;">
+                                            <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;"></span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--About-->
+    <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 50% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="unamex"></span> <span id="bid"></span></h2>
+                    <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;">
+
+                    <div class="popBody">
+                        <ul>
+                            <li class="popInn" id="inc_div">
+                                <div id="about_info" class="formInci1" style="width: 99%;">
+
+                                    <!--  About information -->
+                                </div>
+                                <div class="clear"></div>
+
+
+                                <div class="clear"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- end of the file -->
+
+    <footer>
+        <div class="contain">
+            License Agreements | Privacy Statement
+            <br>
+            © 2014 Insight Risk Management. All rights reserved.
+        </div>
+    </footer>
+    <script src="js/claim.js"></script>
+</body>
+
+</html>
+<!-- End of file -->

@@ -1,0 +1,91 @@
+﻿<script type="text/javascript">
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+</script>
+<div class="modal fade incident-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="popHead">
+                <h2 class="dataHeadPop">Incident Details [ ID : <span id="inc_id" style="color: #0000FF"></span>]</h2>
+                <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+
+                <div class="clear"></div>
+            </div>
+            <div class="popBody">
+                <div class="bs-example">
+
+                    <div class="tab-content">
+                        <div id="sectionA" class="tab-pane fade in active">
+                            <ul>
+                                <li class="popInn">
+                                    <h2 class="popSubHead">Store Details</h2>
+                                    <div class="formInci1">
+                                        <p><span class="headspan">Store ID:</span><span id="store_no" class='valspan'></span></p>
+                                        <p><span class="headspan">Store Adddress 1:</span><span class="add valspan" id="address1"></span></p>
+                                        <p><span class="headspan">Store Adddress 2:</span><span class="add valspan" id="address2"></span></p>
+                                        <p><span class="headspan">Country:</span><span id="country" class='valspan'></span></p>
+                                        <p><span class="headspan">State: </span><span id="state" class='valspan'></span></p>
+                                    </div>
+                                    <div class="formInci">
+                                        <p><span class="headspan">City:</span> <span id="city" class='valspan'></span></p>
+                                        <p><span class="headspan">Zip Code:</span><span id="zip" class='valspan'></span></p>
+                                        <p><span class="headspan">Store Phone:</span> <span id="store_phone" class='valspan'></span></p>
+                                        <p><span class="headspan">Store Fax: </span><span id="fax" class='valspan'></span></p>
+                                    </div>
+                                    <div class="formInci">
+                                        <p><span class="headspan">General Manager: </span><span id="gen_man_name" class='valspan'></span></p>
+                                        <p><span class="headspan">Reporting Manager: </span><span id='report_man_name' class='valspan'></span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                                <li class="popInn">
+                                    <h2 class="popSubHead">Incident Details</h2>
+                                    <div class="formInci1">
+                                        <p><span class="headspan">Incident Date:</span><span id="inc_date" class='valspan'></span></p>
+                                        <p><span class="headspan">Store Report Date: </span><span id="date_report" class='valspan'></span></p>
+                                        <p><span class="headspan">Exact Location:</span><span id="incident_loc" class='valspan'></span></p>
+
+                                    </div>
+                                    <div class="formInci">
+
+                                        <p><span class="headspan">Police Involved:</span> <span id="police_inv" class='valspan'></span></p>
+                                        <p><span class="headspan">Agency Name: </span><span id="police_agency" class='valspan'></span></p>
+                                        <p><span class="headspan">Report Number: </span><span id="police_case_id" class='valspan'></span></p>
+
+                                    </div>
+                                    <div class="formInci">
+                                        <p><span class="headspan">Alcohol/Drugs: </span><span id='alcohol' class='valspan'></span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                                <li>
+                                    <div style="border-bottom: 1px solid #d4d7de;">
+                                        <h2 class="popSubHead">Description</h2>
+                                        <br>
+                                        <p><span id="desc" class="valspan"></span></p>
+                                        <br>
+                                    </div>
+                                    <div style="border-bottom: 1px solid #d4d7de; display:none;">
+                                        <h2 class="popSubHead">Notes</h2>
+                                        <br>
+                                        <p><span id="notes" class="valspan"></span></p>
+                                        <br>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div id="wit_container" style="border-bottom: 1px solid #d4d7de;">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div id="file_container"></div>
+                                    <div id="RelatedClaims"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

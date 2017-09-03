@@ -1,0 +1,392 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <!--[if lt IE 9]>
+        <script src="/js/trirand/jquery-1.11.1.min.js" type="text/javascript"></script> 
+    <![endif]-->
+
+    <!--[if gt IE 8]>
+        <script src="/js/trirand/jquery-2.1.1.min.js" type="text/javascript"></script> 
+    <![endif]-->
+    <meta charset="utf-8">
+    <title>Welcome to RMS</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+
+
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/common_func.js"></script>
+    <script src="js/apprise-1.5.full.js"></script>
+    <script src="js/loss-run-report.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.dtPCss').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '-100:+0',
+                addSliderAccess: true,
+                maxDate: new Date()
+            });
+        });
+    </script>
+
+</head>
+<body onload="authentication();">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="bodyGrey" style="float: left; margin-top: 0px;">
+            <nav>
+                <div class="tabLeft">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav mainNavBig">
+                                    <a class="mainTab" href="main-dashboard.html"><i class="fa fa-home"></i>
+                                        <br>
+                                        Home</a>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-th-list"></i>
+                                        <br>
+                                        Incidents List</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="incidents-list.html"><i class="fa fa-indent"></i>View Incidents</a></li>
+                                        <li class="subTab"><a href="claims-list.html"><i class="fa fa-briefcase"></i>View Claims</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i>
+                                        <br>
+                                        Actions</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee"><i class="fa fa-users"></i>Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location"><i class="fa fa-map-marker"></i>Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-policies.html"><i class="fa fa-sitemap"></i>Manage Policies</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="employee"><i class="fa fa-user"></i>Manage Users</a></li>
+                                        <li class="subTab"><a href="manage-contacts.html" class="employee"><i class="fa fa-globe"></i>Manage Contacts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle select" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bar-chart"></i>
+                                        <br>
+                                        Reports</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html"><i class="fa fa-ambulance"></i>Employee Injuries</a></li>
+                                        <li class="subTab"><a href="executive-summary.html"><i class="fa fa-th-list"></i>Executive Summary EI</a></li>
+                                        <li class="subTab"><a href="loss-run-report.html"><i class="fa fa-th-list"></i>Loss Run Report</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i>
+                                        <br>
+                                        Settings</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-location-types.html"><i class="fa fa-cubes"></i>&nbsp;Manage Location Types</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="tabRight"></div>
+                <div class="clear"></div>
+            </nav>
+            <div class="clear"></div>
+            <div class="contain report-container">
+                <div class="report-options">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6"><span>Start Date : &nbsp;&nbsp; </span>
+                                    <input type="text" class="report-input dtPCss " /></div>
+                                <div class="col-md-6"><span>End Date : &nbsp;&nbsp; </span>
+                                    <input type="text" class="report-input dtPCss " /></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><span>Location : &nbsp;&nbsp; </span>
+                                    <select class="report-input">
+                                        <option>Select 1</option>
+                                        <option>Select 2</option>
+                                        <option>Select 3</option>
+                                    </select></div>
+                                <div class="col-md-6"><span>Valuation Date : &nbsp;&nbsp; </span>
+                                    <input type="text" class="report-input dtPCss " /></div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6"></div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="details-report">
+                            <span>Insured Name</span>
+                            <span>Policy Number</span>
+                            <span>Policy Effective Date</span>
+                        </div>
+                    </div>
+                    <div class="col-md-9"></div>
+                </div>
+                <div class="report-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Claim ID</th>
+                                <th>Date of <br /> Accident</th>
+                                <th>status</th>
+                                <th>Lag <br />
+                                    time
+                                </th>
+                                <th>claimant Name</th>
+                                <th>Accident Descirption</th>
+                                <th>Claim Type</th>
+                                <th>NCCI <br /> Code</th>
+                                <th>Loss <br /> state</th>
+                                <th>Expenses <br /> Paid</th>
+                                <th>Expenses <br /> Reserves</th>
+                                <th>Expenses <br /> Incurred</th>
+                                <th>Indemnity <br /> paid</th>
+                                <th>Indemnity <br /> Reserves </th>
+                                <th>Indemnity <br /> Incurred </th>
+                                <th>Medical <br /> Paid</th>
+                                <th>Medical <br /> Reserves</th>
+                                <th>Medical <br />  Incurred</th>
+                                <th>Total Paid</th>
+                                <th>Total Incurred</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1068978783242</td>
+                                <td>09/12/2015</td>
+                                <td>closed</td>
+                                <td>1</td>
+                                <td>ANTHONY VALLACE</td>
+                                <td>EE UNSTACKING Plastic BINS & one fell on his or big toe Causing pain</td>
+                                
+                                <td>med only</td>
+                                <td>8800</td>
+                                <td>GA</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                            </tr>
+
+                            <tr>
+                                <td>1068978783242</td>
+                                <td>09/12/2015</td>
+                                <td>closed</td>
+                                <td>1</td>
+                                <td>HICKMAN BARRY</td>
+                                <td>EE UNSTACKING Plastic BINS & one fell on his or big toe Causing pain</td>
+                                
+                                <td>med only</td>
+                                <td>8800</td>
+                                <td>GA</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                            </tr>
+                            <tr>
+                               <td>1068978783242</td>
+                                <td>09/12/2015</td>
+                                <td>closed</td>
+                                <td>1</td>
+                                <td>HALL ORA</td>
+                                <td>EE UNSTACKING Plastic BINS & one fell on his or big toe Causing pain</td>
+                                
+                                <td>med only</td>
+                                <td>8800</td>
+                                <td>GA</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                            </tr>
+                             <tr>
+                               <td>1068978783242</td>
+                                <td>09/12/2015</td>
+                                <td>closed</td>
+                                <td>1</td>
+                                <td>CRUM BETTY</td>
+                                <td>EE UNSTACKING Plastic BINS & one fell on his or big toe Causing pain</td>
+                                
+                                <td>med only</td>
+                                <td>8800</td>
+                                <td>GA</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                            </tr>
+                             <tr> <td colspan="9">Total :</td> 
+                                  <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$0.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>
+                                <td>$65.03</td>  </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <img id="pr_new_img" src="images/loading9.gif" style="margin-left: 35%; display: none; top: 20%; position: absolute; z-index: 3000;" />
+            <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="width: 50% !important;">
+                    <div class="modal-content">
+                        <div class="popHead">
+                            <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="unamex"></span> <span id="bid"></span></h2>
+                            <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;">
+
+                            <div class="popBody">
+                                <ul>
+                                    <li class="popInn" id="inc_div">
+                                        <div id="about_info" class="formInci1" style="width: 99%;">
+
+                                            <!--  About information -->
+                                        </div>
+                                        <div class="clear"></div>
+
+
+                                        <div class="clear"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <img id="pr_new" src="images/loading9.gif" style="margin-left: 35%; display: none; top: 20%; position: absolute; z-index: 3000;" />
+            <!--Change Password Start-->
+            <div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="width: 30% !important;">
+                    <div class="modal-content">
+                        <div class="popHead">
+                            <h2 class="dataHeadPop">Change Password <span id="Span1"></span><span id="Span2"></span></h2>
+                            <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                            <form id="change_pass" name="change_pass">
+                                <div class="popBody">
+                                    <ul>
+                                        <li class="popInn" id="Li1">
+                                            <div class="formInci1" style="width: 99%;">
+                                                <span class="custom_error" id="msg_show"></span>
+                                                <p>
+                                                    <span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                                        <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required></span>
+                                                </p>
+                                                <p>
+                                                    <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required>
+                                                        <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                                </p>
+                                                <p>
+                                                    <span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                                        <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required></span>
+                                                </p>
+                                                <p>
+                                                    <span></span><span style="width: 100% !important;">
+                                                        <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;"></span>
+                                                </p>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <footer>
+                <div class="contain">
+                    License Agreements | Privacy Statement<br>
+                    © 2015 Insight Risk Management. All rights reserved.
+           
+           
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

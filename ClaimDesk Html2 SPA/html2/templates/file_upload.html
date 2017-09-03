@@ -1,0 +1,24 @@
+<p class="bodyTextBig">You can upload any documents related to this claim. Click "Browse" to select and upload file(s).</p>
+<form id="frm_attatchments">
+    <div class="claimForm">
+        <div class="formInci1 noMar">
+            <input name="upfile" id="upfile" type="file" class="planeTextFild">
+        </div>
+        <div class="formInciBigBt">
+            <input name="upload1" id="upload1" type="button" value="Upload File" class="buttonNext" onclick="upload_wc_file('file')">
+        </div>
+        <div class="clear"></div>
+    </div>
+    <img id="pr_img" src="images/loading9.gif" style="margin-left: 35%; display: none; top: 20%; position: absolute; z-index: 3000;" />
+</form>
+<div class="uploadBox">
+    <p class="uploadHead">Files</p>
+    <table class="fullwidth" id='receiptlist'>
+        <tr class="green">
+            <td style="width: 8%;"></td>
+            <td style="width: 92%;" class="tlalign whitebg">You haven't uploaded any attachments!</td>
+        </tr>
+    </table>
+</div>
+<br/>
+<div id="nav_attatchments"></div>

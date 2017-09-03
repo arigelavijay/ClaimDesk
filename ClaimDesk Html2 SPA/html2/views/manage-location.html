@@ -1,0 +1,35 @@
+﻿<script type="text/javascript">
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+    else {
+        $(document).ready(function () {
+            createBtns('#btnCreateLoc');
+            loadLocationData();
+            $('#manage-location-modal').load('modals/manage-location-modal.html');
+        });
+    }
+</script>
+<div class="contain" id="body">
+    <div class="dataTab">
+        <h2 class="dataHead leftFl">Manage Location</h2>
+        <div class="clear"></div>
+        <div class="myDataTable">
+            <table class="fullwidth tcellspacing noborder" id="locationTbl">
+                <thead class="myTabHead">
+                    <tr>
+                        <th style="width: 19%;" class="talign">Manager</th>
+                        <th style="width: 12%;" class="talign">Branch Id</th>
+                        <th style="width: 17%;" class="talign">Parent ID</th>
+                        <th style="width: 40%;" class="talign">Address</th>                        
+                        <th style="width: 12%;" class="talign">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div id="manage-location-modal"></div>

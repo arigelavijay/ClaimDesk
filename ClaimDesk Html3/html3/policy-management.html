@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/timepicker.css">
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <link href="datatables/media/css/demo_page.css" rel="stylesheet" type="text/css">
+    <link href="datatables/media/css/demo_table.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-ui-timepicker-addon.js"></script>
+    <script src="js/jquery-ui-slidder-access.js"></script>
+    <script src="js/mask.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <script type="text/javascript" src="datatables/media/js/jquery.dataTables.js"></script>
+    <script src="js/common_func.js"></script>
+    <script src="js/policies.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                maxDate: new Date(),
+                addSliderAccess: true
+            });
+
+            CoveredClaimTypes();
+            CoveredStates();
+        });
+    </script>
+    <style type="text/css">
+        html {
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body onload="authentication();">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="bodyGrey" style="float: left; margin-top: 0px;">
+            <nav>
+                <div class="tabLeft">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav mainNavBig">
+                                    <a class="mainTab" href="main-dashboard.html"><i class="fa fa-home"></i><br>Home</a>
+                                </li>                                
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-th-list"></i><br>Incidents List</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="incidents-list.html"><i class="fa fa-indent"></i>View Incidents</a></li>
+                                        <li class="subTab"><a href="claims-list.html"><i class="fa fa-briefcase"></i>View Claims</a></li>                                        
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle select" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i><br>Actions</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee"><i class="fa fa-users"></i>Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location"><i class="fa fa-map-marker"></i>Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-policies.html"><i class="fa fa-sitemap"></i>Manage Policies</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="employee"><i class="fa fa-user"></i>Manage Users</a></li>
+                                        <li class="subTab"><a href="manage-contacts.html" class="employee"><i class="fa fa-globe"></i>Manage Contacts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bar-chart"></i><br>Reports</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html"><i class="fa fa-ambulance"></i>Employee Injuries</a></li>
+                                        <li class="subTab"><a href="executive-summary.html"><i class="fa fa-th-list"></i>Executive Summary EI</a></li>
+                                        <li class="subTab"><a href="loss-run-report.html"><i class="fa fa-th-list"></i>Loss Run Report</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i><br>Settings</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-location-types.html"><i class="fa fa-cubes"></i>&nbsp;Manage Location Types</a></li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="tabRight">                    
+                    <div class="navRtghtBt" id="createEmployee">
+                        <input name="" type="button" value="Create Employee" class="buttonCreat" onclick="location.href = 'create-employee.html';" />
+                    </div>
+                    <div class="navRtghtBt" id="createLocation">
+                        <input name="" type="button" value="Create Location" class="buttonCreat" onclick="location.href = 'create-location.html';" />
+                    </div>
+                    <div class="navRtghtBt" id="createUser">
+                        <input name="" type="button" value="Create User" class="buttonCreat" onclick="location.href = 'create-user.html';" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div class="clear"></div>
+            <div class="contain fm-ctn">
+                <h2 class="dataHead">Manage Policies</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="insured" class="myLable">Insured</label>
+                        <input type="text" id="insured" name="insured" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="insured" class="myLable">Insured Location</label>
+                        <input type="text" id="insLocation" name="insLocation" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="insured" class="myLable">Policy Number</label>
+                        <input type="text" id="polNumber" name="polNumber" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="effDt" class="myLable">Effective Date <span class="copy">MM/DD/YYYY</span></label>
+                        <div class="input-group">
+                            <input type="text" id="effDt" name="effDt" class="date-picker form-control" />
+                            <label for="effDt" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="expDt" class="myLable">Expiration Date <span class="copy">MM/DD/YYYY</span></label>
+                        <div class="input-group">
+                            <input type="text" id="expDt" name="expDt" class="date-picker form-control" />
+                            <label for="expDt" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="canDt" class="myLable">Cancellation Date <span class="copy">MM/DD/YYYY</span></label>
+                        <div class="input-group">
+                            <input type="text" id="canDt" name="canDt" class="date-picker form-control" />
+                            <label for="canDt" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="polStatus" class="myLable">Policy Status</label>
+                        <input type="text" id="polStatus" name="polStatus" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dedAmount" class="myLable">Deductible Amount</label>
+                        <input type="text" id="dedAmount" name="dedAmount" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="agency" class="myLable">Agency</label>
+                        <input type="text" id="agency" name="agency" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="wtMod" class="myLable">Weighted Mod</label>
+                        <input type="text" id="wtMod" name="wtMod" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="bodyTextBig">You can upload any document related to this policy.  Click "browse" to select and upload files.</p>
+                        <div class="formInci1 noMar">
+                            <input name="upfile" id="upfile" type="file" class="planeTextFild" />
+                        </div>
+                        <div class="formInciBigBt">
+                            <input name="upload1" id="upload1" type="button" value="Upload File" class="buttonNext" onclick="upload_file()">
+                        </div>
+                        <div class="clear"></div>
+                        <div id="file_error" class="custom_error" style="float: left;"></div>
+                        <div class="custom_error" id="validation_msg" style="float: right;"></div>
+                        <div class="uploadBox">
+                            <p class="uploadHead">Files</p>
+                            <table class="fullwidth" id='imglist'>
+                                <tr class="">
+                                    <td style="width: 8%;"></td>
+                                    <td style="color: rgb(98, 98, 98); font-size: 16px; padding: 4px 0; width: 92%;" class="tlalign whitebg">You haven't uploaded any attachments!</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row dataHead">
+                    <div class="col-md-4">
+                        <div class="Covered-btn">
+                            <input type="button" data-toggle="modal" data-target="#coveredClaimTypes" id="btnCovClaimTypes" name="btnCovClaimTypes" class="buttonNext" value="Add Covered  Claim Type" />
+                        </div>
+                        <table class="table" id="tblCoveredClaimTypes">
+                            <thead>
+                                <tr>
+                                    <th>Covered Claim Types</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="Covered-btn">
+                            <input type="button" id="btnCoveredState" data-toggle="modal" data-target="#coveredStates" name="btnCoveredState" class="buttonNext" value="Add Covered State" />
+                        </div>
+                        <table class="table" id="tblCoveredState">
+                            <thead>
+                                <tr>
+                                    <th>Covered Stated</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <div class="contain">
+                    License Agreements | Privacy Statement<br>
+                    © 2015 Insight Risk Management. All rights reserved.
+           
+           
+           
+                </div>
+            </footer>
+        </div>
+        <div class="modal fade" id="coveredClaimTypes" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="popHead">
+                        <h2 class="dataHeadPop">Covered Claim Types</h2>
+                        <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                        <div class="clear"></div>
+                    </div>
+                    <div class="popBody">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="chkAll" class="form-control" /></th>
+                                            <th>Covered Claim Types</th>
+                                        </tr>    
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="checkbox" id="chk1" value="Work Comp" /></td>
+                                            <td>Work Comp</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" id="chk2" value="General Liability" /></td>
+                                            <td>General Liability</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" id="chk3" value="Property" /></td>
+                                            <td>Property</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" id="chk4" value="Near/Miss" /></td>
+                                            <td>Near/Miss</td>
+                                        </tr>
+                                    </tbody>                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="coveredStates" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="popHead">
+                        <h2 class="dataHeadPop">Covered States</h2>
+                        <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                        <div class="clear"></div>
+                    </div>
+                    <div class="popBody">
+                        States
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html ng-app="ui.bootstrap.demo">
+<head>
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.1.js"></script>
+    <script src="example.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="timepickerpop.js"></script>
+    <script type="text/javascript">        
+    </script>
+</head>
+<body>
+
+    <style>
+        .full button span {
+            background-color: limegreen;
+            border-radius: 32px;
+            color: black;
+        }
+
+        .partially button span {
+            background-color: orange;
+            border-radius: 32px;
+            color: black;
+        }
+    </style>
+    <div class="container">
+        <div ng-controller="DatepickerDemoCtrl">
+            <!--<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>-->
+            <h4>Popup</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="input-group">
+                        <input type="text"
+                            id="dtFrm"
+                            class="form-control"
+                            uib-datepicker-popup="{{format}}"
+                            ng-model="dt"
+                            is-open="status.opened"
+                            min-date="minDate"
+                            max-date="maxDate"
+                            datepicker-options="dateOptions"
+                            date-disabled="disabled(date, mode)"
+                            ng-required="true"
+                            close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <!--<div class="row">
+                <div class="col-md-6">
+                    <label>Format:</label>
+                    <select class="form-control" ng-model="format" ng-options="f for f in formats">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+
+            <hr />
+            <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+            <button type="button" class="btn btn-sm btn-default" ng-click="setDate(2009, 7, 24)">2009-08-24</button>
+            <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+            <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" uib-tooltip="After today restriction">Min date</button>-->
+        </div>
+        <hr />
+        <div ng-controller="TimepickerDemoCtrl">
+            <uib-timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
+            <!--<pre class="alert alert-info">Time is: {{mytime | date:'shortTime' }}</pre>
+            <div class="row">
+                <div class="col-xs-6">
+                    Hours step is:     
+                    <select class="form-control" ng-model="hstep" ng-options="opt for opt in options.hstep"></select>
+                </div>
+                <div class="col-xs-6">
+                    Minutes step is:     
+                    <select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+                </div>
+            </div>
+            <hr>
+            <button type="button" class="btn btn-info" ng-click="toggleMode()">12H / 24H</button>
+            <button type="button" class="btn btn-default" ng-click="update()">Set to 14:00</button>
+            <button type="button" class="btn btn-danger" ng-click="clear()">Clear</button>-->
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <label class="myLable">Incident Time&nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;"> HH:MM</span></label><label class="error" id="inc_time_error"></label>
+                <div class="input-group new_date">
+                    <timepicker-pop input-time="" class="input-group" show-meridian="true"> </timepicker-pop>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

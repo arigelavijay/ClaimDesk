@@ -1,0 +1,1071 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to RMS</title>
+    <link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/common_func.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/mask.js" type="text/javascript"></script>
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+    </script>
+    <style>
+        #con_new_pass-error {
+            margin-top: -12px !important;
+        }
+    </style>
+
+    <style>
+        #exitornot {
+            color: red;
+            float: right;
+            font-size: 13px;
+            font-weight: lighter;
+            margin-top: -28px;
+            padding: 2px 8px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $.validator.addMethod('tinyint', function (value, element) {
+            return this.optional(element) || parseInt(value) <= 127;
+        }, "Out of range value, should be less than 127");
+
+
+        $(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                maxDate: new Date()
+            });
+
+            $("#dob").mask("99/99/9999", { placeholder: "_" });
+            $("#hiredate").mask("99/99/9999", { placeholder: "_" });
+            $("#terminatedate").mask("99/99/9999", { placeholder: "_" });
+            $("#zip").mask("99999?-9999", { placeholder: "_" });
+            $("#fax").mask("(999)-999-9999", { placeholder: "_" });
+            $("#contact").mask("(999)-999-9999", { placeholder: "_" });
+            $("#nationalId").mask("999-99-9999", { placeholder: "_" });
+            $("#dependents").mask("9?99", { placeholder: "_" });
+            $("#ext").mask("9?9999999", { placeholder: "_" });
+
+        });
+    </script>
+    <link rel="stylesheet" href="css/accordionmenu.css" type="text/css" media="screen" />
+
+
+    <style type="text/css">
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #666;
+            font: bold 14px Arial;
+        }
+
+            .footer a {
+                color: #999;
+                text-decoration: none;
+            }
+
+        #wrapper-250 {
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        .accordion li .my-data {
+            display: inline-block !important;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+        }
+
+        .accordion li {
+            position: relative;
+        }
+
+        .my-data > span {
+            color: #fff;
+        }
+
+        .inline {
+            display: inline;
+        }
+
+        .sub-menu .inline {
+            right: 10px;
+        }
+
+        .inline {
+            display: inline-block;
+            position: relative;
+            right: 70px;
+            top: 3px;
+            width: 100%;
+        }
+
+        .accordion > li > .my-data .inline {
+            right: 82px;
+            top: 12px;
+        }
+
+            .accordion > li > .my-data .inline label {
+                color: #fff;
+            }
+
+        .my-data a span {
+            top: 4px;
+        }
+
+        .sub-menu li .inline a {
+            text-decoration: none;
+            border: 0px;
+            text-shadow: none;
+            box-shadow: none;
+            padding: 2px 5px;
+        }
+
+            .sub-menu li .inline a:hover {
+                text-decoration: none;
+                color: #494848;
+            }
+
+        .sub-menu .inline > span {
+            padding: 0 5px;
+        }
+
+        .my-data .radio-danger {
+            margin-right: 35px;
+            margin-left: 0px;
+        }
+
+        .radio {
+            padding-left: 20px;
+        }
+
+            .radio label {
+                display: inline-block;
+                padding-left: 24px;
+                position: relative;
+                vertical-align: middle;
+                text-transform: capitalize;
+            }
+
+                .radio label::before {
+                    background-color: #fff;
+                    border: 1px solid #cccccc;
+                    border-radius: 50%;
+                    content: "";
+                    display: inline-block;
+                    height: 14px;
+                    left: 0;
+                    margin-left: -3px;
+                    position: absolute;
+                    transition: border 0.15s ease-in-out 0s;
+                    width: 14px;
+                    top: 3px;
+                }
+
+                .radio label::after {
+                    background-color: #555555;
+                    border-radius: 50%;
+                    content: " ";
+                    display: inline-block;
+                    height: 8px;
+                    left: 3px;
+                    margin-left: -3px;
+                    position: absolute;
+                    top: 6px;
+                    transform: scale(0, 0);
+                    transition: transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33) 0s;
+                    width: 8px;
+                }
+
+            .radio input[type="radio"] {
+                opacity: 0;
+                z-index: 1;
+            }
+
+                .radio input[type="radio"]:focus + label::before {
+                    outline: thin dotted;
+                    outline-offset: -2px;
+                }
+
+                .radio input[type="radio"]:checked + label::after {
+                    transform: scale(1, 1);
+                }
+
+                .radio input[type="radio"]:disabled + label {
+                    opacity: 0.65;
+                }
+
+                    .radio input[type="radio"]:disabled + label::before {
+                        cursor: not-allowed;
+                    }
+
+            .radio.radio-inline {
+                margin-top: 0;
+            }
+
+        .radio-primary input[type="radio"] + label::after {
+            background-color: #337ab7;
+        }
+
+        .radio-primary input[type="radio"]:checked + label::before {
+            border-color: #337ab7;
+        }
+
+        .radio-primary input[type="radio"]:checked + label::after {
+            background-color: #337ab7;
+        }
+
+        .radio-danger input[type="radio"] + label::after {
+            background-color: #d9534f;
+        }
+
+        .radio-danger input[type="radio"]:checked + label::before {
+            border-color: #d9534f;
+        }
+
+        .radio-danger input[type="radio"]:checked + label::after {
+            background-color: #d9534f;
+        }
+
+        .radio-info input[type="radio"] + label::after {
+            background-color: #5bc0de;
+        }
+
+        .radio-info input[type="radio"]:checked + label::before {
+            border-color: #5bc0de;
+        }
+
+        .radio-info input[type="radio"]:checked + label::after {
+            background-color: #5bc0de;
+        }
+
+        .radio-warning input[type="radio"] + label::after {
+            background-color: #f0ad4e;
+        }
+
+        .radio-warning input[type="radio"]:checked + label::before {
+            border-color: #f0ad4e;
+        }
+
+        .radio-warning input[type="radio"]:checked + label::after {
+            background-color: #f0ad4e;
+        }
+
+        .radio-success input[type="radio"] + label::after {
+            background-color: #5cb85c;
+        }
+
+        .radio-success input[type="radio"]:checked + label::before {
+            border-color: #5cb85c;
+        }
+
+        .radio-success input[type="radio"]:checked + label::after {
+            background-color: #5cb85c;
+        }
+
+        .accordion > li > a {
+            height: 46px;
+            padding: 7px 10px 7px 40px;
+        }
+
+        .cursorCss {
+            cursor: pointer;
+        }
+
+        .dataTab, .myDataTable {
+            overflow: visible;
+        }
+
+        .planeTextFild {
+            padding: 8px 7px;
+        }
+    </style>
+    <script src="js/employee2.js"></script>
+</head>
+
+<body onload="authentication();set_header()">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500px;"></span>
+                    <span class="poloText" style="z-index: 500px;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="body">
+            <nav>
+                <div class="tabLeft">
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav">
+                                    <a class="mainTab" href="main-dashboard.html">
+                                        <img src="images/home.png" width="34" height="31" alt="home" /><br>
+                                        Home</a>
+                                </li>
+
+                                <li class="mainNavBig"><a class="mainTab" href="incidents-list.html">
+                                    <img src="images/incidence.png" width="34" height="31" alt="home" /><br>
+                                    Incidents List</a>
+                                </li>
+
+                                <li class="mainNav"><a class="mainTab" href="claims-list.html">
+                                    <img src="images/claims.png" width="34" height="31" alt="home" /><br>
+                                    Claims List</a>
+                                </li>
+
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <img src="images/options.png" width="34" height="31" alt="home" /><br>
+                                        Options</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee">Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location">Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="userIcon">Manage Users</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                </div>
+                <div class="tabRight">
+                    <div class="navRtghtBt">
+                        <input name="" type="button" value="Create Incident" class="buttonCreat" onclick="location.href = 'incident.html';">
+                    </div>
+                    <div class="navRtghtBt">
+                        <input name="" type="button" value="Create Claim" class="buttonCreat" onclick="location.href = 'claim.html';">
+                    </div>
+                    <div class="navRtghtBt">
+                        <div class="searchFild" style="display: none">
+                            <input name="input" type="text" class="search" placeholder="Search">
+                            <span><a href="#">
+                                <img src="images/search.png" width="20" height="20" alt="img"></a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div class="contain">
+                <form id="frm" name="frm">
+                    <div class="dataTab">
+                        <h2 class="dataHead leftFl">Template Specifics</h2>
+                        <div class="clear"></div>
+                        <div class="myDataTable container-fluid">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Template Name</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Active</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select tabindex="8" id="" name="maritalStatus" class="form-control myselect planeTextFild">
+                                            <option value="">Yes </option>
+                                            <option value="MARRIED">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Description</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Schedule Frequency</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Start Date</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-horizontal">
+                                            <div class="control-group">
+                                                <div class="controls">
+                                                    <div class="input-group">
+                                                        <input name="terminatedate" id="terminatedates" type="text" class="date-picker form-control" tabindex="26" maxlength="10" />
+                                                        <label for="terminatedates" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">End Date</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-horizontal">
+                                            <div class="control-group">
+                                                <div class="controls">
+                                                    <div class="input-group">
+                                                        <input name="terminatedate" id="terminatedatee" type="text" class="date-picker form-control" tabindex="26" maxlength="10" />
+                                                        <label for="terminatedatee" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">On Time Window</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Grace Perion</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Owner</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="" placeholder="JAHeredie">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Owner Email</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="" placeholder="Joseph.Heredia@Crystal-clean.com">
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <label class="myLable">Grace Score Deduction(per day)</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="myLable">Comments</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" tabindex="1" required class="planeTextFild" name="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="wrapper-250" class="myDataTable">
+                            <ul class="accordion">
+                                <li id="one" class="files">
+                                    <a href="#one">Electrical safety</a>
+                                    <ul class="sub-menu radio-files">
+                                        <li><a class="cursorCss">
+                                            <em>01</em>Are all electricol cords in good condition and begin used properly? Not damaged/frayed, not running under carpet/rugs?</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" name="rdoEle_1" value="true" checked="checked" class="rdoEle rdoEleYesCss rdoCss" id="rdoEle_1_Yes" />
+                                                        <label for="rdoEle_1_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoEle_1" value="false" class="rdoEle rdoEleNoCss rdoCss" id="rdoEle_1_No" />
+                                                        <label for="rdoEle_1_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a class="cursorCss">
+                                            <em>02</em>Are all electricol cords in good condition and begin used properly? Not damaged/frayed, not running under carpet/rugs?</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" name="rdoEle_2" value="true" checked="checked" class="rdoEle rdoEleYesCss rdoCss" id="rdoEle_2_Yes" />
+                                                        <label for="rdoEle_2_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoEle_2" value="false" class="rdoEle rdoEleNoCss rdoCss" id="rdoEle_2_No" />
+                                                        <label for="rdoEle_2_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a class="cursorCss">
+                                            <em>03</em>Are all electricol cords in good condition and begin used properly? Not damaged/frayed, not running under carpet/rugs?</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" name="rdoEle_3" value="true" checked="checked" class="rdoEle rdoEleYesCss rdoCss" id="rdoEle_3_Yes" />
+                                                        <label for="rdoEle_3_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoEle_3" value="false" class="rdoEle rdoEleNoCss rdoCss" id="rdoEle_3_No" />
+                                                        <label for="rdoEle_3_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a class="cursorCss">
+                                            <em>04</em>Are all electricol cords in good condition and begin used properly? Not damaged/frayed, not running under carpet/rugs?</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" name="rdoEle_4" value="true" checked="checked" class="rdoEle rdoEleYesCss rdoCss" id="rdoEle_4_Yes" />
+                                                        <label for="rdoEle_4_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoEle_4" value="false" class="rdoEle rdoEleNoCss rdoCss" id="rdoEle_4_No" />
+                                                        <label for="rdoEle_4_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a class="cursorCss">
+                                            <em>05</em>Are all electricol cords in good condition and begin used properly? Not damaged/frayed, not running under carpet/rugs?</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" name="rdoEle_5" value="true" checked="checked" class="rdoEle rdoEleYesCss rdoCss" id="rdoEle_5_Yes" />
+                                                        <label for="rdoEle_5_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoEle_5" value="false" class="rdoEle rdoEleNoCss rdoCss" id="rdoEle_5_No" />
+                                                        <label for="rdoEle_5_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                    <div class="my-data">
+                                        <div class="inline">
+                                            <div class="radio radio-success radio-inline">
+                                                <input type="radio" name="rdoEle" value="true" id="rdoEle_Yes" checked="checked" onchange="rdo_OnChange('rdoEle_Yes','rdoEle','true');">
+                                                <label for="rdoEle_Yes">yes</label>
+                                            </div>
+                                            <div class="radio radio-danger radio-inline">
+                                                <input type="radio" name="rdoEle" value="false" id="rdoEle_No" onchange="rdo_OnChange('rdoEle_No','rdoEle','false');">
+                                                <label for="rdoEle_No">no</label>
+                                            </div>
+                                        </div>
+                                        <span class="rdoEleCount">0</span>
+                                    </div>
+                                </li>
+
+                                <li id="two" class="mail">
+                                    <a href="#two">Emergency Equipment</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="#"><em>01</em>Dropbox</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoEmg_1" value="true" class="rdoEmg rdoEmgYesCss rdoCss" id="rdoEmg_1_Yes">
+                                                        <label for="rdoEmg_1_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoEmg_1" value="false" class="rdoEmg rdoEmgNoCss rdoCss" id="rdoEmg_1_No">
+                                                        <label for="rdoEmg_1_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li><a href="#"><em>02</em>Skydrive</a><div class="my-data">
+                                            <div class="inline">
+                                                <div class="radio radio-success radio-inline">
+                                                    <input type="radio" checked="checked" name="rdoEmg_2" value="true" class="rdoEmg rdoEmgYesCss rdoCss" id="rdoEmg_2_Yes">
+                                                    <label for="rdoEmg_2_Yes">yes</label>
+                                                </div>
+                                                <div class="radio radio-danger radio-inline">
+                                                    <input type="radio" name="rdoEmg_2" value="false" class="rdoEmg rdoEmgNoCss rdoCss" id="rdoEmg_2_No">
+                                                    <label for="rdoEmg_2_No">no</label>
+                                                </div>
+                                                <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                            </div>
+                                        </div>
+                                        </li>
+                                        <li><a href="#"><em>03</em>FTP Server</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoEmg_3" value="true" class="rdoEmg rdoEmgYesCss rdoCss" id="rdoEmg_3_Yes">
+                                                        <label for="rdoEmg_3_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoEmg_3" value="false" class="rdoEmg rdoEmgNoCss rdoCss" id="rdoEmg_3_No">
+                                                        <label for="rdoEmg_3_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li><a href="#"><em>04</em>Dropbox</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoEmg_4" value="true" class="rdoEmg rdoEmgYesCss rdoCss" id="rdoEmg_4_Yes" />
+                                                        <label for="rdoEmg_4_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoEmg_4" value="false" class="rdoEmg rdoEmgNoCss rdoCss" id="rdoEmg_4_No">
+                                                        <label for="rdoEmg_4_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li><a href="#"><em>05</em>Skydrive</a><div class="my-data">
+                                            <div class="inline">
+                                                <div class="radio radio-success radio-inline">
+                                                    <input type="radio" checked="checked" name="rdoEmg_5" value="true" class="rdoEmg rdoEmgYesCss rdoCss" id="rdoEmg_5_Yes">
+                                                    <label for="rdoEmg_5_Yes">yes</label>
+                                                </div>
+                                                <div class="radio radio-danger radio-inline">
+                                                    <input type="radio" name="rdoEmg_5" value="false" class="rdoEmg rdoEmgNoCss rdoCss" id="rdoEmg_5_No">
+                                                    <label for="rdoEmg_5_No">no</label>
+                                                </div>
+                                                <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                            </div>
+                                        </div>
+                                        </li>
+                                    </ul>
+                                    <div class="my-data">
+                                        <div class="inline">
+                                            <div class="radio radio-success radio-inline">
+                                                <input type="radio" checked="checked" name="rdoEmg" value="true" id="rdoEmg_Yes" onchange="rdo_OnChange('rdoEmg_Yes','rdoEmg','true');" />
+                                                <label for="rdoEmg_Yes">yes</label>
+                                            </div>
+                                            <div class="radio radio-danger radio-inline">
+                                                <input type="radio" name="rdoEmg" value="false" id="rdoEmg_No" onchange="rdo_OnChange('rdoEmg_No','rdoEmg','false');">
+                                                <label for="rdoEmg_No">no</label>
+                                            </div>
+                                        </div>
+                                        <span class="rdoEmgCount">0</span>
+                                    </div>
+                                </li>
+                                <li id="three" class="cloud">
+                                    <a href="#three">Exits</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="#"><em>01</em>Dropbox</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoExists_1" value="true" class="rdoExists rdoExistsYesCss rdoCss" id="rdoExists_1_Yes">
+                                                        <label for="rdoExists_1_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoExists_1" value="false" class="rdoExists rdoExistsNoCss rdoCss" id="rdoExists_1_No">
+                                                        <label for="rdoExists_1_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li><a href="#"><em>02</em>Skydrive</a><div class="my-data">
+                                            <div class="inline">
+                                                <div class="radio radio-success radio-inline">
+                                                    <input type="radio" checked="checked" name="rdoExists_2" value="true" class="rdoExists rdoExistsYesCss rdoCss" id="rdoExists_2_Yes">
+                                                    <label for="rdoExists_2_Yes">yes</label>
+                                                </div>
+                                                <div class="radio radio-danger radio-inline">
+                                                    <input type="radio" name="rdoExists_2" value="false" class="rdoExists rdoExistsNoCss rdoCss" id="rdoExists_2_No">
+                                                    <label for="rdoExists_2_No">no</label>
+                                                </div>
+                                                <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                            </div>
+                                        </div>
+                                        </li>
+
+                                        <li><a href="#"><em>03</em>FTP Server</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoExists_3" value="true" class="rdoExists rdoExistsYesCss rdoCss" id="rdoExists_3_Yes">
+                                                        <label for="rdoExists_3_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoExists_3" value="false" class="rdoExists rdoExistsNoCss rdoCss" id="rdoExists_3_No">
+                                                        <label for="rdoExists_3_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#"><em>04</em>Dropbox</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoExists_4" value="true" class="rdoExists rdoExistsYesCss rdoCss" id="rdoExists_4_Yes">
+                                                        <label for="rdoExists_4_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoExists_4" value="false" class="rdoExists rdoExistsNoCss rdoCss" id="rdoExists_4_No">
+                                                        <label for="rdoExists_4_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#"><em>05</em>Skydrive</a><div class="my-data">
+                                            <div class="inline">
+                                                <div class="radio radio-success radio-inline">
+                                                    <input type="radio" checked="checked" name="rdoExists_5" value="true" class="rdoExists rdoExistsYesCss rdoCss" id="rdoExists_5_Yes">
+                                                    <label for="rdoExists_5_Yes">yes</label>
+                                                </div>
+                                                <div class="radio radio-danger radio-inline">
+                                                    <input type="radio" name="rdoExists_5" value="false" class="rdoExists rdoExistsNoCss rdoCss" id="rdoExists_5_No">
+                                                    <label for="rdoExists_5_No">no</label>
+                                                </div>
+                                                <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                            </div>
+                                        </div>
+                                        </li>
+
+                                    </ul>
+                                    <div class="my-data">
+                                        <div class="inline">
+                                            <div class="radio radio-success radio-inline">
+                                                <input type="radio" checked="checked" name="rdoExists" value="true" id="rdoExists_Yes" onchange="rdo_OnChange('rdoExists_Yes','rdoExists','true');" />
+                                                <label for="rdoExists_Yes">yes</label>
+                                            </div>
+                                            <div class="radio radio-danger radio-inline">
+                                                <input type="radio" name="rdoExists" value="false" id="rdoExists_No" onchange="rdo_OnChange('rdoExists_No','rdoExists','false');" />
+                                                <label for="rdoExists_No">no</label>
+                                            </div>
+                                        </div>
+                                        <span class="rdoExistsCount">0</span>
+                                    </div>
+                                </li>
+                                <li id="four" class="cloud">
+                                    <a href="#four">Fall Protection</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="#"><em>01</em>Dropbox</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoFall_1" value="true" class="rdoFall rdoFallYesCss rdoCss" id="rdoFall_1_Yes">
+                                                        <label for="rdoFall_1_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoFall_1" value="false" class="rdoFall rdoFallNoCss rdoCss" id="rdoFall_1_No">
+                                                        <label for="rdoFall_1_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#"><em>02</em>Skydrive</a><div class="my-data">
+                                            <div class="inline">
+                                                <div class="radio radio-success radio-inline">
+                                                    <input type="radio" checked="checked" name="rdoFall_2" value="true" class="rdoFall rdoFallYesCss rdoCss" id="rdoFall_2_Yes">
+                                                    <label for="rdoFall_2_Yes">yes</label>
+                                                </div>
+                                                <div class="radio radio-danger radio-inline">
+                                                    <input type="radio" name="rdoFall_2" value="false" class="rdoFall rdoFallNoCss rdoCss" id="rdoFall_2_No">
+                                                    <label for="rdoFall_2_No">no</label>
+                                                </div>
+                                                <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                            </div>
+                                        </div>
+                                        </li>
+
+                                        <li><a href="#"><em>03</em>FTP Server</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoFall_3" value="true" class="rdoFall rdoFallYesCss rdoCss" id="rdoFall_3_Yes">
+                                                        <label for="rdoFall_3_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoFall_3" value="false" class="rdoFall rdoFallNoCss rdoCss" id="rdoFall_3_No">
+                                                        <label for="rdoFall_3_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#"><em>04</em>Dropbox</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoFall_4" value="true" class="rdoFall rdoFallYesCss rdoCss" id="rdoFall_4_Yes">
+                                                        <label for="rdoFall_4_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoFall_4" value="false" class="rdoFall rdoFallNoCss rdoCss" id="rdoFall_4_No">
+                                                        <label for="rdoFall_4_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#"><em>05</em>Skydrive</a><div class="my-data">
+                                            <div class="inline">
+                                                <div class="radio radio-success radio-inline">
+                                                    <input type="radio" checked="checked" name="rdoFall_5" value="true" class="rdoFall rdoFallYesCss rdoCss" id="rdoFall_5_Yes">
+                                                    <label for="rdoFall_5_Yes">yes</label>
+                                                </div>
+                                                <div class="radio radio-danger radio-inline">
+                                                    <input type="radio" name="rdoFall_5" value="false" class="rdoFall rdoFallNoCss rdoCss" id="rdoFall_5_No">
+                                                    <label for="rdoFall_5_No">no</label>
+                                                </div>
+                                                <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                            </div>
+                                        </div>
+                                        </li>
+
+                                    </ul>
+                                    <div class="my-data">
+                                        <div class="inline">
+                                            <div class="radio radio-success radio-inline">
+                                                <input type="radio" checked="checked" name="rdoFall" value="true" id="rdoFall_Yes" onchange="rdo_OnChange('rdoFall_Yes','rdoFall','true');" />
+                                                <label for="rdoFall_Yes">yes</label>
+                                            </div>
+                                            <div class="radio radio-danger radio-inline">
+                                                <input type="radio" name="rdoFall" value="false" id="rdoFall_No" onchange="rdo_OnChange('rdoFall_Yes','rdoFall','false');" />
+                                                <label for="rdoFall_No">no</label>
+                                            </div>
+                                        </div>
+                                        <span class="rdoFallCount">0</span>
+                                    </div>
+                                </li>
+                                <li id="Li1" class="cloud">
+                                    <a href="#four">Fire Safety</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="#"><em>01</em>Dropbox</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoFire_1" value="true" class="rdoFire rdoFireYesCss rdoCss" id="rdoFire_1_Yes">
+                                                        <label for="rdoFire_1_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoFire_1" value="false" class="rdoFire rdoFireNoCss rdoCss" id="rdoFire_1_No">
+                                                        <label for="rdoFire_1_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#"><em>02</em>Skydrive</a><div class="my-data">
+                                            <div class="inline">
+                                                <div class="radio radio-success radio-inline">
+                                                    <input type="radio" checked="checked" name="rdoFire_2" value="true" class="rdoFire rdoFireYesCss rdoCss" id="rdoFire_2_Yes">
+                                                    <label for="rdoFire_2_Yes">yes</label>
+                                                </div>
+                                                <div class="radio radio-danger radio-inline">
+                                                    <input type="radio" name="rdoFire_2" value="false" class="rdoFire rdoFireNoCss rdoCss" id="rdoFire_2_No">
+                                                    <label for="rdoFire_2_No">no</label>
+                                                </div>
+                                                <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                            </div>
+                                        </div>
+                                        </li>
+
+                                        <li><a href="#"><em>03</em>FTP Server</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoFire_3" value="true" class="rdoFire rdoFireYesCss rdoCss" id="rdoFire_3_Yes">
+                                                        <label for="rdoFire_3_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoFire_3" value="false" class="rdoFire rdoFireNoCss rdoCss" id="rdoFire_3_No">
+                                                        <label for="rdoFire_3_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#"><em>04</em>Dropbox</a>
+                                            <div class="my-data">
+                                                <div class="inline">
+                                                    <div class="radio radio-success radio-inline">
+                                                        <input type="radio" checked="checked" name="rdoFire_4" value="true" class="rdoFire rdoFireYesCss rdoCss" id="rdoFire_4_Yes">
+                                                        <label for="rdoFire_4_Yes">yes</label>
+                                                    </div>
+                                                    <div class="radio radio-danger radio-inline">
+                                                        <input type="radio" name="rdoFire_4" value="false" class="rdoFire rdoFireNoCss rdoCss" id="rdoFire_4_No">
+                                                        <label for="rdoFire_4_No">no</label>
+                                                    </div>
+                                                    <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#"><em>05</em>Skydrive</a><div class="my-data">
+                                            <div class="inline">
+                                                <div class="radio radio-success radio-inline">
+                                                    <input type="radio" checked="checked" name="rdoFire_5" value="true" class="rdoFire rdoFireYesCss rdoCss" id="rdoFire_5_Yes">
+                                                    <label for="rdoFire_5_Yes">yes</label>
+                                                </div>
+                                                <div class="radio radio-danger radio-inline">
+                                                    <input type="radio" name="rdoFire_5" value="false" class="rdoFire rdoFireNoCss rdoCss" id="rdoFire_5_No">
+                                                    <label for="rdoFire_5_No">no</label>
+                                                </div>
+                                                <a href="#"><span class="fa fa-commenting"></span></a><a href="#"><span class="fa fa-paperclip"></span></a><a href="#"><span class="fa fa-font"></span></a>
+                                            </div>
+                                        </div>
+                                        </li>
+
+                                    </ul>
+                                    <div class="my-data">
+                                        <div class="inline">
+                                            <div class="radio radio-success radio-inline">
+                                                <input type="radio" checked="checked" name="rdoFire" value="true" id="rdoFire_Yes" onchange="rdo_OnChange('rdoFire_Yes','rdoFire','true');" />
+                                                <label for="rdoFire_Yes">yes</label>
+                                            </div>
+                                            <div class="radio radio-danger radio-inline">
+                                                <input type="radio" name="rdoFire" value="false" id="rdoFire_No" onchange="rdo_OnChange('rdoFire_Yes','rdoFire','false');" />
+                                                <label for="rdoFire_No">no</label>
+                                            </div>
+                                        </div>
+                                        <span class="rdoFireCount">0</span>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </form>
+                <!-- Large modal -->
+
+
+
+                <!-- Large modal End here-->
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--Change Password Start-->
+
+
+
+    <!--About-->
+
+
+
+    <footer>
+        <div class="contain">
+            License Agreements | Privacy Statement<br>
+            © 2014 Insight Risk Management. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Store variables
+
+            var accordion_head = $('.accordion > li > a'),
+				accordion_body = $('.accordion li > .sub-menu');
+            // Open the first tab on load
+            accordion_head.first().addClass('active').next().slideDown('normal');
+
+            // Click function
+
+            accordion_head.on('click', function (event) {
+                // Disable header links
+                event.preventDefault();
+                // Show and hide the tabs on click
+                if ($(this).attr('class') != 'active') {
+                    accordion_body.slideUp('normal');
+                    $(this).next().stop(true, true).slideToggle('normal');
+                    accordion_head.removeClass('active');
+                    $(this).addClass('active');
+
+                }
+            });
+            /*
+            $('input[type=radio][name=rdoEle]').change(function () {
+                var selectedValue = this.value == 'true' ? true : false;
+                
+                var rdoEleObjs = $(selectedValue ? '.rdoEleYesCss' : '.rdoEleNoCss');
+                $.each(rdoEleObjs, function (i, item) {
+                    setCheckedValue(document.forms["frm"].elements[item.name], selectedValue);
+                });
+            });*/
+        });
+
+        $('.radio-files-yes').click(function () {
+            $(" .radio-files .yes").attr('checked', 'checked');
+        });
+
+        $('.radio-files-no').click(function () {
+            $(".radio-files .no").attr('checked', 'checked');
+        });
+
+
+    </script>
+</body>
+</html>

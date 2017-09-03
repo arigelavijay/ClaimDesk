@@ -1,0 +1,74 @@
+﻿<style type="text/css">
+    #password-error {
+        margin-top: -62px !important;
+    }
+
+    #claimDeskUserId-error {
+        margin-top: -62px !important;
+    }
+</style>
+<script type="text/javascript">
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+    else {
+        $.validator.addMethod("password", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("userid", function (value, element) {
+            return this.optional(element) || /^(?!.*\s).{4,20}$/i.test(value);
+        }, "Invalid Userid");
+        createUserPageLoad();
+        var settings = $('form').validate().settings;        delete settings.errorPlacement;
+    }
+
+    function backToUsersList() {
+        $('#view').jqExLoad('views/manage-user.html').hide().fadeIn();
+    }
+</script>
+<div class="contain" id="body">
+    <div id="myBradeCM">
+        <h1 class="myUser">User Information</h1>
+        <h1 class="backto"><a onclick="backToUsersList();" style="cursor:pointer;">&lt; Back to Users List</a></h1>
+        <div class="clear"></div>
+    </div>
+    <section>
+        <form name="userForm" id="userForm">
+            <input id="id" name="id" type="hidden" />
+            <div class="claimForm">
+                <div class="form2">
+                    <label class="myLable">ClaimDesk User Id </label>
+                    <input name="claimDeskUserId" id="claimDeskUserId" type="text" class="planeTextFild userid" placeholder="claimDeskUserId" style="margin-bottom: -5px;" tabindex="1" required>
+                    <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">No Space,4-20 chars</span>
+                    <label class="myLable">First Name</label>
+                    <input name="firstName" id="firstName" type="text" class="planeTextFild" placeholder="firstName" tabindex="2" required>
+                    <label class="myLable">E-mail</label>
+                    <input name="email" class="planeTextFild" placeholder="" id="email" required='' tabindex="5" type="email" />
+                </div>
+                <div class="form2">
+                    <label class="myLable">Location ID</label>
+                    <select class="form-control myselect planeTextFild" name="locationId" id="locationId" required='' tabindex="1"></select>
+                    <label class="myLable">Middle Name</label>
+                    <input name="middleName" id="middleName" type="text" class="planeTextFild" placeholder="middleName" tabindex="3">
+                    <label class="myLable">Password</label>
+                    <input name="password" id="password" type="password" class="planeTextFild password" placeholder="password" style="margin-bottom: -5px;" required tabindex="6">
+                    <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span>
+                    <input name="state" id="state" type='hidden' value="VERIFIED" />
+                </div>
+
+                <div class="form2" style="margin-top: 100px;">
+
+                    <input name="state" id="state" type='hidden' value="VERIFIED" />
+                    <label class="myLable">Last Name</label>
+                    <input name="lastName" id="lastName" type="text" class="planeTextFild" placeholder="lastName" tabindex="4" required>
+                </div>
+            </div>
+        </form>
+        <div class="clear"></div>
+        <div id="bottGrey">
+            <input name="submit_but" id="submit_but" type="button" value="Save User" class=" buttonNext rightAlign" onclick="save_user()" tabindex="7" />
+            <div class="clear"></div>
+        </div>
+    </section>
+</div>

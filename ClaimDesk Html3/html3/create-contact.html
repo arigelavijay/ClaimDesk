@@ -1,0 +1,461 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to RMS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+	<![endif]-->
+
+    <!--[if lt IE 9]>
+	  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	 <![endif]-->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/download.js"></script>
+    <script type="text/javascript" src="js/common_func.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link href="datatables/media/css/demo_page.css" rel="stylesheet" type="text/css">
+    <link href="datatables/media/css/demo_table.css" rel="stylesheet" type="text/css">
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <script type="text/javascript" src="js/mask.js"></script>
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="js/contacts.js"></script>
+    <script type="text/javascript">
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+
+        $(document).ready(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                maxDate: new Date(),
+                addSliderAccess: true
+            });
+
+        });
+
+
+    </script>
+    <style>
+        #con_new_pass-error {
+            margin-top: -12px !important;
+        }
+
+        table.dataTable td {
+            padding: 8px 0 8px 14px;
+        }
+
+
+        .manageIcon1 li img {
+            float: left;
+            text-align: center;
+        }
+
+        .manageIcon1 li:first-child img {
+            margin-top: 3px;
+            float: left;
+            text-align: center;
+        }
+
+        .manageIcon1 li {
+            width: 20%;
+        }
+
+        .customformInci1 {
+            float: left;
+            margin-top: 15px;
+            width: 100%;
+        }
+    </style>
+
+
+</head>
+
+<body onload="authentication();set_header();">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal" style="z-index: 400;">
+
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <div class="clear"></div>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="bodyGrey">
+            <nav>
+                <div class="tabLeft">
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav mainNavBig">
+                                    <a class="mainTab" href="main-dashboard.html"><i class="fa fa-home"></i><br>Home</a>
+                                </li>                                
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-th-list"></i><br>Incidents List</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="incidents-list.html"><i class="fa fa-indent"></i>View Incidents</a></li>
+                                        <li class="subTab"><a href="claims-list.html"><i class="fa fa-briefcase"></i>View Claims</a></li>                                        
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle select" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i><br>Actions</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee"><i class="fa fa-users"></i>Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location"><i class="fa fa-map-marker"></i>Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-policies.html"><i class="fa fa-sitemap"></i>Manage Policies</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="employee"><i class="fa fa-user"></i>Manage Users</a></li>
+                                        <li class="subTab"><a href="manage-contacts.html" class="employee"><i class="fa fa-globe"></i>Manage Contacts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bar-chart"></i><br>Reports</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html"><i class="fa fa-ambulance"></i>Employee Injuries</a></li>
+                                        <li class="subTab"><a href="executive-summary.html"><i class="fa fa-th-list"></i>Executive Summary EI</a></li>
+                                        <li class="subTab"><a href="loss-run-report.html"><i class="fa fa-th-list"></i>Loss Run Report</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i><br>Settings</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-location-types.html"><i class="fa fa-cubes"></i>&nbsp;Manage Location Types</a></li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                </div>
+                <div class="tabRight">
+                    <!--<div class="navRtghtBt">
+                        <div class="searchFild">
+                            <input name="input" type="text" class="search" placeholder="Search">
+                            <span><a href="#">
+                                <img src="images/search.png" width="20" height="20" alt="img"></a></span>
+                        </div>
+                    </div>-->
+                    <div class="navRtghtBt">
+                        <input name="" type="button" value="Add Contact" class="buttonCreat" onclick="location.href = 'create-contact.html';">
+                    </div>
+                    <!--<div class="navRtghtBt">
+                        <input name="" type="hidden" value="Create Claim" class="buttonCreat" onclick="location.href = 'create-contact.html';">
+                    </div> -->                   
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div class="contain">
+                <div id="myBradeCM">
+                    <h1 class="addEmp">Add Contact</h1>
+                    <h1 class="backto"><a href="manage-contacts.html">&lt; Back to Contacts List</a></h1>
+                    <div class="clear"></div>
+                </div>
+                <section>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="contactType" class="myLable">Contact Type</label>
+                            <select id="contactType" name="contactType" class="planeTextFild myselect">
+                                <option>Select 1</option>
+                                <option>Select 2</option>
+                                <option>Select 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="firstName" class="myLabel">First Name</label>
+                            <input type="text" id="firstName" name="firstName" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="lastName" class="myLabel">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="title" class="myLabel">Title</label>
+                            <input type="text" id="title" name="title" class="planeTextFild" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="businessEmail" class="myLabel">Business Email</label>
+                            <input type="text" id="businessEmail" name="businessEmail" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="personalEmail" class="myLabel">Personal Email</label>
+                            <input type="text" id="personalEmail" name="personalEmail" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="otherEmail" class="myLabel">Other Email</label>
+                            <input type="text" id="otherEmail" name="otherEmail" class="planeTextFild" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="businessPhone" class="myLabel">Business Phone</label>
+                            <input type="text" id="businessPhone" name="businessPhone" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="homePhone" class="myLabel">Home Phone</label>
+                            <input type="text" id="homePhone" name="homePhone" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="cellPhone" class="myLabel">Cell Phone</label>
+                            <input type="text" id="cellPhone" name="cellPhone" class="planeTextFild" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="faxNumber" class="myLabel">Fax Number</label>
+                            <input type="text" id="faxNumber" name="faxNumber" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="webSite" class="myLabel">Website</label>
+                            <input type="text" id="webSite" name="webSite" class="planeTextFild" />
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="address1" class="myLabel">Address 1</label>
+                            <input type="text" id="address1" name="address1" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="address2" class="myLabel">Address 2</label>
+                            <input type="text" id="address2" name="address2" class="planeTextFild" />
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="city" class="myLabel">City</label>
+                            <input type="text" id="city" name="city" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="state" class="myLabel">State</label>
+                            <input type="text" id="state" name="state" class="planeTextFild" />
+                        </div> 
+                        <div class="col-md-4">
+                            <label for="zipCode" class="myLabel">ZipCode</label>
+                            <input type="text" id="zipCode" name="zipCode" class="planeTextFild" />
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="whreToContact" class="myLable">Where To Contact</label>
+                            <select id="whreToContact" name="whreToContact" class="planeTextFild myselect">
+                                <option>Select 1</option>
+                                <option>Select 2</option>
+                                <option>Select 3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="whenToContact" class="myLable">When To Contact</label>
+                            <select id="whenToContact" name="whenToContact" class="planeTextFild myselect">
+                                <option>Select 1</option>
+                                <option>Select 2</option>
+                                <option>Select 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="specialty" class="myLable">Specialty</label>
+                            <input type="text" id="specialty" name="specialty" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="adjusterType" class="myLable">Adjuster Type</label>
+                            <select id="adjusterType" name="adjusterType" class="planeTextFild myselect">
+                                <option>Select 1</option>
+                                <option>Select 2</option>
+                                <option>Select 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="company" class="myLable">Company</label>
+                            <input type="text" id="company" name="company" class="planeTextFild" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="comAddress1" class="myLabel">Address 1</label>
+                            <input type="text" id="comAddress1" name="comAddress1" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="comAddress2" class="myLabel">Address 2</label>
+                            <input type="text" id="comAddress2" name="comAddress2" class="planeTextFild" />
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="comcity" class="myLabel">City</label>
+                            <input type="text" id="comcity" name="comcity" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="comstate" class="myLabel">State</label>
+                            <input type="text" id="comstate" name="comstate" class="planeTextFild" />
+                        </div> 
+                        <div class="col-md-4">
+                            <label for="comzipCode" class="myLabel">ZipCode</label>
+                            <input type="text" id="comzipCode" name="comzipCode" class="planeTextFild" />
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="phoneNumber" class="myLabel">Phone Number</label>
+                            <input type="text" id="phoneNumber" name="phoneNumber" class="planeTextFild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="FEIN" class="myLabel">FEIN</label>
+                            <input type="text" id="FEIN" name="FEIN" class="planeTextFild" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="notes" class="myLabel">Notes</label>
+                            <textarea id="notes" name="notes" rows="5" class="planeTextFild"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 pull-right">
+                            <button type="button" class="buttonNext">Cancel</button>
+                            <button type="button" class="buttonNext">Save</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+
+
+
+    <!--About-->
+    <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 50% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="Span1"></span> <span id="Span2"></span></h2>
+                    <input id="Button2" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;">
+
+                    <div class="popBody">
+                        <ul>
+                            <li class="popInn" id="Li2">
+                                <div id="about_info" class="formInci1" style="width: 99%;">
+
+                                    <!--  About information -->
+                                </div>
+                                <div class="clear"></div>
+
+
+                                <div class="clear"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 30% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Change Password <span id="unamex"></span><span id="bid"></span></h2>
+                    <input id="Button1" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                    <form id="change_pass" name="change_pass">
+                        <div class="popBody">
+                            <ul>
+                                <li class="popInn" id="Li1">
+                                    <div class="formInci1" style="width: 99%;">
+                                        <span class="custom_error" id="msg_show"></span>
+                                        <p>
+                                            <span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                                <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required>
+                                                <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                                <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required></span>
+                                        </p>
+                                        <p>
+                                            <span></span><span style="width: 100% !important;">
+                                                <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;"></span>
+                                        </p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>   
+    
+    
+    <footer>
+        <div class="contain">
+            License Agreements | Privacy Statement<br>
+            © 2014 Insight Risk Management. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+
+</html>
+<!-- End of file -->

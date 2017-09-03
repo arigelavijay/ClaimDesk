@@ -1,0 +1,69 @@
+﻿<script type="text/javascript">
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+</script>
+<div class="modal fade wc-claim-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="popHead">
+                <h2 class="dataHeadPop">Claim Details [ ID : <span id="WC_claim_id" style="color: #0000FF"></span>]</h2>
+                <input class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                <div class="clear"></div>
+            </div>
+            <div class="popBody">
+                <ul>
+                    <li class="popInn" id="wc_inc_div">
+                        <h2 class="popSubHead">Incident Details [ID :<span id="wc_incident_id" class="valspan" style="color: #0000FF"></span>]</h2>
+                        <div class="formInci1">
+                            <p><span class="headspan">Incident Date:</span><span id="wc_inc_date" class="valspan"></span></p>
+                            <p><span class="headspan">Store ID:</span><span id="wc_store_no" class="valspan"></span></p>
+                            <p><span class="headspan">Store Adddress:</span><span id="wc_address1" class="valspan"></span></p>
+                            <p><span class="headspan">City:</span> <span id="wc_city" class="valspan"></span></p>
+                            <p><span class="headspan">State: </span><span id="wc_state" class="valspan"></span></p>
+
+
+                        </div>
+                        <div class="formInci">
+
+                            <p><span class="headspan">Country:</span><span id="wc_country" class="valspan"></span></p>
+                            <p><span class="headspan">Zip Code:</span><span id="wc_zip" class="valspan"></span></p>
+                            <p><span class="headspan">Store Phone:</span> <span id="wc_store_phone" class="valspan"></span></p>
+                            <p><span class="headspan">Store Fax: </span><span id="wc_fax" class="valspan"></span></p>
+                            <p><span class="headspan">Store Report Date: </span><span id="wc_date_report" class="valspan"></span></p>
+
+                        </div>
+                        <div class="formInci">
+
+                            <p><span class="headspan">Exact Location:</span><span id="wc_incident_loc" class="valspan"></span></p>
+                            <p><span class="headspan">Alcohol/Drugs: </span><span id='wc_alcohol' class="valspan"></span></p>
+                            <p><span class="headspan">Police Involved:</span> <span id="wc_police_inv" class="valspan"></span></p>
+                            <p><span class="headspan">Agency Name: </span><span id="wc_police_agency" class="valspan"></span></p>
+                            <p><span class="headspan">Report Number: </span><span id="wc_police_case_id" class='valspan'></span></p>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <div style="border-bottom: 1px solid #d4d7de;">
+                            <h2 class="popSubHead">Incident Description</h2>
+                            <br>
+                            <p><span id="wc_desc" class="valspan"></span></p>
+                            <br>
+                        </div>
+                        <div style="border-bottom: 1px solid #d4d7de; display:none;">
+                            <h2 class="popSubHead">Incident Notes</h2>
+                            <br>
+                            <p><span id="wc_notes" class="valspan"></span></p>
+                            <br>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="wc_incidentfile_container" style="border-bottom: 1px solid #d4d7de;">
+                        </div>
+                    </li>
+                    <li id="viewWcInfo"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

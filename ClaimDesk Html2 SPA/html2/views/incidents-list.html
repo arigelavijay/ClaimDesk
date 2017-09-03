@@ -1,0 +1,246 @@
+﻿<style>
+    .manageIcon1 li {
+        width: 25% !important;
+    }
+
+    .popInn p span.headspan_n {
+        color: rgb(102, 102, 102);
+        float: left;
+        width: 10%;
+    }
+
+    .form_fwidth p {
+        padding: 15px 0px;
+    }
+
+    .popInn p span#Span2_n {
+        width: 90%;
+    }
+
+    .customformInci1 {
+        float: left;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .bs-example-modal-lg2 .modal-lg.modal-dialog {
+        width: 60% !important;
+    }
+</style>
+<style>
+    .pop-notes {
+        border-bottom: 1px solid #d4d7de;
+        padding-bottom: 10px;
+    }
+
+    .tab-content {
+        /* max-height: 386px;
+    overflow-y: auto;
+	padding-right:20px;
+	padding-bottom:20px;*/
+    }
+
+    .pop-notes textarea {
+        width: 98%;
+        padding: 1%;
+        text-align: left;
+    }
+
+    .textarea-edit {
+        padding-top: 10px;
+    }
+
+        .textarea-edit button {
+            padding: 5px 6px;
+        }
+
+            .textarea-edit button:hover, .textarea-edit button:focus {
+                color: #fff;
+            }
+
+    .pop-notes:last-child {
+        border: 0px;
+        padding-bottom: 20px;
+    }
+
+    .tabLeft nav li input {
+        color: green !important;
+    }
+
+    .manageIcon1 li {
+        width: 25% !important;
+    }
+
+    .add-element {
+        display: none;
+    }
+
+        .add-element ol {
+            list-style-type: decimal;
+        }
+
+    .add_btn_tip {
+        padding: 0 0 6px;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 2px 0;
+    }
+
+        .add_btn_tip button {
+            font-size: 12px;
+            margin-left: 0px;
+            padding: 3px 12px;
+        }
+
+    .add-element li {
+        display: list-item;
+        list-style-position: inside;
+        list-style-type: decimal;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 2px 0;
+        color: #282828;
+        font-size: 12px;
+        width: auto !important;
+        float: none;
+        min-width: 550px !important;
+        text-align: left;
+        padding-left: 10px;
+    }
+
+    .popover {
+        max-width: 550px;
+    }
+
+    .main-link {
+        width: 120px;
+        display: inline-block;
+        color: #282828;
+        text-transform: capitalize;
+        font-size: 12px;
+    }
+
+    .add-element a {
+        text-decoration: none;
+    }
+
+    .add-element img {
+        margin: 2px 3px;
+    }
+
+    .popover-content .add-element {
+        display: block;
+    }
+
+    .customformInci1 {
+        float: left;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    div.tool:before {
+        content: attr(title);
+        display: none;
+    }
+
+    div.tool:hover::before {
+        width: 200px;
+        display: block;
+        background: yellow;
+        border: 1px solid black;
+        padding: 8px;
+        margin: 25px 0 0 10px;
+    }
+
+    div.tool:hover {
+        z-index: 10;
+        position: relative;
+    }
+
+    .popover-content {
+        padding: 0px !important;
+    }
+
+    .popHead > tr {
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    }
+</style>
+
+
+
+<script type="text/javascript">
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+    else {
+        createBtns();
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+
+        $(document).ready(function () {
+            load_list_data();
+            $('#select-claimtype-modal').load('modals/select-claimtype-modal.html', function () {
+                $('#btnRedirect').click(function () {
+                    var incidentId = $('#hdn_incidentId').val();
+                    var incLocId = $('#hdn_incLocId').val();
+                    
+                    var value = $('input[name=create]:checked').val();
+                    if (value == "GL") {
+                        $('#view').jqExLoad('views/create-claim.html', function () {
+                            loadClaim(incidentId);
+                            loadClaim1(incLocId);
+                        }).hide().fadeIn();
+                    }
+                    else {
+                        $('#view').jqExLoad('views/wc.html', function () {
+                            dashboardloadOnInit(incidentId, incLocId);                            
+                        }).hide().fadeIn();
+                    }
+                });
+            });
+
+            $('#incident-modal').load('modals/incident-modal.html');
+        });
+
+        function openModal() {
+            $('.select-claimtype-modal').modal('show');
+        }
+    }
+</script>
+<style>
+    #con_new_pass-error {
+        margin-top: -12px !important;
+    }
+</style>
+<div class="contain" id="body">
+    <div class="dataTab">
+        <h2 class="dataHead">Incidents List</h2>
+        <div class="myDataTable">
+            <table class="fullwidth tcellspacing noborder" id="incidentsTbl" style="width: 100%;">
+                <thead class="myTabHead">
+                    <tr>
+                        <th class="talign">Incident&nbsp;ID</th>
+                        <th class="talign">Incident Date </th>
+                        <th class="talign">Store No. &amp; Location</th>
+
+                        <th class="talign">Created by</th>
+                        <th class="talign">Brief Description</th>
+                        <th class="talign">Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdn_incidentId" name="hdn_incidentId" />
+<input type="hidden" id="hdn_incLocId" name="hdn_incLocId" />
+<div id="select-claimtype-modal"></div>
+<div id="incident-modal"></div>

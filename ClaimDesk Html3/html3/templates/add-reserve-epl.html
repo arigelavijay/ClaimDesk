@@ -1,0 +1,67 @@
+﻿<div class="row">
+    <div class="col-md-4">
+        <label for="reserveCode" class="myLable">Reserve Code</label>
+        <select id="reserveCode" name="reserveCode" class="planeTextFild myselect">
+            <option>Select 1</option>
+            <option>Select 2</option>
+            <option>Select 3</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="tier1RollUp" class="myLable">Tier 1 Rollup Code</label>
+        <select id="tier1RollUp" name="tier1RollUp" class="planeTextFild myselect">
+            <option>Select 1</option>
+            <option>Select 2</option>
+            <option>Select 3</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="tier2RollUp" class="myLable">Tier 2 Rollup Code</label>
+        <select id="tier2RollUp" name="tier2RollUp" class="planeTextFild myselect">
+            <option>Select 1</option>
+            <option>Select 2</option>
+            <option>Select 3</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <label for="date" class="myLable">Date </label>
+        <input type="text" id="date" name="date" class="planeTextFild dtPCss" />
+    </div>
+    <div class="col-md-4">
+        <label for="resAmount" class="myLabel">Amount</label>
+        <input type="text" id="resAmount" name="resAmount" class="planeTextFild" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p class="bodyTextBig">You can upload any document related to this reserve.  Click "browse" to select and upload files.</p>
+        <div class="formInci1 noMar">
+            <input name="upfile" id="File1" type="file" class="planeTextFild" />
+        </div>
+        <div class="formInciBigBt">
+            <input name="upload1" id="Button2" type="button" value="Upload File" class="buttonNext" onclick="upload_file()">
+        </div>
+        <div class="clear"></div>
+        <div id="file_error" class="custom_error" style="float: left;"></div>
+        <div class="custom_error" id="validation_msg" style="float: right;"></div>
+        <div class="uploadBox">
+            <p class="uploadHead">Files</p>
+            <table class="fullwidth" id='imglist'>
+                <tr class="">
+                    <td style="width: 8%;"></td>
+                    <td style="color: rgb(98, 98, 98); font-size: 16px; padding: 4px 0; width: 92%;" class="tlalign whitebg">You haven't uploaded any attachments!</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 10px;">
+    <div class="col-md-10"></div>
+    <div class="col-md-1">
+        <button type="button" class="buttonNext" data-dismiss="modal">Cancel</button></div>
+    <div class="col-md-1">
+        <button type="button" class="buttonNext" data-dismiss="modal">Save</button>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+﻿<style>
+    .manageIcon1 li {
+        width: 20%;
+    }
+
+    .customformInci1 {
+        float: left;
+        margin-top: 15px;
+        width: 100%;
+    }
+</style>
+
+<script type="text/javascript">    
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+    else {
+        $(document).ready(function () {
+            createBtns();
+            load_Claim_data();
+            $('#gl-claim-modal').load('modals/gl-claim-modal.html');
+            $('#diary-notes-modal').load('modals/diary-notes-modal.html');
+            $('#wc-claim-modal').load('modals/wc-claim-modal.html');
+
+            sessionStorage.removeItem('claimId');
+        });
+
+        function loadView() {
+
+            var def = $.Deferred();
+            $('#wc-claim-modal').load('modals/wc-claim-modal.html', function () {
+                def.resolve();
+            });
+
+            return def.promise();
+        }
+    }
+</script>
+<style>
+    #con_new_pass-error {
+        margin-top: -12px !important;
+    }
+</style>
+<div class="contain" id="body">
+    <div class="dataTab">
+        <h2 class="dataHead">Claims List</h2>
+        <div class="myDataTable">
+            <table class="fullwidth tcellspacing noborder" id="claimsTbl">
+                <thead class="myTabHead">
+                    <tr>
+                        <th class="talign">Claim ID</th>
+                        <th class="talign">Guest Name</th>
+                        <th class="talign">Claim Create Date</th>
+                        <th class="talign">Incident</th>
+                        <th class="talign">Incident Date</th>
+                        <th class="talign">Claim Type</th>
+                        <th class="talign">Store/Location</th>
+                        <th class="talign">Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdn_Claim_Id" name="hdn_Claim_Id" />
+<input type="hidden" id="hdn_IncidentId" name="hdn_IncidentId" />
+<div id="gl-claim-modal"></div>
+<div id="diary-notes-modal"></div>
+<div id="wc-claim-modal"></div>

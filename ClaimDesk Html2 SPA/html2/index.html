@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Welcome to RMS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="css/custom.css" rel="stylesheet" type="text/css" />
+    <link href="datatables/media/css/demo_page.css" rel="stylesheet" type="text/css" />
+    <link href="datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
+    <link href="css/apprise.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/timepicker.css" />
+    <link href="css/datepicker.css" rel="stylesheet" />
+    <link href="css/datepicker3.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <script type="text/javascript" src="datatables/media/js/jquery.dataTables.js"></script>
+    <script src="js/jquery.datetimepicker.js"></script>
+    <script src="js/jquery-ui-timepicker-addon.js"></script>
+    <script src="js/jquery-ui-slidder-access.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+
+    <script src="js/accounting.js"></script>
+    <script type="text/javascript" src="js/download.js"></script>
+    <script type="text/javascript" src="js/dashboard.js"></script>
+    <script type="text/javascript" src="js/claim.js"></script>
+    <script type="text/javascript" src="js/wc.js"></script>
+    <script type="text/javascript" src="js/claim_session.js"></script>
+    <script type="text/javascript" src="js/diarynote.js"></script>
+    <script type="text/javascript" src="js/incident.js"></script>
+    <script type="text/javascript" src="js/incident_session.js"></script>
+    <script type="text/javascript" src="js/employee.js"></script>
+    <script type="text/javascript" src="js/location.js"></script>
+    <script type="text/javascript" src="js/user.js"></script>
+    <script type="text/javascript" src="js/search.js"></script>
+    <script type="text/javascript" src="js/mask.js"></script>
+    <script type="text/javascript" src="js/common_func.js"></script>
+    <style type="text/css">
+        html {
+            overflow-y: scroll;
+        }
+
+        body.modal-open {
+            padding-right: 0px !important;
+        }
+        #advanced-search-modal .col-sm-4 {
+    min-height: 86px;
+    overflow: hidden;
+}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            jQuery.fn.exists = function () { return this.length > 0; }
+            jQuery.fn.jqExLoad = function (Url, CallBack) {
+                $('#view').html('<img src="images/loading9.gif" style="margin-left: 38%; display: block; top: 38%; position: absolute; z-index: 3000;" />');
+                $(this).load(Url, CallBack); //+ '?' + Math.random() * Math.random()               
+                return this;
+            }
+
+            jQuery.fn.isNullOrEmpty = function () {
+                if (this.value != null && this.value != '')
+                    return false;
+                else
+                    return true;
+            }
+
+            $('#homeId').click(function () {
+                $('#view').jqExLoad('views/main-dashboard.html').hide().fadeIn();
+                $('#claimId,#dropdown,#incidentId').removeClass('select');
+                $('#homeId').addClass('select');
+            });
+
+            $('#incidentId').click(function () {
+                $('#view').jqExLoad('views/incidents-list.html').hide().fadeIn();
+                $('#homeId,#claimId,#dropdown').removeClass('select');
+                $('#incidentId').addClass('select');
+            });
+
+            $('#claimId').click(function () {
+                $('#view').jqExLoad('views/claims-list.html').hide().fadeIn();
+                $('#homeId,#incidentId,#dropdown').removeClass('select');
+                $('#claimId').addClass('select');
+            });
+
+            headerDetails();
+            createBtns();
+
+            Ajax_Call_For_Diary_Categories();
+            //Ajax_Call_For_Assigned_User();
+            var width = $(window).width();
+            var height = $(window).height();
+            var min_height = ((height * 71) / 100).toFixed(2) + 'px';
+
+            $('#view').css('min-height', min_height);
+            $('#view').jqExLoad('views/main-dashboard.html').hide().fadeIn();
+            $('#advanced-search-modal').load('modals/advanced-search-modal.html', function () {
+
+                $("#frmDate").datepicker({
+                    numberOfMonths: 1,
+                    onSelect: function (selected) {
+                        var dt = new Date(selected);
+                        dt.setDate(dt.getDate() + 1);
+                        $("#toDate").datepicker("option", "minDate", dt);
+                    }
+                });
+
+                $("#toDate").datepicker({
+                    numberOfMonths: 1,
+                    onSelect: function (selected) {
+                        var dt = new Date(selected);
+                        dt.setDate(dt.getDate() - 1);
+                        $("#frmDate").datepicker("option", "maxDate", dt);
+                    }
+                });
+
+                $('.dtPicker').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '-100:+0',
+                    addSliderAccess: true,
+                    maxDate: new Date()
+                });
+
+                $('.ssnCss').mask("999-99-9999", { placeholder: '_' });
+
+                setlist_locname('#srch_store', null);
+
+            });
+
+            var dt = new Date('08/05/1986');
+            var utcDt = localToUtc(dt);
+
+            var locDt = UtcToLocal(utcDt);
+            
+            //var a = utcDt.substring(0, 10);
+            //var b = utcDt.substring(11, utcDt.length);
+            //var c = get_Date(utcDt);
+           // var b = get_Time(utcDt);
+
+            //var d = moment(utcDt).format('hh:mm A');
+            //var e = moment(utcDt).format('MM/DD/YYYY');
+            //debugger;
+
+
+        });        
+
+        function logOut() {
+            sessionStorage.clear();
+            location.href = "login.html";
+        }
+
+        function headerDetails() {
+            getLoginDetails(userId);
+            getLocationDetails(locationId);
+        }
+
+        function btnCreate_Onclick(Url) {
+            $('#view').jqExLoad(Url).hide().fadeIn();
+            createBtns(this);
+        }
+
+        function createBtns(cntrlId) {
+            $('.btnCss').hide();
+            if (typeof cntrlId != 'undefined')
+                $(cntrlId).fadeIn();
+        }
+        function mouse_Hover(obj) {
+
+            if (obj.id == "magEmpId") {
+                $('#view').jqExLoad('views/manage-employee.html').hide().fadeIn();
+                $('#homeId,#incidentId,#empId,#claimId').removeClass('select');
+                $("#dropdown").addClass('select');
+            }
+            else if (obj.id == "magLocId") {
+                $('#view').jqExLoad('views/manage-location.html').hide().fadeIn();
+                $('#homeId,#incidentId,#empId,#claimId').removeClass('select');
+                $('#dropdown').addClass('select');
+            }
+            else {
+                $('#view').jqExLoad('views/manage-user.html').hide().fadeIn();
+                $('#homeId,#incidentId,#empId,#claimId').removeClass('select');
+                $('#dropdown').addClass('select');
+            }
+        }
+
+
+    </script>
+    <style>
+        #ui-datepicker-div {
+            z-index: 1057 !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal" style="z-index: 400;">
+                                    <li role="presentation" data-toggle='modal' data-target="#changePassword" style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" onclick="logOut();" style="cursor: pointer;">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="bodyGrey">
+            <nav>
+                <div class="tabLeft">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav">
+                                    <a class="mainTab select" id="homeId">
+                                        <img src="images/home.png" width="34" height="31" alt="home"><br>
+                                        Home</a>
+                                </li>
+                                <li class="mainNav">
+                                    <a class="mainTab" id="incidentId">
+                                        <img src="images/incidence.png" width="34" height="31" alt="home"><br>
+                                        Incidents List</a>
+                                </li>
+                                <li class="mainNav">
+                                    <a class="mainTab" id="claimId">
+                                        <img src="images/claims.png" width="34" height="31" alt="home"><br>
+                                        Claims List</a>
+                                </li>
+                                <li class="mainNavBig dropdown" id="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <img src="images/options.png" width="34" height="31" alt="home" /><br>
+                                        Options</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="subTab"><a id="magEmpId" class="employee" style="cursor: pointer;" onclick="mouse_Hover(this);">Manage Employees</a></li>
+                                        <li class="subTab"><a id="magLocId" class="location" style="cursor: pointer;" onclick="mouse_Hover(this);">Manage Locations</a></li>
+                                        <li class="subTab"><a id="magUserId" class="employee" style="cursor: pointer;" onclick="mouse_Hover(this);">Manage Users</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="tabRight">
+                    <div class="navRtghtBt">
+                        <input name="btnCreateUser" id="btnCreateUser" type="button" value="Create User" class="buttonCreat btnCss" onclick="btnCreate_Onclick('views/create-user.html');" />
+                        <input name="btnCreateEmp" id="btnCreateEmp" type="button" value="Create Employee" class="buttonCreat btnCss" onclick="btnCreate_Onclick('views/create-employee.html');" />
+                        <input name="btnCreateLoc" id="btnCreateLoc" type="button" value="Create Location" class="buttonCreat btnCss" onclick="btnCreate_Onclick('views/create-location.html');" />
+                        <input name="btnSearch" data-toggle="modal" data-target=".advanced-search-modal" type="button" value="Advance Search" class="buttonCreat" />
+                        <input name="btnCreateIncident" id="btnCreateIncident" type="button" value="Create Incident" class="buttonCreat" onclick="btnCreate_Onclick('views/create-incident.html');" />
+                    </div>
+
+                    <div class="navRtghtBt">
+                        <div class="searchFild" style="display: none">
+                            <input name="input" type="text" class="search" placeholder="Search" />
+                            <span><a href="#">
+                                <img src="images/search.png" width="20" height="20" alt="img" /></a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div id="view"></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <img id="pr_new" src="images/loading9.gif" style="margin-left: 35%; display: none; top: 20%; position: absolute; z-index: 3000;" />
+    <div class="modal fade" tabindex="-1" id="changePassword" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 30% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop">Change Password <span id="unamex"></span><span id="bid"></span></h2>
+                    <input id="Button1" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" />
+                    <form id="change_pass" name="change_pass">
+                        <div class="popBody">
+                            <ul>
+                                <li class="popInn" id="Li1">
+                                    <div class="formInci1" style="width: 99%;">
+                                        <span class="custom_error" id="msg_show"></span>
+                                        <p>
+                                            <span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                                <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required="required" /></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required>
+                                                <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                        </p>
+                                        <p>
+                                            <span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                                <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required="required" /></span>
+                                        </p>
+                                        <p>
+                                            <span></span><span style="width: 100% !important;">
+                                                <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;" /></span>
+                                        </p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 50% !important;">
+            <div class="modal-content">
+                <div class="popHead">
+                    <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="Span1"></span> <span id="Span2"></span></h2>
+                    <input id="Button2" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;" />
+
+                    <div class="popBody">
+                        <ul>
+                            <li class="popInn" id="Li2">
+                                <div id="about_info" class="formInci1" style="width: 99%;">
+                                </div>
+                                <div class="clear"></div>
+                                <div class="clear"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>    
+    <div id="advanced-search-modal"></div>
+    <footer>
+        <div class="contain">
+            License Agreements | Privacy Statement<br>
+            © 2014 Insight Risk Management. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

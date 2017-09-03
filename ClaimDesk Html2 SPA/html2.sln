@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "html2", "html2\", "{4500917D-79D8-4682-8AA2-76BF3B5EACA5}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/html2"
+		Debug.AspNetCompiler.PhysicalPath = "D:\ClaimDesk Versions\ClaimDesk Spa\07092015\html2\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\html2\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/html2"
+		Release.AspNetCompiler.PhysicalPath = "D:\ClaimDesk Versions\ClaimDesk Spa\07092015\html2\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\html2\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "44165"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4500917D-79D8-4682-8AA2-76BF3B5EACA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4500917D-79D8-4682-8AA2-76BF3B5EACA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

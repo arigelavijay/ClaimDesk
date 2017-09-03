@@ -1,0 +1,412 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to RMS</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="css/datepicker.css" rel="stylesheet">
+<link href="css/datepicker3.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script src="js/jquery.min.js"></script>
+<script src="js/common_func.js"></script>
+<script src="js/bootstrap.min.js"></script> 
+<link href="css/apprise.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+<script src="js/download.js"></script>
+<script src="js/moment.js"></script>
+
+
+<!--[if lt IE 9]>
+<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+ <![endif]-->  
+ <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+<script type="text/javascript" >
+ $.validator.addMethod("new_passq", function(value, element) {
+    return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+}, "Invalid Password");
+
+$.validator.addMethod("con_new_passq", function(value, element) {
+	var pass = $("#new_pass").val();	
+	if(pass == value) return true;
+	else return false;	
+}, "Please enter the same password as above");
+$(document).ready(function () {
+    $('#btnRedirect').click(function () {
+        var value = $('input[name=create]:checked').val();
+
+        if (value == "GL") {
+            debugger;
+            sessionStorage.removeItem('claimEdit');
+            sessionStorage.setItem('incEdit', sessionStorage.getItem('incident_id'));
+            sessionStorage.removeItem('incident_id');
+            
+            location.href = 'claim.html';
+        }
+        else {
+           
+            //var lid = document.getElementById("inc_id").value;
+            //sessionStorage.setItem("incident_id", lid);
+            sessionStorage.setItem("claimtype", "WC");
+            var loc_Id = sessionStorage.getItem("incLocId");
+            sessionStorage.removeItem('claimEditWC');
+            location.href = 'wc.html';
+        }
+
+    });
+});
+function openModal() {
+    var ssnConfig = JSON.parse(sessionStorage.getItem('ssnConfig'));
+    if (typeof ssnConfig.SHOW_INCIDENT_LOCATION != 'undefined' && ssnConfig.SHOW_INCIDENT_LOCATION != 'true') {
+        location.href = 'wc.html';
+    }
+    else
+        $('#newSmallModal').modal('show');
+}
+</script>
+<style>
+#con_new_pass-error{margin-top: -12px !important;}
+
+</style>
+  <style>
+/*  ul, ol {
+    margin-bottom: 10px;
+    margin-left: 28px;
+    margin-top: 8px;
+	}*/
+	.incUlx{ margin:15px 0 12px; padding-bottom:10px; float:left; width:100%;}
+  </style>
+  <script src="js/incident.js"></script>
+</head>
+
+
+<body onLoad="authentication();load_data_last();set_header();">
+<div id="wrapper">
+<header>
+	<div class="contain">
+	<div class="logo"><img src="images/bigLogo.jpg" width="378" height="41" alt="logo"></div>
+    <div class="logoRight">
+    <ul class="help">
+        <li>
+        	<div class="dropdown">
+  <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    Welcome <span id="logname"></span>
+    <span class="caret"></span>
+  </button>
+   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+    <li role="presentation"  data-toggle='modal' data-target='#myModal' style="cursor:pointer;"><a>Change Password</a></li>	
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>   
+	 <li role="presentation"  data-toggle='modal' data-target='#aboutModal' style="cursor:pointer;" onClick="about();"><a>About</a></li> 
+  </ul>
+</div>
+        </li>
+        
+    </ul>
+    <span class="poloRight" style="z-index:500;"></span>
+    <span class="poloText" style="z-index:500;"></span>
+    </div>
+    <div class="clear"></div>
+</div>
+</header>
+<div id="body">
+	<nav>
+       <div class="tabLeft">
+       
+    <nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav mainNavBig">
+                                    <a class="mainTab" href="main-dashboard.html"><i class="fa fa-home"></i><br>Home</a>
+                                </li>                                
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle select" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-th-list"></i><br>Incidents List</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="incidents-list.html"><i class="fa fa-indent"></i>View Incidents</a></li>
+                                        <li class="subTab"><a href="claims-list.html"><i class="fa fa-briefcase"></i>View Claims</a></li>                                        
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i><br>Actions</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee"><i class="fa fa-users"></i>Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location"><i class="fa fa-map-marker"></i>Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-policies.html"><i class="fa fa-sitemap"></i>Manage Policies</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="employee"><i class="fa fa-user"></i>Manage Users</a></li>
+                                        <li class="subTab"><a href="manage-contacts.html" class="employee"><i class="fa fa-globe"></i>Manage Contacts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bar-chart"></i><br>Reports</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html"><i class="fa fa-ambulance"></i>Employee Injuries</a></li>
+                                        <li class="subTab"><a href="executive-summary.html"><i class="fa fa-th-list"></i>Executive Summary EI</a></li>
+                                        <li class="subTab"><a href="loss-run-report.html"><i class="fa fa-th-list"></i>Loss Run Report</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i><br>Settings</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-location-types.html"><i class="fa fa-cubes"></i>&nbsp;Manage Location Types</a></li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+</nav>
+       
+ </div>
+        <div class="tabRight">
+        <div class="navRtghtBt">
+        <input name="" type="button" value="Create Claim" class="buttonCreat" onclick="openModal();"> </div>
+        <div class="navRtghtBt">
+        	<div class="searchFild" style="display:none">
+        	<input name="input" type="text" class="search" placeholder="Search">
+       	    <span><a href="#"><img src="images/search.png" width="20" height="20" alt="img"></a></span>
+            </div>
+        </div>
+        </div>
+        <div class="clear"></div>
+    </nav>
+<div class="contain">
+<div id="myBradeCM">
+	<h1>Create Incident Report</h1>
+    <div class="rightAlign">
+    <ul class="breadcrumbMy">
+<li class="newActive"><a href="#" class="activeMy" style="color:#fff !important;">1. Store Details</a></li>
+<li class="newActive"><a href="#" class="activeMy" style="color:#fff !important;">2. Incident Details</a></li>
+<li class="newActive"><a href="#" class="activeMy" style="color:#fff !important;">3. Witness(es) Details</a></li>
+<li class="newActive"><a href="#" class="activeMy" style="color:#fff !important;">4. Attachments</a></li>
+<li class="newActive"><a href="#" class="activeMy" style="color:#fff !important;">5. Complete</a></li>
+   </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+<section>
+<div class="greenBox">
+<div class="greenMark"><img src="images/green-mark.png" width="30" height="30" alt="mark"></div>
+<p><span id="fname">You haven't uploaded any attachments!</span></p>
+<div class="clear"></div>
+</div>
+<ul class="incUlx" style=" width:auto; clear:both;">
+<li class="veiwInc" data-toggle='modal' data-target='.bs-example-modal-lg' onClick="callfunc('show')" style="cursor:pointer;"><img src="images/inci-veiw.png" width="21" height="25" alt="img">View Incident</li>
+<li class="veiwInc" onClick="callfunc('edit')" style="cursor:pointer;"><img src="images/inci-edit.png" width="21" height="25" alt="edit">Edit Incident</li>
+<!--<li data-toggle='modal' data-target='.bs-example-modal-lg'><img src='images/min1.png' width='16' height='19' alt='img'></li>-->
+</ul>
+
+<P class="bodyTextBig dottedBor" style=" width:auto; clear:both;">If you would like to continue to create a claim, click below button to start the claim wizard. </P>
+<div class="claimForm">
+<input name="" type="button" value="Create Claim" class="buttonCreat" onclick="openModal();">
+<div class="clear"></div>
+</div>
+</section>
+</div>
+</div>
+</div>
+
+
+
+<!-- Large modal -->
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <div class="popHead"><h2 class="dataHeadPop">Incident Details [ ID : <span id="inc_id" style="color:#0000FF"></span> ]</h2>
+<input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+
+<div class="clear"></div>
+     </div>
+     <div class="popBody">
+       <ul>
+     	<li class="popInn">
+            <h2 class="popSubHead">Store Details</h2>
+        	<div class="formInci1">
+                <p><span class="headspan">Store ID:</span><span id="store_no" class='valspan'></span></p>
+                <p><span class="headspan">Store Adddress 1:</span><span class="add valspan" id="address1" ></span></p>
+                 <p><span class="headspan">Store Adddress 2:</span><span class="add valspan" id="address2"></span></p>
+                <p><span class="headspan">Country:</span><span id="country" class='valspan'></span></p>
+               
+            </div>
+            <div class="formInci">
+			     <p><span class="headspan">State: </span><span id="state" class='valspan'></span></p>
+                <p><span class="headspan">City:</span> <span id="city" class='valspan'></span></p>
+                <p><span class="headspan">Zip Code:</span><span id="zip" class='valspan'></span></p>
+                <p><span class="headspan">Store Phone:</span> <span id="store_phone" class='valspan'></span></p>
+                
+               
+            </div>
+            <div class="formInci">
+            <p><span class="headspan">Store Fax: </span><span id="fax" class='valspan'></span></p>
+            <p><span class="headspan">General Manager: </span><span id="gen_man_name" class='valspan'></span></p>
+            <p><span class="headspan">Reporting Manager: </span><span id='report_man_name' class='valspan'></span></p>
+            </div>
+            <div class="clear"></div>
+        </li>
+		<li class="popInn">
+            <h2 class="popSubHead">Incident Details</h2>
+        	<div class="formInci1">
+                <p><span class="headspan">Incident Date:</span><span id="inc_date" class='valspan'></span></p>
+                <p><span class="headspan">Store Report Date: </span><span id="date_report" class='valspan'></span></p>
+                <p><span class="headspan">Exact Location:</span><span id="incident_loc" class='valspan'></span></p>
+                
+            </div>
+            <div class="formInci">
+       
+                <p><span class="headspan">Police Involved:</span> <span id="police_inv" class='valspan'></span></p>
+                <p><span class="headspan">Agency Name: </span><span id="police_agency" class='valspan'></span></p>
+                <p><span class="headspan">Report Number: </span><span id="police_case_id" class='valspan'></span></p>
+               
+            </div>
+            <div class="formInci">
+            <p><span class="headspan">Alcohol/Drugs: </span><span id='alcohol' class='valspan'></span></p>
+           <!-- <p><span class="headspan">Description:</span> <span id="desc" class='valspan'></span></p>-->
+            </div>
+            <div class="clear"></div>
+        </li>
+		
+		
+		<!--  Description  -->          
+<li>
+<div style="border-bottom: 1px solid #d4d7de;">
+	<h2 class="popSubHead">Description</h2>
+	<br>
+	<p><span id="desc" class="valspan"></span></p>
+	<br>
+</div>
+<div style="border-bottom: 1px solid #d4d7de;display:none;">
+	<h2 class="popSubHead">Notes</h2>
+	<br>
+	<p><span id="notes" class="valspan"></span></p>
+	<br>
+</div>
+</li>
+		
+		
+		<li>
+		<div id="wit_container" style="border-bottom: 1px solid #d4d7de;">
+		
+		</div>
+		</li>
+		<li>
+		<div id="file_container">
+
+		</div>
+		
+		
+		
+		<div  id="RelatedClaims" >
+		       
+		</div>
+		
+		</li>
+        
+       </ul>
+     </div>
+    </div>
+  </div>
+</div>
+
+<!-- Large modal End here-->
+
+<!--Change Password Start-->
+<div class="modal fade" tabindex="-1"  id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-lg" style="width:30% !important;">
+    <div class="modal-content" >
+     <div class="popHead"><h2 class="dataHeadPop">Change Password <span id="unamex"></span> <span id="bid"></span> </h2>
+     <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">   
+     <form id="change_pass" name="change_pass">
+	 <div class="popBody">    
+	  <ul>    
+     	<li class="popInn" id="inc_div" >
+       <div class="formInci1" style="width:99%;"><span class="custom_error" id="msg_show"></span>
+		<p><span style="width: 100% !important;">Old Password:</span><span  style="width: 100% !important;"> <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required=""></span></p>
+		<p><span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required="">
+		<span class="copy" style="font-size:11px; color:#1D70EB; font-weight:bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span></p>
+		<p><span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;"> <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required=""></span></p>			
+		<p><span ></span><span style="width: 100% !important;"> <input name="" type="button" value="Save" class="buttonCreat" onClick="changePass()"   style="float:right;"></span></p>           
+         </div> 
+         <div class="clear"></div>
+        </li>
+      </ul>
+     </div>      
+     </form>     
+      </div>  
+    </div>
+  </div>
+</div>
+
+<!--About-->
+<div class="modal fade" tabindex="-1"  id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-lg" style="width:50% !important;">
+    <div class="modal-content">
+     <div class="popHead"> <h2 class="dataHeadPop" style="margin-left:5px !important;">About<span id="unamex"></span> <span id="bid"></span> </h2>
+     <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right:5px;">   
+    
+	 <div class="popBody">  
+	  <ul>    
+     	<li class="popInn" id="inc_div" >
+       <div id="about_info" class="formInci1" style="width:99%;">
+	   
+	 <!--  About information -->
+         </div> 
+	    <div class="clear"></div>
+      
+		 
+         <div class="clear"></div>
+        </li>
+      </ul>
+	  </div>
+         </div>
+     </div>      
+         
+      </div>  
+    </div>
+    
+    <div class="modal fade" tabindex="-1" role="dialog" id="newSmallModal" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="width: 50% !important;">
+                <div class="modal-content">
+                    <div class="popHead">
+                        
+                        <div class="popBody">  
+                            <br />           
+                            
+                            <div class="row">                                
+                                <div class="col-md-4"><input type="radio" name="create" value="GL" id="createClaim" checked="checked" />&nbsp;<label for="createClaim">General Liability</label></div>                                
+                                <div class="col-md-4"><input type="radio" name="create" value="WC" id="cretaeWC" />&nbsp;<label for="cretaeWC">Create WC</label></div>
+                                <div class="col-md-2"><input type="button" name="btnRedirect" value="Create" id="btnRedirect" class="buttonNext" /></div>
+                                <div class="col-md-2"><input id="Button1" class="buttBlue buttonNext btn-sm" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;"></div>                                
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<footer>
+<div class="contain">License Agreements | Privacy Statement<br>
+  © 2014 Insight Risk Management. All rights reserved.</div>
+</footer>
+ 
+<script src="js/incident.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+﻿<style>
+    #con_new_pass-error {
+        margin-top: -12px !important;
+    }
+
+    table.dataTable td {
+        padding: 8px 0 8px 14px;
+    }
+
+    .manageIcon1 li img {
+        float: left;
+        text-align: center;
+    }
+
+    .manageIcon1 li:first-child img {
+        margin-top: 3px;
+        float: left;
+        text-align: center;
+    }
+
+    .manageIcon1 li {
+        width: 20%;
+    }
+
+    .customformInci1 {
+        float: left;
+        margin-top: 15px;
+        width: 100%;
+    }
+</style>
+<script type="text/javascript">
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+    else {
+        createBtns();
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+
+        function DiaryNoteImage(hasDiaryNote, claim_id) {
+            var html = '';
+            if (hasDiaryNote)
+                html += "<li data-toggle='modal' data-target='.diary-notes-modal' style='cursor:pointer;'><img src='" + GetImage(hasDiaryNote) + "' width='16' height='19' alt='img' onclick=\"setDashBoardlocId(" + claim_id + ",'view_diary')\" /></li>"
+            else
+                html += "<li><img src='" + GetImage(hasDiaryNote) + "' width='16' height='19' alt='img' /></li>"
+
+            return html;
+        }
+
+        function GetImage(hasDiaryNote) {
+            if (typeof hasDiaryNote == 'undefined')
+                return 'images/trans.GIF';
+            else if (hasDiaryNote)
+                return 'images/pushpin-gy.png';
+            else
+                return 'images/trans.GIF';
+        }
+
+        $(document).ready(function () {
+            dashboardload();           
+
+            $('#gl-claim-modal').load('modals/gl-claim-modal.html');
+            $('#diary-notes-modal').load('modals/diary-notes-modal.html');
+            $('#wc-claim-modal').load('modals/wc-claim-modal.html');
+
+            dataTableArr = {}
+            dataSetArr = {}
+
+        });
+
+        function download_IncidentFile_Board(incident_id, filename) {
+            
+            downloadFile(incident_id, 0, "incident", filename);
+        }
+    }
+</script>
+<div id="body">
+<aside>
+    <div class="rightData">
+        <h2 class="incident">My Claims</h2>
+        <ul id="bigScr">
+            <li class="bigScr1">
+                <div class="greyBox">Incidents Created last 30 days<span class="green" id="last_30_days_record"></span><div class="clear"></div>
+                </div>
+            </li>
+            <li class="bigScr2">
+                <p class="greyBox">Claim Created last 30 days<span id="claim_Created_last_30_days"></span></p>
+            </li>
+            <li class="bigScr3">
+                <p class="greyBox">Claims edited last 30 days<span class="org" id="claims_last_30_days_record"></span></p>
+            </li>
+        </ul>
+        <div class="clear"></div>
+        <div class="divider">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#homeleft" aria-controls="home" role="tab" data-toggle="tab" onclick='loadDashboardTable(0);'>Claim Created</a></li>
+                <li role="presentation"><a href="#profileleft" aria-controls="profile" role="tab" data-toggle="tab" onclick='loadDashboardTable(1);'>Claim Edited</a></li>
+            </ul>
+            <div class="clear"></div>
+            <!-- Tab panes -->
+            <div class="tab-content mycont">
+                <div role="tabpanel" class="tab-pane active" id="homeleft">
+                    <table class="tcellspacing whiteback fullwidth noborder" id='claimTable0'>
+                        <thead>
+                            <tr>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">ID</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Incident Date</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Guest</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Type</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Location</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Claim&nbsp;Dt.</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Status&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profileleft">
+                    <table class="tcellspacing whiteback fullwidth noborder" id='claimTable1'>
+                        <thead>
+                            <tr>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">ID</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Incident Date</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Guest</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Type</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Location</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Claim&nbsp;Dt.</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Status&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <h2 style="display: none;">Reports by location</h2>
+        <div class="graph" style="display: none;">
+            <img src="images/graph.png" width="284" height="446" alt="img">
+        </div>
+    </div>
+</aside>
+<div id="contRight">
+    <div class="rightData">
+        <h2>Team Claims</h2>
+        <div class="divider">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" onclick='loadDashboardTable(2);'>Claim Created</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onclick='loadDashboardTable(3);'>Claim Edited</a></li>
+            </ul>
+            <div class="clear"></div>
+            <!-- Tab panes -->
+            <div class="tab-content mycont">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <table class="tcellspacing fullwidth noborder" id='claimTable2'>
+                        <thead>
+                            <tr>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">ID</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Incident Date</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Guest</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Type</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Created By</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Location</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Claim Dt.</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Status&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <table class="tcellspacing whiteback fullwidth noborder" id='claimTable3'>
+                        <thead>
+                            <tr>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">ID</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Incident Date</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Guest</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Type</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Created By</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Location</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Claim Dt.</th>
+                                <th class="talign" style="color: #2c7dc8; background: #d7d7d7;">Status&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="graphBig" style="display: none;">
+            <img src="images/graph1.png" width="583" height="272" alt="img">
+        </div>
+    </div>
+</div>
+</div>
+<div id="gl-claim-modal"></div>
+<div id="diary-notes-modal"></div>
+<div id="wc-claim-modal"></div>

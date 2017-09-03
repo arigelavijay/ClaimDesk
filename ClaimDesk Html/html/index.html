@@ -1,0 +1,66 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to RMS</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+
+<script src="js/jquery.min.js"  charset="utf-8"></script>
+<script src="js/common_func.js"  charset="utf-8"></script>
+<script src="js/index.js"  charset="utf-8"></script>
+<script src="js/bootstrap.min.js"  charset="utf-8"></script>
+<script src="js/jquery.validate.min.js"  charset="utf-8"></script>
+<link href="css/apprise.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    
+<!--[if lt IE 9]>
+<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+ <![endif]-->
+<style>
+.logBody {
+    padding: 20px 20px 0;
+}
+</style>    
+</head>
+<body>
+<div class="login"  id="login" >
+<div class="loginLogo">
+  <img src="images/logo.png" width="225" height="108" alt="img"></div>
+  <div class="loginBox">
+  	<div class="logHead">Login to ClaimDesk</div>
+  	
+    <form name="claimdeskLogin" id="claimdeskLogin">
+      
+      <div class="logBody">
+      <span id='msg' class="custom_error"></span>
+      <label class="logLable">Username</label>
+      <input name="username" id="username" type="text" class="logTextFild" placeholder="Username"  required>
+      
+      <label class="logLable">Password</label>
+      <input name="password" id="password" type="Password" class="logTextFild" required>
+      
+     <!-- <div class="remember"> <input  type="checkbox" name="chkbox" value="1" style="position:unset;"> Remember Me</div>-->
+      
+      <div class="loginBt">
+      <input name="login_but" id="login_but" type="button" value="Login" class="button" onClick="login()">
+      </div>
+      
+      <div class="clear"></div>
+     <!-- <a href="#" onClick="alert('This functionality Not Yet Available.')">Forgot Password?</a>-->
+      </div>
+ 
+    </form>
+
+  </div>
+  <p class="copy">© 2014 Insight Risk Management Solutions. </p>
+</div>
+<div id='response'></div>
+</body>
+</html>

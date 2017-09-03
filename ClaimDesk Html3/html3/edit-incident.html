@@ -1,0 +1,680 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to RMS</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/timepicker.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/base64.js"></script>
+    <script src="js/jquery-ui-timepicker-addon.js"></script>
+    <script src="js/jquery-ui-slidder-access.js"></script>
+    <link href="css/apprise.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/apprise-1.5.full.js"></script>
+    <script src="js/mask.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript">
+        $.validator.addMethod("new_passq", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$/i.test(value);
+        }, "Invalid Password");
+
+        $.validator.addMethod("con_new_passq", function (value, element) {
+            var pass = $("#new_pass").val();
+            if (pass == value) return true;
+            else return false;
+        }, "Please enter the same password as above");
+
+        $.validator.addMethod("chkdate", function (value, element) {
+            debugger;
+            var startDate = $('#inc_date').val();
+            return Date.parse(startDate) <= Date.parse(value) || value == "";
+        }, "Invalid Reported date.");
+    </script>
+    <style>
+        #con_new_pass-error {
+            margin-top: -12px !important;
+        }
+    </style>
+    <script src="js/common_func.js"></script>
+
+    <!--[if lt IE 9]>
+<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+
+    <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+ <![endif]-->
+    <style>
+        .whitebg {
+            font-size: 18px;
+            color: #626262;
+        }
+
+        #inc_descunusual_desc-error {
+            margin-top: -168px;
+        }
+
+        #inc_unusual_desc-error {
+            margin-top: -168px;
+        }
+
+        #incident_loc-error {
+            margin-top: -168px;
+        }
+    </style>
+    <script type="text/javascript">
+        $.validator.setDefaults({
+            ignore: [],
+            // any other default options and/or rules
+        });
+        $(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                maxDate: new Date()
+            });
+
+            $(".date-picker").keyup(function (e) {
+                var keycode = e.keyCode ? e.keyCode : e.which;
+                if (keycode != 8 && keycode != 46) {
+                    var currentValue = $(e.target).val();
+                    var newValue = autocompleteMMDDYYYYDateFormat(currentValue);
+                    if (newValue != currentValue) {
+                        $(e.target).val(newValue);
+                    }
+                }
+            });
+
+            $.mask.definitions['H'] = "[0-1]";
+            $.mask.definitions['h'] = "[0-9]";
+            $.mask.definitions['M'] = "[0-5]";
+            $.mask.definitions['m'] = "[0-9]";
+            $.mask.definitions['P'] = "[AaPp]";
+            $.mask.definitions['p'] = "[Mm]";
+
+
+
+            $(".time-picker").timepicker({
+                addSliderAccess: true,
+                timeFormat: "hh:mm tt",
+                sliderAccessArgs: { touchonly: false }
+            });
+
+            $(".timepicker").mask("Hh:Mm Pp");
+            $("#inc_time").mask("Hh:Mm Pp");
+            $("#time_reported").mask("Hh:Mm Pp");
+
+            $("#zip").mask("99999?-9999", { placeholder: "_" });
+            $("#fax").mask("(999)-999-9999", { placeholder: "_" });
+            $("#store_phone").mask("(999)-999-9999", { placeholder: "_" });
+            $("#date_reported").mask("99/99/9999", { placeholder: "_" });
+            $("#inc_date").mask("99/99/9999", { placeholder: "_" });
+            //
+            $('#btnRedirect').click(function () {
+                var value = $('input[name=create]:checked').val();               
+        		
+                if (value == "GL") {
+                	sessionStorage.removeItem('claimEdit');
+                    location.href = 'claim.html';
+                }
+                else {
+                	var lid = document.getElementById("inc_id").value;  						 
+            		sessionStorage.setItem("incident_id", lid); 
+            		sessionStorage.setItem("claimtype", "WC"); 
+            		sessionStorage.removeItem('claimEditWC');
+                    location.href = 'wc.html';
+                }
+
+            });
+            
+
+            var ssnConfig = JSON.parse(sessionStorage.getItem('ssnConfig'));            
+            if (typeof ssnConfig.SHOW_INCIDENT_LOCATION != 'undefined' && ssnConfig.SHOW_INCIDENT_LOCATION != 'true') {
+                $('#incident_loc').hide().prev().hide();
+            }            
+
+        });
+        //
+        function openModal() {
+            var ssnConfig = JSON.parse(sessionStorage.getItem('ssnConfig'));            
+            if (typeof ssnConfig.SHOW_INCIDENT_LOCATION != 'undefined' && ssnConfig.SHOW_INCIDENT_LOCATION != 'true') {
+                location.href = 'wc.html';
+            }
+            else 
+                $('#newSmallModal').modal('show');
+        }
+    </script>
+    <script src="js/download.js"></script>
+</head>
+
+<body onload="authentication();createPageLoad();loads();set_header();">
+    <div id="wrapper">
+        <header>
+            <div class="contain">
+                <div class="logo">
+                    <img src="images/bigLogo.jpg" width="378" height="41" alt="logo">
+                </div>
+                <div class="logoRight">
+                    <ul class="help">
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle john" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    Welcome <span id="logname"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="personal">
+                                    <li role="presentation" data-toggle='modal' data-target='#myModal' style="cursor: pointer;"><a>Change Password</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="logout.html">Log Out</a></li>
+                                    <li role="presentation" data-toggle='modal' data-target='#aboutModal' style="cursor: pointer;" onclick="about();"><a>About</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <span class="poloRight" style="z-index: 500;"></span>
+                    <span class="poloText" style="z-index: 500;"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+        <div id="bodyGrey" style="float: left; margin-top: 0px;">
+            <nav>
+                <div class="tabLeft">
+
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="mainNav mainNavBig">
+                                    <a class="mainTab" href="main-dashboard.html"><i class="fa fa-home"></i><br>Home</a>
+                                </li>                                
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle select" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-th-list"></i><br>Incidents List</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="incidents-list.html"><i class="fa fa-indent"></i>View Incidents</a></li>
+                                        <li class="subTab"><a href="claims-list.html"><i class="fa fa-briefcase"></i>View Claims</a></li>                                        
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cogs"></i><br>Actions</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-employee.html" class="employee"><i class="fa fa-users"></i>Manage Employees</a></li>
+                                        <li class="subTab"><a href="manage-location.html" class="location"><i class="fa fa-map-marker"></i>Manage Locations</a></li>
+                                        <li class="subTab"><a href="manage-policies.html"><i class="fa fa-sitemap"></i>Manage Policies</a></li>
+                                        <li class="subTab"><a href="manage-user.html" class="employee"><i class="fa fa-user"></i>Manage Users</a></li>
+                                        <li class="subTab"><a href="manage-contacts.html" class="employee"><i class="fa fa-globe"></i>Manage Contacts</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bar-chart"></i><br>Reports</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="employee-injuries.html"><i class="fa fa-ambulance"></i>Employee Injuries</a></li>
+                                        <li class="subTab"><a href="executive-summary.html"><i class="fa fa-th-list"></i>Executive Summary EI</a></li>
+                                        <li class="subTab"><a href="loss-run-report.html"><i class="fa fa-th-list"></i>Loss Run Report</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mainNavBig dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i><br>Settings</a>
+                                    <ul class="dropdown-menu main-subtab" role="menu">
+                                        <li class="subTab"><a href="manage-location-types.html"><i class="fa fa-cubes"></i>&nbsp;Manage Location Types</a></li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </nav>
+
+                </div>
+                <div class="tabRight">
+                    <div class="navRtghtBt">
+                        <input name="" type="hidden" value="Create Claim" class="buttonCreat" onclick="openModal();">
+                    </div>
+                    <div class="navRtghtBt">
+                        <div class="searchFild" style="display: none">
+                            <input name="input" type="text" class="search" placeholder="Search">
+                            <span><a href="#">
+                                <img src="images/search.png" width="20" height="20" alt="img"></a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </nav>
+            <div class="clear"></div>
+            <div class="contain">
+                <div class="divider" style="margin-top: 15px;">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs editTabOut">
+                        <li role="presentation" class="editTab active">
+                            <a href="#1" aria-controls="home" role="tab" data-toggle="tab">Location Details</a></li>
+                        <li class="editTab"><a href="#2" aria-controls="profile" role="tab" data-toggle="tab">Incident Details</a></li>
+                        <li class="editTab"><a href="#3" aria-controls="profile" role="tab" data-toggle="tab" onclick="loads()">Witness(es) Details</a></li>
+                        <li class="editTab"><a href="#4" aria-controls="profile" role="tab" data-toggle="tab">Attachments </a></li>
+                        <!--<li class="editTab"><a href="#5" aria-controls="profile" role="tab" data-toggle="tab">Complete</a></li>-->
+
+                    </ul>
+                    <div style="float: right; width: auto; float: right; width: auto; margin: -30px 180px 0 0; font-weight: bold;"><span style="color: #2c7dc8;">Incident Id:</span> <span id='top_inc_id' style="color: #609;"></span></div>
+
+                    <div class="clear"></div>
+                    <form id="data" name="data">
+                        <!-- Tab panes -->
+                        <div class="tab-content mycont">
+                            <div class="tab-pane spaceTab active" id="1">
+
+
+                                <div class="formInci1">
+                                    <label class="myLable">Insured Name</label>
+                                    <select class="form-control myselect planeTextFild" name="store_no" id="store_no" tabindex="1" required='' onchange="getLocAdd(this.value);"></select>
+                                    <input type="hidden" id="inc_id" name="inc_id" value='' />
+                                </div>
+
+                                <div class="clear"></div>
+                                <div class="formInci1">
+                                    <label class="myLable">Address 1</label>
+                                    <input name="address1" id="address1" type="text" class="planeTextFild" tabindex="2" placeholder="" required=''>
+
+                                    <label class="myLable">State</label>
+                                    <select class="form-control myselect" name="state" id="state" tabindex="5" required=''>
+
+                                        <option value="AL">Alabama</option>
+                                        <option value="AK">Alaska</option>
+                                        <option value="AZ">Arizona</option>
+                                        <option value="AR">Arkansas</option>
+                                        <option value="CA">California</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="CT">Connecticut</option>
+                                        <option value="DE">Delaware</option>
+                                        <option value="DC">District of Columbia</option>
+                                        <option value="FL">Florida</option>
+                                        <option value="GA">Georgia</option>
+                                        <option value="HI">Hawaii</option>
+                                        <option value="ID">Idaho</option>
+                                        <option value="IL">Illinois</option>
+                                        <option value="IN">Indiana</option>
+                                        <option value="IA">Iowa</option>
+                                        <option value="KS">Kansas</option>
+                                        <option value="KY">Kentucky</option>
+                                        <option value="LA">Louisiana</option>
+                                        <option value="ME">Maine</option>
+                                        <option value="MD">Maryland</option>
+                                        <option value="MA">Massachusetts</option>
+                                        <option value="MI">Michigan</option>
+                                        <option value="MN">Minnesota</option>
+                                        <option value="MS">Mississippi</option>
+                                        <option value="MO">Missouri</option>
+                                        <option value="MT">Montana</option>
+                                        <option value="NE">Nebraska</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="NH">New Hampshire</option>
+                                        <option value="NJ">New Jersey</option>
+                                        <option value="NM">New Mexico</option>
+                                        <option value="NY">New York</option>
+                                        <option value="NC">North Carolina</option>
+                                        <option value="ND">North Dakota</option>
+                                        <option value="OH">Ohio</option>
+                                        <option value="OK">Oklahoma</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="PA">Pennsylvania</option>
+                                        <option value="RI">Rhode Island</option>
+                                        <option value="SC">South Carolina</option>
+                                        <option value="SD">South Dakota</option>
+                                        <option value="TN">Tennessee</option>
+                                        <option value="TX">Texas</option>
+                                        <option value="UT">Utah</option>
+                                        <option value="VT">Vermont</option>
+                                        <option value="VA">Virginia</option>
+                                        <option value="WA">Washington</option>
+                                        <option value="WV">West Virginia</option>
+                                        <option value="WI">Wisconsin</option>
+                                        <option value="WY">Wyoming</option>
+                                    </select>
+
+                                    <label class="myLable">Main Phone Number</label>
+                                    <input name="store_phone" id="store_phone" type="text" class="planeTextFild" tabindex="8" placeholder="" onkeyup="FormatPhone(event,this)" required=''>
+
+                                    <label class="myLable">General Manager Name</label>
+                                    <input name="gen_man_name" id="gen_man_name" type="text" tabindex="10" class="planeTextFild" placeholder="" required=''>
+                                </div>
+                                <div class="formInci">
+
+
+                                    <label class="myLable">Address 2 <span class="option">(Optional)</span></label>
+                                    <input name="address2" id="address2" type="text" class="planeTextFild" tabindex="3" placeholder="">
+
+                                    <label class="myLable">Zip Code</label>
+                                    <input name="zip" id="zip" type="text" class="planeTextFild" placeholder="" tabindex="6" required=''>
+
+
+                                    <label class="myLable">Fax Number</label>
+                                    <input name="fax" id="fax" type="text" class="planeTextFild" placeholder="" tabindex="9" onkeyup="FormatPhone(event,this)">
+
+                                    <label class="myLable">Reporting Manager Name</label>
+                                    <input name="report_man_name" id="report_man_name" tabindex="11" type="text" class="planeTextFild" placeholder="" required=''>
+                                </div>
+                                <div class="formInci">
+
+                                    <label class="myLable">City</label>
+                                    <input name="city" id="city" type="text" class="planeTextFild" placeholder="" tabindex="4" required=''>
+                                    <label class="myLable">Country</label>
+                                    <input name="county" id="county" type="text" value="United States" class="planeTextFild" placeholder="" readonly>
+                                </div>
+
+                                <div class="clear"></div>
+
+                                <input name="next" id="next" type="button" value="Cancel" class="buttonNext " onclick="removeSessionvar_onsave(); removeSessionvar_onsave(); gotolist();">
+                                <a href="#2" aria-controls="home" role="tab" data-toggle="tab">
+                                    <input type="button" class="buttonNext rightAlign" value="Save" id="save" name="save" onclick="chktabcolor()">
+                                </a>
+                                <a >
+                                    <input type="button" class="buttonNext rightAlign" value="Create Claim" style="margin-right: 10px;" onclick="openModal();" />
+                                    <!--<input type="button"  class="buttonNext rightAlign" value="Create WC"  onclick="setlocId('','gotowc')" style="margin-right:10px;">
+     <input type="button"  class="buttonNext rightAlign" value="Create Claim"  onclick="setlocId('','gotoclaim')" style="margin-right:10px;">-->
+                                </a>
+                            </div>
+
+                            <div class="tab-pane spaceTab" id="2">
+                                <div class="formInci1">
+                                    <label class="myLable">Incident Date&nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">MM/DD/YYYY</span></label><label class="error" id="report_date_error"></label>
+                                    <div class="form-horizontal">
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <div class="input-group">
+                                                    <input name="inc_date" id="inc_date" type="text" class="date-picker form-control" required='' tabindex="1" />
+                                                    <label for="inc_date" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <label class="myLable">Date Reported&nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">MM/DD/YYYY</span></label><label class="error" id="report_date_error"></label>
+                                    <div class="form-horizontal">
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <div class="input-group">
+                                                    <input name="date_reported" id="date_reported" type="text" class="date-picker form-control chkdate" required='' tabindex="3" />
+                                                    <label for="date_reported" class="input-group-addon btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <label class="myLable">Description</label>
+                                    <textarea name="desc" id="desc" tabindex="5" cols="" rows="4" class="planeTextFild checkblankB" style="height: 100px;"></textarea>
+
+                                </div>
+
+                                <div class="formInci">
+                                    <label class="myLable">Incident Time&nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;"> HH:MM</span></label><label class="error" id="inc_time_error"></label>
+                                    <input name="inc_time" id="inc_time" type="text" class="planeTextFild time-picker" placeholder="" tabindex="2">
+
+
+                                    <label class="myLable">Time Reported &nbsp;&nbsp;<span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;"> HH:MM</span></label><label class="error" id="time_reported_error"></label>
+                                    <input name="time_reported" id="time_reported" type="text" tabindex="4" class="planeTextFild time-picker" placeholder="">
+                                    <label class="myLable">Specific Location of Incident (Be Exact)</label>
+                                    <!--<textarea name="incident_loc" id="incident_loc" tabindex="6" cols="" rows="4" class="planeTextFild checkblankB" style="height:100px;"></textarea>-->
+                                    <select name="incident_loc" id="incident_loc" class="form-control myselect checkblankB"></select>
+
+                                </div>
+                                <div class="formInci">
+                                    <label class="myLable">Alcohol/Drugs</label>
+                                    <select name="alcohol" id="alcohol" class="form-control myselect" tabindex="8" required=''>
+                                        <option>No</option>
+                                        <option>Yes</option>
+                                    </select>
+                                    <label class="myLable">Police Involved?</label>
+                                    <select name="police_inv" id="police_inv" tabindex="9" class="form-control myselect" onchange="toggle_visibility(this.value,'agency_name_div');toggle_visibility(this.value,'report_no_div');" required=''>
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+
+                                    <div id="agency_name_div" style="display: none;">
+                                        <label class="myLable">Provide the Name of Agency</label>
+                                        <input name="police_agency" id="police_agency" type="text" tabindex="10" class="planeTextFild checkblankA" placeholder="">
+                                    </div>
+                                    <div id="report_no_div" style="display: none;">
+                                        <label class="myLable">Report Number</label>
+                                        <input name="police_case_id" id="police_case_id" type="text" tabindex="11" class="planeTextFild checkblankA" placeholder="">
+                                    </div>
+                                </div>
+
+
+                                <div class="clear"></div>
+
+
+                                <input name="next" id="next" type="button" value="Cancel" class="buttonNext" onclick="removeSessionvar_onsave(); removeSessionvar_onsave(); gotolist()">
+                                <a href="#3" aria-controls="home" role="tab" data-toggle="tab">
+                                    <input type="button" class="buttonNext rightAlign" value="Save" id="save" name="save" onclick="chktabcolor()">
+                                </a>
+                                <a href="#2" aria-controls="home" role="tab" data-toggle="tab">
+                                    <input type="button" class="buttonNext rightAlign" value="Create Claim" onclick="openModal();" style="margin-right: 10px;">
+                                </a>
+                            </div>
+
+                            <div class="tab-pane spaceTab" id="3">
+                                <section>
+                                    <label class="myLable">Number of Witness(es)</label>
+                                    <select class="form-control myselect" id="no_of_witness" name="no_of_witness" tabindex="1" style="width: 33%;">
+                                        <option value="0">00</option>
+                                        <option value="1">01</option>
+                                        <option value="2">02</option>
+                                        <option value="3">03</option>
+                                        <option value="4">04</option>
+                                        <option value="5">05</option>
+                                    </select>
+
+
+                                    <div id="container">
+                                    </div>
+
+                                    <!--<div id="bottGrey">
+<input type="button" onclick="location.href='create-incident.html';" class="buttonNext" value="Back" name="">
+<input type="button" onclick="incident_step_three()" class="buttonNext rightAlign" value="Next" name="">
+<div class="clear"></div>
+</div>-->
+
+                                </section>
+                                <div class="clear"></div>
+
+
+                                <input name="next" id="next" type="button" value="Cancel" class="buttonNext " onclick="removeSessionvar_onsave(); removeSessionvar_onsave(); gotolist()">
+                                <a href="#4" aria-controls="home" role="tab" data-toggle="tab">
+                                    <input type="button" class="buttonNext rightAlign" value="Save" id="save" name="save" onclick="chktabcolor()">
+                                </a>
+                                <a href="#2" aria-controls="home" role="tab" data-toggle="tab">
+                                    <input type="button" class="buttonNext rightAlign" value="Create Claim" onclick="openModal();" style="margin-right: 10px;">
+                                </a>
+                            </div>
+
+                            <div class="tab-pane spaceTab" id="4">
+                                <p class="bodyTextBig">You can upload any documents related to this incident. Click "Browse" to select and upload file(s).</p>
+
+                                <div class="formInci1 noMar">
+                                    <input name="upfile" id="upfile" type="file" class="planeTextFild" placeholder="">
+                                </div>
+
+                                <div class="formInciBigBt">
+                                    <input name="upload1" id="upload1" type="button" value="Upload File" class="buttonNext" onclick="upload_file()">
+                                </div>
+
+                                <div class="clear"></div>
+                                <div id="file_error" class="custom_error" style="float: left;"></div>
+                                <div class="custom_error" id="validation_msg" style="float: right;"></div>
+                                <div class="uploadBox">
+                                    <p class="uploadHead">Files</p>
+
+
+                                    <table class="fullwidth" id='imglist'>
+                                        <tr class="green">
+                                            <td style="width: 8%;"></td>
+                                            <td style="width: 92%;" class="tlalign whitebg">You haven't uploaded any attachments!</td>
+                                        </tr>
+                                    </table>
+                                    <!--
+                                    <label class="myLable">Notes</label>
+                                    <textarea name="notes" id="inc_notes" tabindex="7" cols="" rows="3" class="planeTextFild checkblankB" style="height: 100px;"></textarea>-->
+
+
+                                </div>
+
+                                <div style="margin-top: 20px;">
+                                    <input name="next" id="next" type="button" value="Cancel" class="buttonNext " onclick="removeSessionvar_onsave(); removeSessionvar_onsave(); gotolist()">
+                                    <input type="button" onclick="incident_up();" class="buttonNext newSave" value="Save" id="save" name="save" onclick="    chktabcolor()">
+                                    <input type="button" class="buttonNext rightAlign" value="Create Claim" onclick="openModal();" style="margin-right: 10px;">
+
+                                    <a href="#2" aria-controls="home" role="tab" data-toggle="tab"></a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+
+                        </div>
+                        <img id="pr_img" src="images/loading9.gif" style="margin-left: 35%; display: none; top: 20%; position: absolute; z-index: 3000;" />
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <!--Change Password Start-->
+        <div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="width: 30% !important;">
+                <div class="modal-content">
+                    <div class="popHead">
+                        <h2 class="dataHeadPop">Change Password <span id="unamex"></span><span id="bid"></span></h2>
+                        <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close">
+                        <form id="change_pass" name="change_pass">
+                            <div class="popBody">
+                                <ul>
+                                    <li class="popInn" id="inc_div">
+                                        <div class="formInci1" style="width: 99%;">
+                                            <span class="custom_error" id="msg_show"></span>
+                                            <p>
+                                                <span style="width: 100% !important;">Old Password:</span><span style="width: 100% !important;">
+                                                    <input type="password" name="old_pass" class="planeTextFild password" id="old_pass" required=""></span>
+                                            </p>
+                                            <p>
+                                                <span style="width: 100% !important;">New Password:</span><span style="width: 100% !important;"><input type="password" name="new_pass" class="planeTextFild new_passq" id="new_pass" required="">
+                                                    <span class="copy" style="font-size: 11px; color: #1D70EB; font-weight: bold;">1 lowercase,1 Upper case,1 numeric digit, No Space, 8-20 chars</span></span>
+                                            </p>
+                                            <p>
+                                                <span style="width: 100% !important;">Confirm Password</span><span style="width: 100% !important;">
+                                                    <input type="password" name="con_new_pass" class="planeTextFild con_new_passq" id="con_new_pass" required=""></span>
+                                            </p>
+                                            <p>
+                                                <span></span><span style="width: 100% !important;">
+                                                    <input name="" type="button" value="Save" class="buttonCreat" onclick="changePass()" style="float: right;"></span>
+                                            </p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal1" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        ...sadasdasdasd asdasdasdas
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--About-->
+        <div class="modal fade" tabindex="-1" id="aboutModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="width: 50% !important;">
+                <div class="modal-content">
+                    <div class="popHead">
+                        <h2 class="dataHeadPop" style="margin-left: 5px !important;">About<span id="unamex"></span> <span id="bid"></span></h2>
+                        <input id="close_but" class="popBtt buttBlue" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;">
+
+                        <div class="popBody">
+                            <ul>
+                                <li class="popInn" id="inc_div">
+                                    <div id="about_info" class="formInci1" style="width: 99%;">
+
+                                        <!--  About information -->
+                                    </div>
+                                    <div class="clear"></div>
+
+
+                                    <div class="clear"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--small modal goes here -->
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="newSmallModal" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="width: 50% !important;">
+                <div class="modal-content">
+                    <div class="popHead">
+                        
+                        <div class="popBody">  
+                            <br />           
+                            
+                            <div class="row">                                
+                                <div class="col-md-4"><input type="radio" name="create" value="GL" id="createClaim" checked="checked" />&nbsp;<label for="createClaim">General Liability</label></div>                                
+                                <div class="col-md-4"><input type="radio" name="create" value="WC" id="cretaeWC" />&nbsp;<label for="cretaeWC">Create WC</label></div>
+                                <div class="col-md-2"><input type="button" name="btnRedirect" value="Create" id="btnRedirect" class="buttonNext" /></div>
+                                <div class="col-md-2"><input id="Button1" class="buttBlue buttonNext btn-sm" type="button" aria-label="Close" data-dismiss="modal" name="" value="Close" style="margin-right: 5px;"></div>                                
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="contain">
+                License Agreements | Privacy Statement<br>
+                © 2014 Insight Risk Management. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+</body>
+<script src="js/incident.js"></script>
+</html>

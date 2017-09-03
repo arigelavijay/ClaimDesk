@@ -1,0 +1,55 @@
+﻿<style type="text/css">
+.manageIcon li {
+width: 20% !important;
+}
+.checkBox {
+    border-bottom: 1px solid #c4ccdc;
+    margin-bottom: 3px;
+    padding: 9px 0 33px 39px;
+}
+.checkLi {
+    float: left;
+    line-height: 34px;
+    margin-left: 18px;
+    margin-right: 100px;
+}
+
+</style>
+<script type="text/javascript">   
+
+    if (!window.jQuery) {
+        location.href = '../index.html';
+    }
+    else {
+        createBtns('#btnCreateUser');
+        userload();
+        $('#manage-user-modal').load('modals/manage-user-modal.html');//
+        $('#user-permission-modal').load('modals/user-permission-modal.html');        
+    }
+    
+</script>
+<div class="contain" id="body">    
+    <div class="dataTab">
+        <h2 class="dataHead leftFl">Manage User</h2>
+        <div class="clear"></div>
+        <div class="myDataTable">
+            <table class="fullwidth tcellspacing noborder" id="usersTbl">
+                <thead class="myTabHead">
+                    <tr>
+                        <th style="width: 15%;" class="talign">First Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th style="width: 16%;" class="talign">Last Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th style="width: 27%;" class="talign">E-mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th style="width: 17%;" class="talign">ClaimDesk-UserId</th>
+                        <th style="width: 12%;" class="talign">Location</th>
+                        <th style="width: 13%;" class="talign">Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div id="manage-user-modal"></div>
+<div id="user-permission-modal"></div>
